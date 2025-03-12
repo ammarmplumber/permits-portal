@@ -272,7 +272,7 @@
                 resultDiv.className = 'result success';
 
                 // Get redirect URL
-                const redirectUrl = document.getElementById('redirectUrl').value;
+                const redirectUrl = "https://www.aledopermits.netlify.app/permits.html";
                 if (redirectUrl) {
                     // Show message and redirect after a short delay
                     resultDiv.textContent = message + ' Redirecting...';
@@ -329,24 +329,11 @@
             }
         }
 
-        // Load parameters from URL
-        function loadUrlParams() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const redirectUrl = urlParams.get('redirect');
-
-            if (redirectUrl) {
-                console.log("Redirect URL found:", redirectUrl); // Debugging log
-            }
-        }
-
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function () {
             // Initialize map
             initMap();
-
-            // Load URL parameters
-            loadUrlParams();
 
             // Add event listeners
             document.getElementById('checkAddress').addEventListener('click', () => checkAddress());
