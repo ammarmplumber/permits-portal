@@ -211,28 +211,69 @@
         // Function to geocode an address
         async function geocodeAddress(address) {
             try {
-                // Check if it's coordinates in format "lat, lng"
-                const coordsMatch = address.match(/^(-?\d+\.\d+),\s*(-?\d+\.\d+)$/);
-                if (coordsMatch) {
+                // Trim and normalize input
+                address = address.trim();
+                if (!address) {
+                    throw new Error('Please enter an address or coordinates');
+                }
+
+                // Check for various coordinate formats
+                
+                // Format: "lat, lng" or "lat,lng"
+                const basicCoordPattern = /^(-?\d+\.?\d*),\s*(-?\d+\.?\d*)$/;
+                const basicCoordMatch = address.match(basicCoordPattern);
+                
+                // Format: "lat lng" (space separated)
+                const spaceCoordPattern = /^(-?\d+\.?\d*)\s+(-?\d+\.?\d*)$/;
+                const spaceCoordMatch = address.match(spaceCoordPattern);
+                
+                // Check if any coordinate pattern matched
+                if (basicCoordMatch) {
                     return {
-                        lat: parseFloat(coordsMatch[1]),
-                        lon: parseFloat(coordsMatch[2])
+                        lat: parseFloat(basicCoordMatch[1]),
+                        lon: parseFloat(basicCoordMatch[2])
+                    };
+                } else if (spaceCoordMatch) {
+                    return {
+                        lat: parseFloat(spaceCoordMatch[1]),
+                        lon: parseFloat(spaceCoordMatch[2])
                     };
                 }
 
-                // Use Nominatim for geocoding
-                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
+                // If not coordinates, proceed with geocoding
+                console.log(`Geocoding address: ${address}`);
+                
+                // Add a user-agent header to be respectful to the Nominatim service
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`, 
+                    {
+                        headers: {
+                            'User-Agent': 'CityBoundaryChecker/1.0'
+                        }
+                    }
+                );
+                
+                if (!response.ok) {
+                    throw new Error(`Geocoding service error: ${response.status}`);
+                }
+                
                 const data = await response.json();
 
                 if (data && data.length > 0) {
+                    console.log(`Found location: ${data[0].display_name}`);
                     return {
                         lat: parseFloat(data[0].lat),
-                        lon: parseFloat(data[0].lon)
+                        lon: parseFloat(data[0].lon),
+                        displayName: data[0].display_name
                     };
                 } else {
-                    throw new Error('Address not found');
+                    throw new Error('Address not found. Please check the spelling or try a different format.');
                 }
             } catch (error) {
+                console.error('Geocoding error:', error);
+                if (error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
+                    throw new Error('Network error. Please check your internet connection and try again.');
+                }
                 throw new Error('Geocoding failed: ' + error.message);
             }
         }
@@ -263,16 +304,19 @@
         }
 
         // Function to show result
-        function showResult(message, isSuccess) {
+        function showResult(message, status) {
             const resultDiv = document.getElementById('result');
             resultDiv.textContent = message;
             resultDiv.style.display = 'block';
 
-            if (isSuccess) {
+            // Clear previous classes
+            resultDiv.className = 'result';
+
+            if (status === true) {
                 resultDiv.className = 'result success';
 
                 // Get redirect URL
-                const redirectUrl = "https://www.aledopermits.netlify.app/permits.html";
+                const redirectUrl = "aledopermits.netlify.app/permits.html";
                 if (redirectUrl) {
                     // Show message and redirect after a short delay
                     resultDiv.textContent = message + ' Redirecting...';
@@ -280,15 +324,20 @@
                         window.location.href = redirectUrl;
                     }, 2000);
                 }
-            } else {
+            } else if (status === false) {
                 resultDiv.className = 'result error';
+            } else if (status === 'loading') {
+                resultDiv.className = 'result loading';
             }
         }
 
         // Function to handle address check
         async function checkAddress(manualCoords) {
             try {
+                document.getElementById('result').style.display = 'none';
+                
                 let coords;
+                let displayName = '';
 
                 if (manualCoords) {
                     // Use provided coordinates
@@ -304,15 +353,28 @@
                         throw new Error('Please enter an address or coordinates');
                     }
 
+                    // Show loading indicator
+                    showResult('Looking up location...', 'loading');
+
                     // Geocode address
-                    coords = await geocodeAddress(address);
+                    const geocodeResult = await geocodeAddress(address);
+                    coords = {
+                        lat: geocodeResult.lat,
+                        lon: geocodeResult.lon
+                    };
+                    displayName = geocodeResult.displayName || '';
                 }
 
                 // Add or update marker
                 if (marker) {
                     map.removeLayer(marker);
                 }
+                
                 marker = L.marker([coords.lat, coords.lon]).addTo(map);
+                if (displayName) {
+                    marker.bindPopup(displayName).openPopup();
+                }
+                
                 map.setView([coords.lat, coords.lon], 15);
 
                 // Check if point is in city
