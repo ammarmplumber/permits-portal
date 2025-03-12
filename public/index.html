@@ -3,508 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>City Building Permit Finder</title>
+    <title>City Building Department</title>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         html {
             font-family: serif;
         }
+        .intent-card:hover {
+            transform: translateY(-5px);
+        }
     </style>
 </head>
 <body class="bg-gray-50">
-    <div x-data="permitFinder()" class="w-full max-w-6xl mx-auto px-4 py-6">
-        <div class="text-center mb-6">
-            <h1 class="text-3xl font-bold mb-2">City Building Permit Finder</h1>
-            <p class="text-gray-600">Find exactly what you need - no confusion, no hassle</p>
-        </div>
+    <div x-data="buildingDept()" class="w-full max-w-6xl mx-auto px-4 py-8">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold mb-3">City Building Department</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Your one-stop resource for permits, inspections, and building compliance</p>
+        </header>
 
-        <!-- Search Bar -->
-        <div class="bg-white p-4 rounded-lg shadow-md mb-6">
-            <div class="flex items-center">
-                <span class="text-xl mr-2">🔍</span>
-                <input
-                    type="text"
-                    placeholder="Search for permits by name or description..."
-                    class="w-full p-2 border rounded-md border-gray-300"
-                    x-model="searchTerm"
-                >
-                <button 
-                    x-show="searchTerm"
-                    @click="searchTerm = ''"
-                    class="ml-2 bg-gray-200 p-2 rounded-md hover:bg-gray-300"
-                >
-                    Clear
-                </button>
+        <!-- Main Intent Selection -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <!-- Permit Applications -->
+            <div class="intent-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300">
+                <div class="bg-blue-500 h-2"></div>
+                <div class="p-6">
+                    <div class="text-4xl mb-4">🏗️</div>
+                    <h2 class="text-2xl font-bold mb-2">Apply for Permits</h2>
+                    <p class="text-gray-600 mb-4">Find and apply for building permits for residential, commercial, and special projects</p>
+                    <a href="/citylimits.html?redirectUrl=aledopermits.netlify.com/permits.html" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md transition-colors">Find Permits</a>
+                </div>
+            </div>
+
+            <!-- Request Inspections -->
+            <div class="intent-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300">
+                <div class="bg-green-500 h-2"></div>
+                <div class="p-6">
+                    <div class="text-4xl mb-4">📋</div>
+                    <h2 class="text-2xl font-bold mb-2">Request Inspections</h2>
+                    <p class="text-gray-600 mb-4">Schedule or check status of building inspections for your active permits</p>
+                    <a href="/inspections" class="inline-block bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded-md transition-colors">Schedule Inspection</a>
+                </div>
+            </div>
+
+            <!-- Contractor Registration -->
+            <div class="intent-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300">
+                <div class="bg-purple-500 h-2"></div>
+                <div class="p-6">
+                    <div class="text-4xl mb-4">👷</div>
+                    <h2 class="text-2xl font-bold mb-2">Contractor Registration</h2>
+                    <p class="text-gray-600 mb-4">Register as a contractor, renew licenses, or verify contractor status</p>
+                    <a href="/contractors" class="inline-block bg-purple-500 hover:bg-purple-600 text-white font-medium py-2 px-4 rounded-md transition-colors">Contractor Portal</a>
+                </div>
+            </div>
+
+            <!-- Project Status -->
+            <div class="intent-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300">
+                <div class="bg-yellow-500 h-2"></div>
+                <div class="p-6">
+                    <div class="text-4xl mb-4">🔍</div>
+                    <h2 class="text-2xl font-bold mb-2">Check Project Status</h2>
+                    <p class="text-gray-600 mb-4">Look up the status of your permit applications, inspections, or plan reviews</p>
+                    <a href="/status" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 px-4 rounded-md transition-colors">Check Status</a>
+                </div>
+            </div>
+
+            <!-- Records Request -->
+            <div class="intent-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300">
+                <div class="bg-red-500 h-2"></div>
+                <div class="p-6">
+                    <div class="text-4xl mb-4">📄</div>
+                    <h2 class="text-2xl font-bold mb-2">Records Request</h2>
+                    <p class="text-gray-600 mb-4">Request property records, building plans, or historical permit information</p>
+                    <a href="/records" class="inline-block bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded-md transition-colors">Request Records</a>
+                </div>
+            </div>
+
+            <!-- Code Compliance -->
+            <div class="intent-card bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300">
+                <div class="bg-indigo-500 h-2"></div>
+                <div class="p-6">
+                    <div class="text-4xl mb-4">📚</div>
+                    <h2 class="text-2xl font-bold mb-2">Code Compliance</h2>
+                    <p class="text-gray-600 mb-4">Report violations, find information on building codes, or file a complaint</p>
+                    <a href="/compliance" class="inline-block bg-indigo-500 hover:bg-indigo-600 text-white font-medium py-2 px-4 rounded-md transition-colors">Compliance Center</a>
+                </div>
             </div>
         </div>
 
-        <!-- Tab Navigation -->
-        <div class="flex overflow-x-auto mb-6 bg-white rounded-lg shadow-sm p-1">
-            <template x-for="[tabValue, tabLabel] in Object.entries(tabs)">
-                <button
-                    @click="activeTab = tabValue"
-                    :class="activeTab === tabValue 
-                        ? tabClasses[tabValue] + ' text-white' 
-                        : 'hover:bg-gray-100'"
-                    class="flex-1 py-2 px-4 rounded-md font-medium"
-                >
-                    <span x-text="tabLabel"></span>
-                </button>
-            </template>
+        <!-- Quick Links -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-10">
+            <h2 class="text-xl font-bold mb-4">Quick Links</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <a href="/faq" class="flex items-center p-3 hover:bg-blue-50 rounded-md transition-colors">
+                    <span class="text-xl mr-3">❓</span>
+                    <span>Frequently Asked Questions</span>
+                </a>
+                <a href="/fees" class="flex items-center p-3 hover:bg-blue-50 rounded-md transition-colors">
+                    <span class="text-xl mr-3">💰</span>
+                    <span>Fee Schedule</span>
+                </a>
+                <a href="/codes" class="flex items-center p-3 hover:bg-blue-50 rounded-md transition-colors">
+                    <span class="text-xl mr-3">📝</span>
+                    <span>Building Codes</span>
+                </a>
+                <a href="/forms" class="flex items-center p-3 hover:bg-blue-50 rounded-md transition-colors">
+                    <span class="text-xl mr-3">📋</span>
+                    <span>Required Forms</span>
+                </a>
+                <a href="/zoning" class="flex items-center p-3 hover:bg-blue-50 rounded-md transition-colors">
+                    <span class="text-xl mr-3">🗺️</span>
+                    <span>Zoning Information</span>
+                </a>
+                <a href="/contact" class="flex items-center p-3 hover:bg-blue-50 rounded-md transition-colors">
+                    <span class="text-xl mr-3">📞</span>
+                    <span>Contact Us</span>
+                </a>
+            </div>
         </div>
 
-        <!-- Permits Display -->
-        <div class="space-y-6">
-            <template x-if="Object.keys(groupedPermits).length === 0">
-                <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                    <p class="text-xl">😕 No permits found matching "<span x-text="searchTerm"></span>"</p>
-                    <p class="text-gray-600 mt-2">Try a different search term or browse categories</p>
-                </div>
-            </template>
-
-            <template x-for="[category, permits] in Object.entries(groupedPermits)" :key="category">
+        <!-- Announcements & Updates -->
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-10">
+            <div class="flex items-start">
+                <div class="text-3xl mr-4">📢</div>
                 <div>
-                    <h2 x-show="activeTab === 'all'" 
-                        :class="category === 'residential' ? 'bg-green-100 text-green-800' :
-                               category === 'commercial' ? 'bg-purple-100 text-purple-800' :
-                               category === 'sitework' ? 'bg-yellow-100 text-yellow-800' :
-                               'bg-red-100 text-red-800'"
-                        class="text-xl font-bold mb-3 px-2 py-1 rounded">
-                        <span x-text="getCategoryName(category)"></span>
-                    </h2>
-                    
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <template x-for="permit in permits" :key="permit.id">
-                            <div :class="category === 'residential' ? 'border-l-4 border-green-500' :
-                                      category === 'commercial' ? 'border-l-4 border-purple-500' :
-                                      category === 'sitework' ? 'border-l-4 border-yellow-500' :
-                                      'border-l-4 border-red-500'"
-                                 class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-4">
-                                <div class="flex justify-between items-center mb-2">
-                                    <div class="flex items-center">
-                                        <span class="mr-2 text-lg" x-text="permit.emoji"></span>
-                                        <h3 class="font-bold" x-text="permit.title"></h3>
-                                    </div>
-                                    <a :href="permit.formUrl" 
-                                       class="text-blue-500 hover:text-blue-700 text-sm font-medium">
-                                        Apply
-                                    </a>
-                                </div>
-                                <p class="text-gray-600" x-text="permit.description"></p>
-                            </div>
-                        </template>
-                    </div>
+                    <h3 class="font-bold text-lg">Announcements</h3>
+                    <p class="mb-2">Holiday Closures: The Building Department will be closed on December 24-25 for Christmas.</p>
+                    <p class="mb-2">Starting January 1, all permit applications will require digital submissions.</p>
+                    <a href="/news" class="text-blue-600 hover:underline">View all announcements</a>
                 </div>
-            </template>
+            </div>
         </div>
 
-        <!-- Footer -->
-        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
-            <div class="flex items-center">
-                <div class="text-2xl mr-3">🤔</div>
+        <!-- Contact Information -->
+        <div class="bg-gray-100 rounded-lg p-6">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="font-bold text-lg mb-2">Building Department</h3>
+                    <p class="mb-1">123 City Hall Way</p>
+                    <p class="mb-1">Anytown, ST 12345</p>
+                    <p class="mb-3">Hours: Monday-Friday, 8am-5pm</p>
+                    <p class="font-semibold">Phone: (555) 123-4567</p>
+                </div>
                 <div>
-                    <h3 class="font-bold">Need Help?</h3>
-                    <p>Call Building Department: <strong>(555) 123-4567</strong></p>
+                    <h3 class="font-bold text-lg mb-2">Need Assistance?</h3>
+                    <p class="mb-2">Our staff is available to help with all your building department needs.</p>
+                    <a href="/contact" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md transition-colors">Contact Us</a>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function permitFinder() {
+        function buildingDept() {
             return {
-                searchTerm: '',
-                activeTab: 'all',
-                tabs: {
-                    all: '🔎 All Permits',
-                    residential: '🏠 Residential',
-                    commercial: '🏢 Commercial',
-                    sitework: '🚜 Site Work',
-                    events: '🎪 Events'
-                },
-                tabClasses: {
-                    all: 'bg-blue-500',
-                    residential: 'bg-green-500',
-                    commercial: 'bg-purple-500',
-                    sitework: 'bg-yellow-500',
-                    events: 'bg-red-500'
-                },
-                permits: [
-                    // RESIDENTIAL PERMITS
-                    {
-                        id: "res-new-construction",
-                        category: "residential",
-                        emoji: "🏠",
-                        title: "New Residential Construction Permit",
-                        formUrl: "/form/res-new-construction",
-                        description: "Required when building a brand new house. All new home construction requires this permit regardless of size. Requires complete plan review with engineering approval for structural elements."
-                    },
-                    {
-                        id: "res-addition",
-                        category: "residential",
-                        emoji: "🔨",
-                        title: "Residential Addition Permit",
-                        formUrl: "/form/res-addition",
-                        description: "For any new living space physically attached to your existing home (room additions, second stories, enclosed porches). Engineering letter required if affecting load-bearing walls."
-                    },
-                    {
-                        id: "res-remodel",
-                        category: "residential",
-                        emoji: "🛠️",
-                        title: "Residential Remodel Permit",
-                        formUrl: "/form/res-remodel",
-                        description: "For major interior renovations over $10,000, removing walls, or changing room use. Simple cosmetic updates (painting, cabinet replacement) don't need a permit."
-                    },
-                    {
-                        id: "res-electrical",
-                        category: "residential",
-                        emoji: "⚡",
-                        title: "Residential Electrical Permit (OTC)",
-                        formUrl: "/form/res-electrical",
-                        description: "For electrical-only work in a home, like panel upgrades or new circuits. Same-day permit. Can be pulled by homeowner after test or by licensed electrician."
-                    },
-                    {
-                        id: "res-plumbing",
-                        category: "residential",
-                        emoji: "🚿",
-                        title: "Residential Plumbing Permit (OTC)",
-                        formUrl: "/form/res-plumbing",
-                        description: "For plumbing-only work like water heater replacement or new fixtures. Engineering letter required for slab penetrations. Must typically be obtained by a licensed plumber."
-                    },
-                    {
-                        id: "res-hvac",
-                        category: "residential",
-                        emoji: "❄️",
-                        title: "Residential HVAC Permit (OTC)",
-                        formUrl: "/form/res-hvac",
-                        description: "For replacing or installing heating, ventilation, or air conditioning equipment. All new installations must meet current energy code requirements."
-                    },
-                    {
-                        id: "res-accessory",
-                        category: "residential",
-                        emoji: "🏚️",
-                        title: "Residential Accessory Building Permit",
-                        formUrl: "/form/res-accessory",
-                        description: "For detached structures like garages, sheds over 200 sq ft, or any shed with utilities. Structures under 200 sq ft with NO utilities don't need a permit."
-                    },
-                    {
-                        id: "res-pool",
-                        category: "residential",
-                        emoji: "🏊",
-                        title: "Residential Swimming Pool Permit",
-                        formUrl: "/form/res-pool",
-                        description: "Required for all in-ground pools and above-ground pools deeper than 24 inches. Includes safety barrier requirements and electrical inspections."
-                    },
-                    {
-                        id: "res-storm-shelter",
-                        category: "residential",
-                        emoji: "🌪️",
-                        title: "Residential Storm Shelter Permit",
-                        formUrl: "/form/res-storm-shelter",
-                        description: "For installing tornado or storm shelters, whether above or below ground. Engineering requirements ensure shelter meets FEMA standards."
-                    },
-                    {
-                        id: "res-solar",
-                        category: "residential",
-                        emoji: "☀️",
-                        title: "Residential Solar PV Permit",
-                        formUrl: "/form/res-solar",
-                        description: "For installing solar panels on your home's roof or property. Structural assessment usually required to ensure roof can bear additional load."
-                    },
-                    {
-                        id: "res-generator",
-                        category: "residential",
-                        emoji: "⚡",
-                        title: "Residential Generator Permit",
-                        formUrl: "/form/res-generator",
-                        description: "For permanent backup generators. Portable generators not requiring permanent installation don't need a permit. Distance requirements from windows apply."
-                    },
-                    {
-                        id: "res-irrigation",
-                        category: "residential",
-                        emoji: "💦",
-                        title: "Residential Irrigation Permit",
-                        formUrl: "/form/res-irrigation",
-                        description: "For installing lawn sprinkler systems connected to water supply. Includes backflow prevention requirements. All irrigation systems need this permit."
-                    },
-                    {
-                        id: "res-fence",
-                        category: "residential",
-                        emoji: "🧱",
-                        title: "Residential Fence Permit",
-                        formUrl: "/form/res-fence",
-                        description: "For installing any fence over 3 feet tall. Height restrictions: typically max 4ft in front yards, 6-8ft in side/rear yards. Property survey recommended."
-                    },
-                    {
-                        id: "res-roof",
-                        category: "residential",
-                        emoji: "🏠",
-                        title: "Residential Roof Permit (OTC)",
-                        formUrl: "/form/res-roof",
-                        description: "For replacing entire roof or more than 100 sq ft of roofing material. Small repairs under 100 sq ft don't need a permit. Same-day permit."
-                    },
-                    {
-                        id: "res-windows",
-                        category: "residential",
-                        emoji: "🪟",
-                        title: "Window/Door Replacement Permit",
-                        formUrl: "/form/res-windows",
-                        description: "Required only when replacing MORE than 3 windows or exterior doors. No permit needed for 1-3 windows/doors. Required when changing size of openings."
-                    },
-                    {
-                        id: "res-concrete",
-                        category: "residential",
-                        emoji: "⬜",
-                        title: "Residential Concrete Permit",
-                        formUrl: "/form/res-concrete",
-                        description: "For new driveways, sidewalks, or large concrete slabs. Repairs to existing concrete typically don't need a permit unless changing drainage patterns."
-                    },
-
-                    // COMMERCIAL PERMITS
-                    {
-                        id: "com-new-construction",
-                        category: "commercial",
-                        emoji: "🏢",
-                        title: "Commercial New Construction Permit",
-                        formUrl: "/form/com-new-construction",
-                        description: "For any new commercial, retail, office, or multi-family building construction. Requires full plan review with stamped engineering plans. Allow 30 days for review."
-                    },
-                    {
-                        id: "com-addition",
-                        category: "commercial",
-                        emoji: "🔨",
-                        title: "Commercial Addition Permit",
-                        formUrl: "/form/com-addition",
-                        description: "For expanding existing commercial buildings with attached new construction. All commercial additions, regardless of size, require permits."
-                    },
-                    {
-                        id: "com-remodel",
-                        category: "commercial",
-                        emoji: "🛠️",
-                        title: "Commercial Remodel/Tenant Finish-Out Permit",
-                        formUrl: "/form/com-remodel",
-                        description: "For interior renovations of existing commercial spaces or new tenant build-outs. Required for ALL commercial remodeling regardless of size or cost."
-                    },
-                    {
-                        id: "com-sprinkler",
-                        category: "commercial",
-                        emoji: "🧯",
-                        title: "Commercial Fire Sprinkler Permit",
-                        formUrl: "/form/com-sprinkler",
-                        description: "For installing or modifying fire sprinkler systems. Must be submitted by licensed fire protection contractor. Required for most buildings over 5,000 sq ft."
-                    },
-                    {
-                        id: "com-alarm",
-                        category: "commercial",
-                        emoji: "🚨",
-                        title: "Commercial Fire Alarm Permit",
-                        formUrl: "/form/com-alarm",
-                        description: "For installing or modifying fire alarm systems in commercial buildings. Must be submitted by licensed fire alarm contractor."
-                    },
-                    {
-                        id: "com-hood",
-                        category: "commercial",
-                        emoji: "🍳",
-                        title: "Commercial Kitchen Hood Permit",
-                        formUrl: "/form/com-hood",
-                        description: "For commercial cooking hood ventilation systems. Fire suppression system required for all cooking equipment producing grease-laden vapors."
-                    },
-                    {
-                        id: "com-solar",
-                        category: "commercial",
-                        emoji: "☀️",
-                        title: "Commercial Solar PV Permit",
-                        formUrl: "/form/com-solar",
-                        description: "For solar panel installations on commercial buildings or properties. Structural analysis required for all roof-mounted systems."
-                    },
-                    {
-                        id: "com-generator",
-                        category: "commercial",
-                        emoji: "⚡",
-                        title: "Commercial Generator Permit",
-                        formUrl: "/form/com-generator",
-                        description: "For installing backup generators for commercial buildings. All permanent generators require permits, temporary generators for construction may not."
-                    },
-                    {
-                        id: "com-electrical",
-                        category: "commercial",
-                        emoji: "⚡",
-                        title: "Commercial Electrical Permit (OTC)",
-                        formUrl: "/form/com-electrical",
-                        description: "For electrical-only work in commercial buildings. Must be obtained by licensed electrical contractor. Same-day permit for standard work."
-                    },
-                    {
-                        id: "com-plumbing",
-                        category: "commercial",
-                        emoji: "🚿",
-                        title: "Commercial Plumbing Permit (OTC)",
-                        formUrl: "/form/com-plumbing",
-                        description: "For plumbing-only work in commercial buildings. Must be obtained by licensed plumbing contractor. Grease trap installations require additional review."
-                    },
-                    {
-                        id: "com-hvac",
-                        category: "commercial",
-                        emoji: "❄️",
-                        title: "Commercial HVAC Permit (OTC)",
-                        formUrl: "/form/com-hvac",
-                        description: "For HVAC work in commercial buildings. Must meet current energy code requirements. Load calculations required for new or replacement systems."
-                    },
-                    {
-                        id: "com-roof",
-                        category: "commercial",
-                        emoji: "🏢",
-                        title: "Commercial Roof Permit",
-                        formUrl: "/form/com-roof",
-                        description: "For replacing or repairing commercial building roofs. May require structural analysis for material changes. Energy code compliance verification required."
-                    },
-                    {
-                        id: "com-accessory",
-                        category: "commercial",
-                        emoji: "🏚️",
-                        title: "Commercial Accessory Building Permit",
-                        formUrl: "/form/com-accessory",
-                        description: "For detached structures on commercial property. ALL commercial accessory structures, regardless of size, typically require permits."
-                    },
-                    {
-                        id: "com-sign",
-                        category: "commercial",
-                        emoji: "🪧",
-                        title: "Commercial Sign Permit",
-                        formUrl: "/form/com-sign",
-                        description: "For business signs, including wall signs, monument signs, and electronic displays. All permanent commercial signs require permits."
-                    },
-                    {
-                        id: "com-storm-shelter",
-                        category: "commercial",
-                        emoji: "🌪️",
-                        title: "Commercial Storm Shelter Permit",
-                        formUrl: "/form/com-storm-shelter",
-                        description: "For storm shelters in commercial buildings. Occupant capacity must meet code requirements based on building occupancy. Engineered plans required."
-                    },
-                    {
-                        id: "com-health-initial",
-                        category: "commercial",
-                        emoji: "🍔",
-                        title: "Initial Health Permit",
-                        formUrl: "/form/com-health-initial",
-                        description: "For new restaurants or food service establishments. Requires review of kitchen layout and food safety protocols. Apply at least 30 days before opening."
-                    },
-                    {
-                        id: "com-health-annual",
-                        category: "commercial",
-                        emoji: "🍔",
-                        title: "Annual Health Permit",
-                        formUrl: "/form/com-health-annual",
-                        description: "For yearly renewal of existing food service establishment permits. Must be renewed by December 31 each year. Annual inspection required."
-                    },
-                    {
-                        id: "com-health-temp",
-                        category: "commercial",
-                        emoji: "🍔",
-                        title: "Temporary Health Permit",
-                        formUrl: "/form/com-health-temp",
-                        description: "For food service at temporary events lasting less than 14 days. Must apply at least 7 days before event. Includes temporary handwashing requirements."
-                    },
-                    {
-                        id: "com-food-truck",
-                        category: "commercial",
-                        emoji: "🚚",
-                        title: "Mobile Food Vendor Permit",
-                        formUrl: "/form/com-food-truck",
-                        description: "For food trucks, carts, and other mobile food businesses. Includes vehicle inspection, commissary verification, and food handler certifications."
-                    },
-
-                    // SITE WORK PERMITS
-                    {
-                        id: "site-row",
-                        category: "sitework",
-                        emoji: "🚧",
-                        title: "Right-of-Way Permit",
-                        formUrl: "/form/site-row",
-                        description: "For any work in public streets, sidewalks, or right-of-way areas. May require traffic control plan. Utility work and driveway approaches need this permit."
-                    },
-                    {
-                        id: "site-grading",
-                        category: "sitework",
-                        emoji: "🚜",
-                        title: "Grading/Land Disturbance Permit",
-                        formUrl: "/form/site-grading",
-                        description: "For earthmoving, grading, or disturbing more than 1 acre of land. Erosion control measures required. Stormwater management plan may be needed."
-                    },
-                    {
-                        id: "site-trailer",
-                        category: "sitework",
-                        emoji: "🏗️",
-                        title: "Job Site Trailer Permit",
-                        formUrl: "/form/site-trailer",
-                        description: "For temporary construction office trailers. Valid only during active construction and must be removed upon project completion."
-                    },
-                    {
-                        id: "site-temp-use",
-                        category: "sitework",
-                        emoji: "🏗️",
-                        title: "Temporary Use Permit",
-                        formUrl: "/form/site-temp-use",
-                        description: "For temporary sales structures like Christmas tree lots or fireworks stands. Limited time duration, typically 30-90 days maximum."
-                    },
-                    {
-                        id: "site-demo-res",
-                        category: "sitework",
-                        emoji: "💥",
-                        title: "Residential Demolition Permit",
-                        formUrl: "/form/site-demo-res",
-                        description: "For demolishing houses or residential structures. Utility disconnection verification required. Asbestos survey may be required for homes built before 1985."
-                    },
-                    {
-                        id: "site-demo-com",
-                        category: "sitework",
-                        emoji: "💥",
-                        title: "Commercial Demolition Permit",
-                        formUrl: "/form/site-demo-com",
-                        description: "For demolishing commercial buildings. Asbestos survey required for all commercial demolitions, regardless of age. Dust control plan may be required."
-                    },
-
-                    // SPECIAL EVENTS
-                    {
-                        id: "special-event",
-                        category: "events",
-                        emoji: "🎪",
-                        title: "Special Event Permit",
-                        formUrl: "/form/special-event",
-                        description: "For public gatherings like garage sales, fairs, concerts, or any event using city property. May require additional permits for food, alcohol, or street closures."
-                    }
-                ],
-
-                get filteredPermits() {
-                    return this.permits.filter(permit => {
-                        const searchMatch = !this.searchTerm || 
-                            permit.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-                            permit.description.toLowerCase().includes(this.searchTerm.toLowerCase());
-                        
-                        const tabMatch = this.activeTab === 'all' || 
-                            permit.category === this.activeTab;
-                        
-                        return searchMatch && tabMatch;
-                    });
-                },
-
-                get groupedPermits() {
-                    return this.filteredPermits.reduce((groups, permit) => {
-                        (groups[permit.category] = groups[permit.category] || []).push(permit);
-                        return groups;
-                    }, {});
-                },
-
-                getCategoryName(category) {
-                    const names = {
-                        residential: '🏠 Residential Permits',
-                        commercial: '🏢 Commercial Permits',
-                        sitework: '🚜 Site Work Permits',
-                        events: '🎪 Special Event Permits'
-                    };
-                    return names[category] || '';
-                }
+                // State and functions can be added here if needed for future interactivity
             }
         }
     </script>
