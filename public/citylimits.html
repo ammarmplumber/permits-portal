@@ -332,11 +332,13 @@
         // Load parameters from URL
         function loadUrlParams() {
             const urlParams = new URLSearchParams(window.location.search);
-            const redirectParam = urlParams.get('redirect');
-            if (redirectParam) {
-                document.getElementById('redirectUrl').value = redirectParam;
+            const redirectUrl = urlParams.get('redirect');
+
+            if (redirectUrl) {
+                console.log("Redirect URL found:", redirectUrl); // Debugging log
             }
         }
+
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function () {
