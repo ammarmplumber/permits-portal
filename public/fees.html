@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aledo Fee Schedule</title>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html {
+            font-family: serif;
+        }
+        .fee-section {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div x-data="{ openSection: null }" class="w-full max-w-6xl mx-auto px-4 py-8">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold mb-3">City of Aledo Fee Schedule</h1>
+            <p class="text-xl text-gray-600">FY 2024-2025 Official Fee Schedule</p>
+        </header>
+
+        <!-- Fee Categories -->
+        <div class="space-y-6">
+            <!-- Building Permits -->
+            <div class="fee-section bg-white rounded-lg shadow-md">
+                <button @click="openSection === 'building' ? openSection = null : openSection = 'building'" 
+                        class="w-full p-6 text-left flex justify-between items-center bg-blue-50">
+                    <h2 class="text-2xl font-bold">🏗 Building Permits</h2>
+                    <span class="text-xl">▼</span>
+                </button>
+                <div x-show="openSection === 'building'" class="p-6 border-t">
+                    <div class="grid gap-6 md:grid-cols-2">
+                        <!-- Residential -->
+                        <div>
+                            <h3 class="text-xl font-semibold mb-4">Residential Construction</h3>
+                            <table class="w-full">
+                                <tbody class="divide-y">
+                                    <tr><td class="py-2">New Construction</td><td class="text-right">$0.80/sqft</td></tr>
+                                    <tr><td class="py-2">Remodels/Alterations</td><td class="text-right">$0.70/sqft</td></tr>
+                                    <tr><td class="py-2">Detached Garage</td><td class="text-right">$0.50/sqft</td></tr>
+                                    <tr><td class="py-2">Manufactured Home Installation</td><td class="text-right">$320</td></tr>
+                                    <tr><td class="py-2">Plan Review Fee</td><td class="text-right">35% of permit fee</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Commercial -->
+                        <div>
+                            <h3 class="text-xl font-semibold mb-4">Commercial Construction</h3>
+                            <table class="w-full">
+                                <tbody class="divide-y">
+                                    <tr><td class="py-2">Plan Review Fee</td><td class="text-right">65% of permit fee</td></tr>
+                                    <tr><td class="py-2">Valuation Chart Fees</td><td class="text-right">$125 - $5,710+</td></tr>
+                                    <tr><td class="py-2">Temporary Electric Pole</td><td class="text-right">$125</td></tr>
+                                    <tr><td class="py-2">Health Plan Review</td><td class="text-right">$125</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health & Safety -->
+            <div class="fee-section bg-white rounded-lg shadow-md">
+                <button @click="openSection === 'health' ? openSection = null : openSection = 'health'" 
+                        class="w-full p-6 text-left flex justify-between items-center bg-green-50">
+                    <h2 class="text-2xl font-bold">🏥 Health & Safety</h2>
+                    <span class="text-xl">▼</span>
+                </button>
+                <div x-show="openSection === 'health'" class="p-6 border-t">
+                    <div class="grid gap-6 md:grid-cols-2">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-4">Health Permits</h3>
+                            <table class="w-full">
+                                <tbody class="divide-y">
+                                    <tr><td class="py-2">Food Establishment</td><td class="text-right">$250</td></tr>
+                                    <tr><td class="py-2">Reinspection Fee</td><td class="text-right">$100</td></tr>
+                                    <tr><td class="py-2">Temporary Food Vendor</td><td class="text-right">$75</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-4">Fire Safety</h3>
+                            <table class="w-full">
+                                <tbody class="divide-y">
+                                    <tr><td class="py-2">Sprinkler Systems</td><td class="text-right">$515+</td></tr>
+                                    <tr><td class="py-2">Fire Alarm Systems</td><td class="text-right">$215+</td></tr>
+                                    <tr><td class="py-2">Fire Suppression</td><td class="text-right">$250</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Sections (Truncated for Example) -->
+            <!-- Municipal Fees -->
+            <div class="fee-section bg-white rounded-lg shadow-md">
+                <button @click="openSection === 'municipal' ? openSection = null : openSection = 'municipal'" 
+                        class="w-full p-6 text-left flex justify-between items-center bg-purple-50">
+                    <h2 class="text-2xl font-bold">🏛 Municipal Fees</h2>
+                    <span class="text-xl">▼</span>
+                </button>
+                <div x-show="openSection === 'municipal'" class="p-6 border-t">
+                    <div class="grid gap-6 md:grid-cols-2">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-4">Alcohol Licensing</h3>
+                            <table class="w-full">
+                                <tbody class="divide-y">
+                                    <tr><td class="py-2">Application Fee</td><td class="text-right">$70</td></tr>
+                                    <tr><td class="py-2">Off-Premises License</td><td class="text-right">$375</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-semibold mb-4">Special Permits</h3>
+                            <table class="w-full">
+                                <tbody class="divide-y">
+                                    <tr><td class="py-2">Itinerant Merchant</td><td class="text-right">$500/yr</td></tr>
+                                    <tr><td class="py-2">Sexually Oriented Business</td><td class="text-right">$500/yr</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full fee schedule continues with similar structure for:
+                 - Utilities
+                 - Code Enforcement
+                 - Demolition
+                 - Planning & Zoning
+                 - Community Center
+                 - Library Services
+            -->
+        </div>
+
+        <!-- Important Notes -->
+        <div class="mt-10 bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+            <h3 class="text-xl font-bold mb-4">⚠️ Important Notes</h3>
+            <ul class="list-disc pl-6 space-y-2">
+                <li>All fees subject to 3% credit card processing fee</li>
+                <li>Minimum $80 fee applies to most permits</li>
+                <li>After-hours inspections: $100/hr (2hr minimum)</li>
+                <li>NSF/Returned Checks: $30 fee</li>
+            </ul>
+        </div>
+
+        <!-- Contact -->
+        <div class="mt-10 bg-gray-100 rounded-lg p-6">
+            <div class="text-center">
+                <h3 class="text-xl font-bold mb-2">Need Help Calculating Fees?</h3>
+                <p class="mb-4">Contact our Permit Specialists:</p>
+                <p class="font-semibold">📞 (817) 441-7016</p>
+                <p class="font-semibold">📧 permits@aledotx.gov</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
