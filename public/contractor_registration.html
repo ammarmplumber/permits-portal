@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contractor Registration Portal</title>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html {
+            font-family: serif;
+        }
+        .sample-email {
+            border: 2px dashed #3b82f6;
+            background-color: #eff6ff;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div x-data="contractorPortal()" class="w-full max-w-6xl mx-auto px-4 py-8">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold mb-3">Contractor Registration Portal</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Manage your contractor registration, renewals, and verify status</p>
+        </header>
+
+        <!-- Check Registration Status -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4 flex items-center">
+                <span class="text-3xl mr-3">👷</span>
+                Check Registration Status
+            </h2>
+            <p class="mb-4 text-gray-600">Enter your registered email address to receive details about your current contractor registration.</p>
+            
+            <div class="mb-6">
+                <form @submit.prevent="checkRegistration">
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="flex-grow">
+                            <input 
+                                type="email" 
+                                x-model="checkEmail" 
+                                placeholder="Your registered email address" 
+                                class="w-full p-3 border rounded-md"
+                                required
+                            >
+                        </div>
+                        <button 
+                            type="submit"
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-md transition-colors"
+                        >
+                            Check Registration
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Demo instructions -->
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                <p class="font-bold">Demo Instructions:</p>
+                <ul class="list-disc ml-5 mt-1">
+                    <li>Enter <code>johndoe@example.com</code> for a registered contractor</li>
+                    <li>Enter <code>expired@example.com</code> for an expiring contractor</li>
+                    <li>Enter any other email for "not found" response</li>
+                </ul>
+            </div>
+
+            <!-- Results container -->
+            <div x-show="registrationResult" class="mt-4">
+                <!-- Success case -->
+                <div x-show="registrationResult === 'found'" class="sample-email">
+                    <div class="font-bold text-lg mb-2">Sample Email That Would Be Sent</div>
+                    <div class="border-b border-gray-300 pb-2 mb-2">
+                        <div><strong>From:</strong> buildingdept@cityname.gov</div>
+                        <div><strong>To:</strong> <span x-text="checkEmail"></span></div>
+                        <div><strong>Subject:</strong> Your Contractor Registration Details</div>
+                    </div>
+                    <div>
+                        <p class="mb-2">Dear John Doe,</p>
+                        <p class="mb-2">Here are your current contractor registration details:</p>
+                        <ul class="list-disc ml-5 mb-2">
+                            <li><strong>Registration ID:</strong> CTR-2023-4872</li>
+                            <li><strong>Business Name:</strong> Doe Construction, LLC</li>
+                            <li><strong>License Type:</strong> General Contractor (Class A)</li>
+                            <li><strong>Status:</strong> Active</li>
+                            <li><strong>Expiration Date:</strong> December 31, 2025</li>
+                            <li><strong>Insurance Status:</strong> Current</li>
+                            <li><strong>Bond Status:</strong> Current</li>
+                        </ul>
+                        <p class="mb-2">Your registration is in good standing. No action is required at this time.</p>
+                        <p>If you have any questions, please contact the Building Department at (555) 123-4567.</p>
+                    </div>
+                </div>
+
+                <!-- Expiring case -->
+                <div x-show="registrationResult === 'expiring'" class="sample-email">
+                    <div class="font-bold text-lg mb-2">Sample Email That Would Be Sent</div>
+                    <div class="border-b border-gray-300 pb-2 mb-2">
+                        <div><strong>From:</strong> buildingdept@cityname.gov</div>
+                        <div><strong>To:</strong> <span x-text="checkEmail"></span></div>
+                        <div><strong>Subject:</strong> IMPORTANT: Your Contractor Registration Is Expiring Soon</div>
+                    </div>
+                    <div>
+                        <p class="mb-2">Dear Jane Smith,</p>
+                        <p class="mb-2">Your contractor registration is <strong>expiring soon</strong>. Please review the details below:</p>
+                        <ul class="list-disc ml-5 mb-2">
+                            <li><strong>Registration ID:</strong> CTR-2023-3391</li>
+                            <li><strong>Business Name:</strong> Smith Home Services</li>
+                            <li><strong>License Type:</strong> Electrical Contractor</li>
+                            <li><strong>Status:</strong> Active (Expiring)</li>
+                            <li><strong>Expiration Date:</strong> April 10, 2025 (30 days from now)</li>
+                            <li><strong>Insurance Status:</strong> Current</li>
+                            <li><strong>Bond Status:</strong> Current</li>
+                        </ul>
+                        <p class="mb-2 font-bold">Action Required: Please complete the renewal process before your registration expires to avoid any interruption in your ability to pull permits.</p>
+                        <p class="mb-2">You can renew online using the Contractor Renewal Form on our website.</p>
+                        <p>If you have any questions, please contact the Building Department at (555) 123-4567.</p>
+                    </div>
+                </div>
+
+                <!-- Not found case -->
+                <div x-show="registrationResult === 'not-found'" class="bg-red-50 border-l-4 border-red-500 p-4">
+                    <p class="font-bold text-red-700">No contractor registration found for this email address.</p>
+                    <p class="text-red-600">If you believe this is in error, please contact the Building Department at (555) 123-4567. If you need to register as a contractor, please use the registration form below.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registration Actions -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <!-- New Registration -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-green-500 h-2"></div>
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold mb-3 flex items-center">
+                        <span class="text-3xl mr-3">📝</span>
+                        New Contractor Registration
+                    </h2>
+                    <p class="text-gray-600 mb-4">Register as a new contractor with the City Building Department. All contractors must be registered before pulling permits or performing work within city limits.</p>
+                    <p class="mb-6 text-sm">Registration requires business license, proof of insurance, bond information, and trade licenses.</p>
+                    <a href="/contractor-registration-form" class="inline-block bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-6 rounded-md transition-colors w-full text-center">Start Registration Application</a>
+                </div>
+            </div>
+
+            <!-- Renewal -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-blue-500 h-2"></div>
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold mb-3 flex items-center">
+                        <span class="text-3xl mr-3">🔄</span>
+                        Contractor Renewal
+                    </h2>
+                    <p class="text-gray-600 mb-4">Renew your existing contractor registration. Renewals must be completed before your current registration expires.</p>
+                    <p class="mb-6 text-sm">You'll need your current registration ID, updated insurance certificates, and any renewed trade licenses.</p>
+                    <a href="/contractor-renewal-form" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-md transition-colors w-full text-center">Start Renewal Process</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Info -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4">Contractor Requirements</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-bold text-lg mb-2">Required Documents</h3>
+                    <ul class="list-disc ml-5">
+                        <li>Business License</li>
+                        <li>General Liability Insurance ($1M minimum)</li>
+                        <li>Workers' Compensation Insurance</li>
+                        <li>Surety Bond ($10,000 minimum)</li>
+                        <li>Trade Licenses (as applicable)</li>
+                        <li>Proof of Identity</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-2">Important Notes</h3>
+                    <ul class="list-disc ml-5">
+                        <li>Registration is valid for 2 years</li>
+                        <li>Renewals can be submitted 90 days before expiration</li>
+                        <li>Late renewals incur a $50 fee</li>
+                        <li>Insurance must remain current at all times</li>
+                        <li>Changes to business information must be reported within 30 days</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="bg-gray-100 rounded-lg p-6">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="font-bold text-lg mb-2">Building Department</h3>
+                    <p class="mb-1">123 City Hall Way</p>
+                    <p class="mb-1">Anytown, ST 12345</p>
+                    <p class="mb-3">Hours: Monday-Friday, 8am-5pm</p>
+                    <p class="font-semibold">Phone: (555) 123-4567</p>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-2">Questions?</h3>
+                    <p class="mb-2">Our contractor services team is available to help with registration questions.</p>
+                    <p class="mb-1">Email: contractors@cityname.gov</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function contractorPortal() {
+            return {
+                checkEmail: '',
+                registrationResult: null,
+
+                checkRegistration() {
+                    // Demo functionality - in a real app this would be an API call
+                    if (this.checkEmail === 'johndoe@example.com') {
+                        this.registrationResult = 'found';
+                    } else if (this.checkEmail === 'expired@example.com') {
+                        this.registrationResult = 'expiring';
+                    } else {
+                        this.registrationResult = 'not-found';
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

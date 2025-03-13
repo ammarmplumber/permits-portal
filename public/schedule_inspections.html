@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Inspections</title>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html {
+            font-family: serif;
+        }
+        .calendar-day {
+            height: 40px;
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .calendar-day.available:hover {
+            background-color: #93c5fd;
+        }
+        .calendar-day.selected {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .calendar-day.unavailable {
+            text-decoration: line-through;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+        .calendar-day.other-month {
+            color: #d1d5db;
+        }
+        .sample-email {
+            border: 2px dashed #3b82f6;
+            background-color: #eff6ff;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div x-data="inspectionRequest()" class="w-full max-w-6xl mx-auto px-4 py-8">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold mb-3">Request Inspections</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Schedule building inspections for your active permits</p>
+        </header>
+
+        <!-- Demo Instructions -->
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
+            <p class="font-bold">Demo Instructions:</p>
+            <ul class="list-disc ml-5 mt-1">
+                <li>Enter <code>contractor@example.com</code> for email</li>
+                <li>Enter <code>BLD-2023-0123</code> for residential permit</li>
+                <li>Enter <code>COM-2023-0456</code> for commercial permit</li>
+                <li>Enter any other combination for "no permit found" error</li>
+            </ul>
+        </div>
+
+        <!-- Request Form -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4 flex items-center">
+                <span class="text-3xl mr-3">📋</span>
+                Schedule an Inspection
+            </h2>
+            
+            <form @submit.prevent="findPermit">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Contractor Email Address</label>
+                        <input 
+                            type="email" 
+                            x-model="email" 
+                            placeholder="Your registered email" 
+                            class="w-full p-3 border rounded-md"
+                            required
+                        >
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Permit Number</label>
+                        <input 
+                            type="text" 
+                            x-model="permitNumber" 
+                            placeholder="e.g. BLD-2023-0123" 
+                            class="w-full p-3 border rounded-md"
+                            required
+                        >
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <button 
+                        type="submit"
+                        class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-6 rounded-md transition-colors"
+                    >
+                        Find Permit
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Error Message -->
+        <div x-show="showError" class="bg-red-50 border-l-4 border-red-500 p-4 mb-8">
+            <p class="font-bold text-red-700">No permit found or you are not authorized to schedule inspections for this permit.</p>
+            <p class="text-red-600">Please verify the permit number and email address. If you continue to experience issues, please contact the Building Department at (555) 123-4567.</p>
+        </div>
+
+        <!-- Permit Details & Inspection Selection -->
+        <div x-show="permitFound" class="space-y-8">
+            <!-- Permit Summary -->
+            <div class="bg-blue-50 rounded-lg border border-blue-200 p-6">
+                <h3 class="text-xl font-bold mb-3" x-text="'Permit: ' + permitDetails.number"></h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <p><strong>Project Address:</strong> <span x-text="permitDetails.address"></span></p>
+                        <p><strong>Project Type:</strong> <span x-text="permitDetails.type"></span></p>
+                        <p><strong>Status:</strong> <span x-text="permitDetails.status"></span></p>
+                    </div>
+                    <div>
+                        <p><strong>Owner:</strong> <span x-text="permitDetails.owner"></span></p>
+                        <p><strong>Contractor:</strong> <span x-text="permitDetails.contractor"></span></p>
+                        <p><strong>Issue Date:</strong> <span x-text="permitDetails.issueDate"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Available Inspections -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-bold mb-4">Select Inspection Type</h3>
+                <p class="mb-4 text-gray-600">Choose the type of inspection you need to schedule:</p>
+                
+                <div class="space-y-3">
+                    <template x-for="inspection in availableInspections" :key="inspection.id">
+                        <div 
+                            class="p-3 border rounded-md cursor-pointer hover:bg-gray-50 transition-colors"
+                            :class="selectedInspection === inspection.id ? 'border-green-500 bg-green-50' : 'border-gray-200'"
+                            @click="selectInspection(inspection.id)"
+                        >
+                            <div class="flex items-center">
+                                <div class="w-5 h-5 rounded-full border flex items-center justify-center mr-3"
+                                     :class="selectedInspection === inspection.id ? 'border-green-500' : 'border-gray-400'"
+                                >
+                                    <div 
+                                        x-show="selectedInspection === inspection.id" 
+                                        class="w-3 h-3 rounded-full bg-green-500"
+                                    ></div>
+                                </div>
+                                <div>
+                                    <span class="font-medium" x-text="inspection.name"></span>
+                                    <span x-show="inspection.required" class="ml-2 bg-red-100 text-red-800 text-xs font-medium px-2 py-0.5 rounded">Required</span>
+                                </div>
+                            </div>
+                            <p x-show="inspection.description" class="mt-1 ml-8 text-sm text-gray-600" x-text="inspection.description"></p>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Calendar for Scheduling -->
+            <div x-show="selectedInspection" class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-bold mb-4">Select Date</h3>
+                <p class="mb-4 text-gray-600">Choose an available date for your inspection:</p>
+                
+                <div class="mb-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <button 
+                            @click="prevMonth" 
+                            class="bg-gray-200 hover:bg-gray-300 p-2 rounded-md"
+                        >
+                            &larr;
+                        </button>
+                        <h4 class="text-lg font-medium" x-text="monthNames[currentMonth] + ' ' + currentYear"></h4>
+                        <button 
+                            @click="nextMonth" 
+                            class="bg-gray-200 hover:bg-gray-300 p-2 rounded-md"
+                        >
+                            &rarr;
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-7 gap-1 text-center mb-2">
+                        <div class="font-medium">Sun</div>
+                        <div class="font-medium">Mon</div>
+                        <div class="font-medium">Tue</div>
+                        <div class="font-medium">Wed</div>
+                        <div class="font-medium">Thu</div>
+                        <div class="font-medium">Fri</div>
+                        <div class="font-medium">Sat</div>
+                    </div>
+                    
+                    <div class="grid grid-cols-7 gap-1">
+                        <template x-for="day in calendarDays" :key="day.date">
+                            <div 
+                                class="calendar-day"
+                                :class="{
+                                    'other-month': day.otherMonth,
+                                    'available': !day.otherMonth && day.available,
+                                    'unavailable': !day.otherMonth && !day.available,
+                                    'selected': selectedDate === day.date && !day.otherMonth
+                                }"
+                                @click="day.available && !day.otherMonth ? selectDate(day.date) : null"
+                                x-text="new Date(day.date).getDate()"
+                            ></div>
+                        </template>
+                    </div>
+                </div>
+
+                <div x-show="selectedDate" class="mb-4">
+                    <h4 class="font-medium mb-2">Select Time:</h4>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        <template x-for="time in availableTimes" :key="time">
+                            <button 
+                                @click="selectTime(time)" 
+                                class="p-2 border rounded-md text-center"
+                                :class="selectedTime === time ? 'bg-blue-500 text-white border-blue-500' : 'hover:bg-gray-50'"
+                                x-text="time"
+                            ></button>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div x-show="selectedTime" class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-bold mb-4">Contact Information</h3>
+                <p class="mb-4 text-gray-600">Who should we contact regarding this inspection?</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Contact Name</label>
+                        <input 
+                            type="text" 
+                            x-model="contactName" 
+                            placeholder="Full name" 
+                            class="w-full p-3 border rounded-md"
+                        >
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Phone Number</label>
+                        <input 
+                            type="tel" 
+                            x-model="contactPhone" 
+                            placeholder="(555) 123-4567" 
+                            class="w-full p-3 border rounded-md"
+                        >
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2">Special Instructions (Optional)</label>
+                    <textarea 
+                        x-model="specialInstructions" 
+                        placeholder="Any special instructions for the inspector..."
+                        class="w-full p-3 border rounded-md"
+                        rows="3"
+                    ></textarea>
+                </div>
+
+                <div class="flex justify-end">
+                    <button 
+                        @click="submitInspectionRequest"
+                        class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-6 rounded-md transition-colors"
+                    >
+                        Schedule Inspection
+                    </button>
+                </div>
+            </div>
+
+            <!-- Confirmation -->
+            <div x-show="confirmationShown" class="bg-green-50 border border-green-200 rounded-lg p-6">
+                <div class="flex items-start">
+                    <div class="text-3xl mr-4">✓</div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-2">Inspection Scheduled!</h3>
+                        <p class="mb-2">Your inspection has been scheduled successfully.</p>
+                        
+                        <div class="sample-email mt-4 bg-white">
+                            <div class="font-bold text-lg mb-2">Sample Email That Would Be Sent</div>
+                            <div class="border-b border-gray-300 pb-2 mb-2">
+                                <div><strong>From:</strong> buildingdept@cityname.gov</div>
+                                <div><strong>To:</strong> <span x-text="email"></span></div>
+                                <div><strong>Subject:</strong> Inspection Scheduled - <span x-text="permitNumber"></span></div>
+                            </div>
+                            <div>
+                                <p class="mb-2">Dear <span x-text="contactName || 'Contractor'"></span>,</p>
+                                <p class="mb-2">Your inspection has been scheduled with the following details:</p>
+                                <ul class="list-disc ml-5 mb-2">
+                                    <li><strong>Permit Number:</strong> <span x-text="permitNumber"></span></li>
+                                    <li><strong>Project Address:</strong> <span x-text="permitDetails.address"></span></li>
+                                    <li><strong>Inspection Type:</strong> <span x-text="getInspectionName()"></span></li>
+                                    <li><strong>Date:</strong> <span x-text="formatDate(selectedDate)"></span></li>
+                                    <li><strong>Time:</strong> <span x-text="selectedTime"></span></li>
+                                    <li><strong>Contact Person:</strong> <span x-text="contactName"></span></li>
+                                    <li><strong>Contact Phone:</strong> <span x-text="contactPhone"></span></li>
+                                </ul>
+                                
+                                <div x-show="specialInstructions" class="mb-2">
+                                    <p><strong>Special Instructions:</strong></p>
+                                    <p class="italic" x-text="specialInstructions"></p>
+                                </div>
+                                
+                                <p class="mb-2"><strong>Important Notes:</strong></p>
+                                <ul class="list-disc ml-5 mb-2">
+                                    <li>Please ensure the work is ready for inspection.</li>
+                                    <li>The inspector will arrive during your selected time block.</li>
+                                    <li>You can cancel or reschedule up to 24 hours before the appointment.</li>
+                                </ul>
+                                
+                                <p>If you have any questions, please contact the Building Department at (555) 123-4567.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <button 
+                                @click="resetForm" 
+                                class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-md transition-colors mr-3"
+                            >
+                                Schedule Another
+                            </button>
+                            <a 
+                                href="/" 
+                                class="bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-6 rounded-md transition-colors inline-block"
+                            >
+                                Return Home
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function inspectionRequest() {
+            return {
+                email: '',
+                permitNumber: '',
+                permitFound: false,
+                showError: false,
+                permitDetails: null,
+                selectedInspection: null,
+                currentMonth: new Date().getMonth(),
+                currentYear: new Date().getFullYear(),
+                selectedDate: null,
+                selectedTime: null,
+                contactName: '',
+                contactPhone: '',
+                specialInstructions: '',
+                confirmationShown: false,
+                
+                monthNames: [
+                    'January', 'February', 'March', 'April', 'May', 'June', 
+                    'July', 'August', 'September', 'October', 'November', 'December'
+                ],
+                
+                // Demo permit data
+                permits: {
+                    'BLD-2023-0123': {
+                        number: 'BLD-2023-0123',
+                        address: '123 Main Street, Anytown, ST 12345',
+                        type: 'New Residential Construction',
+                        status: 'In Progress - Building',
+                        owner: 'Jane Smith',
+                        contractor: 'Doe Construction, LLC',
+                        issueDate: '03/15/2023',
+                        inspections: [
+                            {
+                                id: 'footing',
+                                name: 'Foundation/Footing Inspection',
+                                description: 'Inspection of foundation footings before concrete is poured',
+                                required: true,
+                                completed: true,
+                                result: 'PASSED',
+                                date: '04/10/2023'
+                            },
+                            {
+                                id: 'framing',
+                                name: 'Framing Inspection',
+                                description: 'Inspection of framing, sheathing, and rough-in work before drywall installation',
+                                required: true,
+                                completed: false
+                            },
+                            {
+                                id: 'electrical',
+                                name: 'Electrical Rough-In Inspection',
+                                description: 'Inspection of electrical work before walls are closed',
+                                required: true,
+                                completed: false
+                            },
+                            {
+                                id: 'plumbing',
+                                name: 'Plumbing Rough-In Inspection',
+                                description: 'Inspection of plumbing work before walls are closed',
+                                required: true,
+                                completed: false
+                            },
+                            {
+                                id: 'hvac',
+                                name: 'HVAC Rough-In Inspection',
+                                description: 'Inspection of heating, ventilation, and AC systems before walls are closed',
+                                required: true,
+                                completed: false
+                            },
+                            {
+                                id: 'insulation',
+                                name: 'Insulation Inspection',
+                                description: 'Inspection of insulation before drywall installation',
+                                required: true,
+                                completed: false
+                            },
+                            {
+                                id: 'final',
+                                name: 'Final Inspection',
+                                description: 'Final inspection before occupancy',
+                                required: true,
+                                completed: false
+                            }
+                        ]
+                    },
+                    'COM-2023-0456': {
+                        number: 'COM-2023-0456',
+                        address: '456 Business Parkway, Anytown, ST 12345',
+                        type: 'Commercial Tenant Finish-Out',
+                        status: 'In Progress - Building',
+                        owner: 'ABC Properties LLC',
+                        contractor: 'Commercial Builders Inc.',
+                        issueDate: '02/20/2023',
+                        inspections: [
+                            {
+                                id: 'framing',
+                                name: 'Framing Inspection',
+                                description: 'Inspection of framing, blocking, and backing',
+                                required: true,
+                                completed: true,
+                                result: 'PASSED',
+                                date: '03/15/2023'
+                            },
+                            {
+                                id: 'electrical',
+                                name: 'Electrical Rough-In Inspection',
+                                description: 'Inspection of electrical rough-in work',
+                                required: true,
+                                completed: true,
+                                result: 'PASSED',
+                                date: '03/20/2023'
+                            },
+                            {
+                                id: 'plumbing',
+                                name: 'Plumbing Rough-In Inspection',
+                                description: 'Inspection of plumbing rough-in work',
+                                required: true,
+                                completed: true,
+                                result: 'FAILED',
+                                date: '03/22/2023',
+                                notes: 'Issues with trap sizes and venting. Needs correction and re-inspection.'
+                            },
+                            {
+                                id: 'plumbing-reinspection',
+                                name: 'Plumbing Re-Inspection',
+                                description: 'Re-inspection of corrected plumbing issues',
+                                required: true,
+                                completed: false
+                            },
+                            {
+                                id: 'mechanical',
+                                name: 'Mechanical Inspection',
+                                description: 'Inspection of HVAC and mechanical systems',
+                                required: true,
+                                completed: false
+                            },
+                            {
+                                id: 'fire',
+                                name: 'Fire Protection Systems',
+                                description: 'Inspection of fire alarm and sprinkler systems',
+                                required: true,
+                                completed: false
+                            },
+                            {
+                                id: 'above-ceiling',
+                                name: 'Above-Ceiling Inspection',
+                                description: 'Inspection of above-ceiling work before ceiling grid installation',
+                                required: true,
+                                completed: false
+                            },
+                            {
+                                id: 'final',
+                                name: 'Final Inspection',
+                                description: 'Final inspection before occupancy',
+                                required: true,
+                                completed: false
+                            }
+                        ]
+                    }
+                },
+                
+                findPermit() {
+                    this.showError = false;
+                    this.permitFound = false;
+                    this.selectedInspection = null;
+                    this.selectedDate = null;
+                    this.selectedTime = null;
+                    this.confirmationShown = false;
+                    
+                    // Demo logic - in a real app this would be an API call
+                    if (this.email === 'contractor@example.com' && 
+                        (this.permitNumber === 'BLD-2023-0123' || this.permitNumber === 'COM-2023-0456')) {
+                        this.permitDetails = this.permits[this.permitNumber];
+                        this.permitFound = true;
+                    } else {
+                        this.showError = true;
+                    }
+                },
+                
+                get availableInspections() {
+                    if (!this.permitDetails) return [];
+                    
+                    // Return only incomplete inspections or re-inspections
+                    return this.permitDetails.inspections.filter(inspection => 
+                        !inspection.completed || 
+                        (inspection.completed && inspection.result === 'FAILED')
+                    );
+                },
+                
+                selectInspection(id) {
+                    this.selectedInspection = id;
+                    this.selectedDate = null;
+                    this.selectedTime = null;
+                    this.generateCalendar();
+                },
+                
+                generateCalendar() {
+                    const firstDay = new Date(this.currentYear, this.currentMonth, 1);
+                    const lastDay = new Date(this.currentYear, this.currentMonth + 1, 0);
+                    const daysInMonth = lastDay.getDate();
+                    
+                    // Get the day of the week the first day falls on (0-6, 0 is Sunday)
+                    const firstDayOfWeek = firstDay.getDay();
+                    
+                    // Generate array of days
+                    let days = [];
+                    
+                    // Add days from previous month if needed
+                    const previousMonth = new Date(this.currentYear, this.currentMonth, 0);
+                    const daysInPreviousMonth = previousMonth.getDate();
+                    
+                    for (let i = firstDayOfWeek - 1; i >= 0; i--) {
+                        const day = daysInPreviousMonth - i;
+                        const date = new Date(this.currentYear, this.currentMonth - 1, day);
+                        days.push({
+                            date: date.toISOString().split('T')[0],
+                            otherMonth: true,
+                            available: false
+                        });
+                    }
+                    
+                    // Add days of current month
+                    for (let i = 1; i <= daysInMonth; i++) {
+                        const date = new Date(this.currentYear, this.currentMonth, i);
+                        const dateStr = date.toISOString().split('T')[0];
+                        
+                        // Logic to determine if a day is available for scheduling
+                        // Demo logic: Weekends are unavailable, random weekdays are unavailable
+                        const dayOfWeek = date.getDay();
+                        const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+                        const isPast = date < new Date(new Date().setHours(0, 0, 0, 0));
+                        
+                        // Random unavailable days for demo purposes
+                        const randomUnavailable = [3, 8, 15, 22, 27].includes(i);
+                        
+                        days.push({
+                            date: dateStr,
+                            otherMonth: false,
+                            available: !isWeekend && !isPast && !randomUnavailable
+                        });
+                    }
+                    
+                    // Fill in remaining days from next month if needed
+                    const remainingDays = 42 - days.length; // 6 rows of 7 days
+                    
+                    for (let i = 1; i <= remainingDays; i++) {
+                        const date = new Date(this.currentYear, this.currentMonth + 1, i);
+                        days.push({
+                            date: date.toISOString().split('T')[0],
+                            otherMonth: true,
+                            available: false
+                        });
+                    }
+                    
+                    this.calendarDays = days;
+                },
+                
+                selectDate(date) {
+                    this.selectedDate = date;
+                    this.selectedTime = null;
+                },
+                
+                prevMonth() {
+                    if (this.currentMonth === 0) {
+                        this.currentMonth = 11;
+                        this.currentYear--;
+                    } else {
+                        this.currentMonth--;
+                    }
+                    this.generateCalendar();
+                },
+                
+                nextMonth() {
+                    if (this.currentMonth === 11) {
+                        this.currentMonth = 0;
+                        this.currentYear++;
+                    } else {
+                        this.currentMonth++;
+                    }
+                    this.generateCalendar();
+                },
+                
+                get availableTimes() {
+                    // Demo times
+                    return ['Morning (8am-12pm)', 'Afternoon (1pm-5pm)'];
+                },
+                
+                selectTime(time) {
+                    this.selectedTime = time;
+                },
+                
+                formatDate(dateStr) {
+                    if (!dateStr) return '';
+                    const date = new Date(dateStr);
+                    return date.toLocaleDateString('en-US', { 
+                        weekday: 'long',
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    });
+                },
+                
+                getInspectionName() {
+                    if (!this.selectedInspection || !this.permitDetails) return '';
+                    const inspection = this.permitDetails.inspections.find(i => i.id === this.selectedInspection);
+                    return inspection ? inspection.name : '';
+                },
+                
+                submitInspectionRequest() {
+                    // In a real app, this would send data to the server
+                    this.confirmationShown = true;
+                },
+                
+                resetForm() {
+                    this.selectedInspection = null;
+                    this.selectedDate = null;
+                    this.selectedTime = null;
+                    this.contactName = '';
+                    this.contactPhone = '';
+                    this.specialInstructions = '';
+                    this.confirmationShown = false;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

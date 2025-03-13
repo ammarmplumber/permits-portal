@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Project Status</title>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html {
+            font-family: serif;
+        }
+        .sample-email {
+            border: 2px dashed #3b82f6;
+            background-color: #eff6ff;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .status-timeline-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+        .status-timeline-item:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.25rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background-color: #3b82f6;
+        }
+        .status-timeline-item:not(:last-child):after {
+            content: '';
+            position: absolute;
+            left: 0.4rem;
+            top: 1.5rem;
+            bottom: 0;
+            width: 0.2rem;
+            background-color: #dbeafe;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div x-data="projectStatus()" class="w-full max-w-6xl mx-auto px-4 py-8">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold mb-3">Check Project Status</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Track the progress of your permit applications and projects</p>
+        </header>
+
+        <!-- Demo Instructions -->
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
+            <p class="font-bold">Demo Instructions:</p>
+            <ul class="list-disc ml-5 mt-1">
+                <li>Enter <code>applicant@example.com</code> for email</li>
+                <li>Enter <code>PERM-2024-0789</code> for residential addition permit</li>
+                <li>Enter <code>COMM-2024-0123</code> for commercial remodel permit</li>
+                <li>Enter any other combination for "no permit found" error</li>
+            </ul>
+        </div>
+
+        <!-- Status Lookup Form -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4 flex items-center">
+                <span class="text-3xl mr-3">🔍</span>
+                Look Up Your Project
+            </h2>
+            
+            <form @submit.prevent="lookupProject">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Email Address</label>
+                        <input 
+                            type="email" 
+                            x-model="email" 
+                            placeholder="Email used for application" 
+                            class="w-full p-3 border rounded-md"
+                            required
+                        >
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Permit Application ID</label>
+                        <input 
+                            type="text" 
+                            x-model="permitId" 
+                            placeholder="e.g. PERM-2024-0789" 
+                            class="w-full p-3 border rounded-md"
+                            required
+                        >
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <button 
+                        type="submit"
+                        class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-md transition-colors"
+                    >
+                        Check Status
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Error Message -->
+        <div x-show="showError" class="bg-red-50 border-l-4 border-red-500 p-4 mb-8">
+            <p class="font-bold text-red-700">No permit found matching these credentials.</p>
+            <p class="text-red-600">Please verify your permit application ID and email address. If you continue to experience issues, please contact the Building Department at (555) 123-4567.</p>
+        </div>
+
+        <!-- Results Section -->
+        <div x-show="permitFound" class="space-y-8">
+            <div class="bg-blue-50 border-blue-200 border rounded-lg p-6">
+                <h2 class="text-xl font-bold mb-4">Sample Email That Would Be Sent</h2>
+                <div class="sample-email">
+                    <div class="border-b border-gray-300 pb-2 mb-2">
+                        <div><strong>From:</strong> buildingdept@cityname.gov</div>
+                        <div><strong>To:</strong> <span x-text="email"></span></div>
+                        <div><strong>Subject:</strong> Status Update for Application <span x-text="permitId"></span></div>
+                    </div>
+                    <div>
+                        <p class="mb-4">Dear <span x-text="permitDetails.applicantName"></span>,</p>
+                        
+                        <p class="mb-4">This is an automated status update for your permit application:</p>
+                        
+                        <div class="bg-gray-100 p-4 rounded-md mb-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <p><strong>Application ID:</strong> <span x-text="permitId"></span></p>
+                                    <p><strong>Project Address:</strong> <span x-text="permitDetails.projectAddress"></span></p>
+                                    <p><strong>Project Type:</strong> <span x-text="permitDetails.projectType"></span></p>
+                                </div>
+                                <div>
+                                    <p><strong>Submit Date:</strong> <span x-text="permitDetails.submitDate"></span></p>
+                                    <p><strong>Current Status:</strong> <span x-text="permitDetails.currentStatus"></span></p>
+                                    <p><strong>Updated:</strong> <span x-text="permitDetails.lastUpdate"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h4 class="font-bold text-lg mb-2">Project Timeline</h4>
+                        <div class="mb-4">
+                            <template x-for="(event, index) in permitDetails.timeline" :key="index">
+                                <div class="status-timeline-item">
+                                    <p class="font-bold" x-text="event.date + ' - ' + event.status"></p>
+                                    <p class="text-gray-700" x-text="event.description"></p>
+                                    <p x-show="event.notes" class="text-sm italic mt-1" x-text="event.notes"></p>
+                                </div>
+                            </template>
+                        </div>
+                        
+                        <template x-if="permitDetails.reviewComments && permitDetails.reviewComments.length > 0">
+                            <div class="mb-4">
+                                <h4 class="font-bold text-lg mb-2">Review Comments</h4>
+                                <div class="bg-yellow-50 p-4 rounded-md">
+                                    <template x-for="(comment, index) in permitDetails.reviewComments" :key="index">
+                                        <div class="mb-3 pb-3 border-b border-yellow-100 last:border-0">
+                                            <p class="font-bold" x-text="comment.reviewer + ' - ' + comment.date"></p>
+                                            <p x-text="comment.comment"></p>
+                                            <div x-show="comment.response" class="mt-2 ml-4 p-2 bg-white rounded">
+                                                <p class="text-sm"><strong>Your Response:</strong> <span x-text="comment.response"></span></p>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                        
+                        <template x-if="permitDetails.inspections && permitDetails.inspections.length > 0">
+                            <div class="mb-4">
+                                <h4 class="font-bold text-lg mb-2">Inspection Status</h4>
+                                <table class="w-full border-collapse">
+                                    <thead>
+                                        <tr class="bg-gray-100">
+                                            <th class="p-2 text-left border">Inspection Type</th>
+                                            <th class="p-2 text-left border">Status</th>
+                                            <th class="p-2 text-left border">Date</th>
+                                            <th class="p-2 text-left border">Notes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template x-for="(inspection, index) in permitDetails.inspections" :key="index">
+                                            <tr>
+                                                <td class="p-2 border" x-text="inspection.type"></td>
+                                                <td class="p-2 border">
+                                                    <span 
+                                                        :class="inspection.status === 'PASSED' ? 'bg-green-100 text-green-800' : 
+                                                                inspection.status === 'FAILED' ? 'bg-red-100 text-red-800' : 
+                                                                inspection.status === 'SCHEDULED' ? 'bg-blue-100 text-blue-800' : 
+                                                                'bg-gray-100 text-gray-800'"
+                                                        class="px-2 py-1 rounded text-sm font-medium"
+                                                        x-text="inspection.status"
+                                                    ></span>
+                                                </td>
+                                                <td class="p-2 border" x-text="inspection.date || 'N/A'"></td>
+                                                <td class="p-2 border" x-text="inspection.notes || 'None'"></td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </template>
+                        
+                        <template x-if="permitDetails.requiredAction">
+                            <div class="mb-4 bg-red-50 p-4 rounded-md border-l-4 border-red-500">
+                                <h4 class="font-bold text-lg mb-2">Action Required</h4>
+                                <p x-text="permitDetails.requiredAction"></p>
+                                <p class="mt-2 font-medium">Please respond by: <span x-text="permitDetails.actionDeadline"></span></p>
+                            </div>
+                        </template>
+                        
+                        <h4 class="font-bold text-lg mb-2">Next Steps</h4>
+                        <p x-text="permitDetails.nextSteps"></p>
+                        
+                        <div class="mt-4">
+                            <p>If you have any questions about your application, please contact the Building Department:</p>
+                            <p><strong>Phone:</strong> (555) 123-4567</p>
+                            <p><strong>Email:</strong> permits@cityname.gov</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-bold mb-4">Need Help?</h2>
+                <p>If you have questions about your permit status or need assistance with your project, our staff is available to help.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                    <div>
+                        <h3 class="font-bold text-lg mb-2">Building Department</h3>
+                        <p class="mb-1">123 City Hall Way</p>
+                        <p class="mb-1">Anytown, ST 12345</p>
+                        <p class="mb-1">Hours: Monday-Friday, 8am-5pm</p>
+                        <p class="font-semibold">Phone: (555) 123-4567</p>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-2">Common Questions</h3>
+                        <ul class="list-disc ml-5">
+                            <li>How long does the review process take?</li>
+                            <li>What if I need to modify my application?</li>
+                            <li>How do I pay my permit fees?</li>
+                            <li>When can I start construction?</li>
+                        </ul>
+                        <a href="/faq" class="text-blue-500 hover:underline inline-block mt-2">View our FAQ page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function projectStatus() {
+            return {
+                email: '',
+                permitId: '',
+                permitFound: false,
+                showError: false,
+                permitDetails: null,
+                
+                lookupProject() {
+                    this.showError = false;
+                    this.permitFound = false;
+                    
+                    // Demo logic - in a real app this would be an API call
+                    if (this.email === 'applicant@example.com') {
+                        if (this.permitId === 'PERM-2024-0789') {
+                            this.permitDetails = this.residentialPermit;
+                            this.permitFound = true;
+                        } else if (this.permitId === 'COMM-2024-0123') {
+                            this.permitDetails = this.commercialPermit;
+                            this.permitFound = true;
+                        } else {
+                            this.showError = true;
+                        }
+                    } else {
+                        this.showError = true;
+                    }
+                },
+                
+                // Sample data for residential permit
+                residentialPermit: {
+                    applicantName: 'John Smith',
+                    projectAddress: '456 Maple Street, Anytown, ST 12345',
+                    projectType: 'Residential Addition (650 sq ft)',
+                    submitDate: 'January 15, 2024',
+                    currentStatus: 'UNDER REVIEW - PLANNING',
+                    lastUpdate: 'March 10, 2024',
+                    
+                    timeline: [
+                        {
+                            date: 'January 15, 2024',
+                            status: 'SUBMITTED',
+                            description: 'Initial application submitted with plans'
+                        },
+                        {
+                            date: 'January 16, 2024',
+                            status: 'FEES DUE',
+                            description: 'Application accepted, review fees assessed'
+                        },
+                        {
+                            date: 'January 17, 2024',
+                            status: 'PAYMENT RECEIVED',
+                            description: 'Payment of $850.00 received for review fees'
+                        },
+                        {
+                            date: 'January 20, 2024',
+                            status: 'UNDER REVIEW - ZONING',
+                            description: 'Application assigned to zoning reviewer'
+                        },
+                        {
+                            date: 'February 3, 2024',
+                            status: 'REVISIONS REQUIRED',
+                            description: 'Zoning review completed with comments',
+                            notes: 'Setback requirements not met on north side'
+                        },
+                        {
+                            date: 'February 15, 2024',
+                            status: 'REVISIONS SUBMITTED',
+                            description: 'Revised plans submitted addressing zoning issues'
+                        },
+                        {
+                            date: 'February 20, 2024',
+                            status: 'ZONING APPROVED',
+                            description: 'Zoning review completed and approved'
+                        },
+                        {
+                            date: 'February 21, 2024',
+                            status: 'UNDER REVIEW - PLANNING',
+                            description: 'Application assigned to planning reviewer'
+                        }
+                    ],
+                    
+                    reviewComments: [
+                        {
+                            reviewer: 'Sarah Johnson, Zoning',
+                            date: 'February 3, 2024',
+                            comment: 'The proposed addition does not meet the required 15-ft side setback on the north property line. Current plans show only 10-ft setback.',
+                            response: 'Revised plans submitted on Feb 15 with corrected 15-ft setback'
+                        },
+                        {
+                            reviewer: 'Mark Wilson, Planning',
+                            date: 'March 7, 2024',
+                            comment: 'The exterior materials don\'t match the existing structure as required by neighborhood design guidelines. Please revise to show matching materials.',
+                            response: null
+                        }
+                    ],
+                    
+                    requiredAction: 'Please submit revised plans showing exterior materials that match the existing home, including siding type, color, and window trim details.',
+                    actionDeadline: 'March 20, 2024',
+                    
+                    nextSteps: 'After planning review is complete, your application will be reviewed by building, electrical, and plumbing departments. Once all reviews are approved, your permit will be issued pending final fee payment.',
+                    
+                    inspections: []
+                },
+                
+                // Sample data for commercial permit
+                commercialPermit: {
+                    applicantName: 'Jane Doe, ABC Properties',
+                    projectAddress: '789 Commerce Way, Anytown, ST 12345',
+                    projectType: 'Commercial Remodel - Restaurant (2,500 sq ft)',
+                    submitDate: 'November 10, 2023',
+                    currentStatus: 'ISSUED - CONSTRUCTION IN PROGRESS',
+                    lastUpdate: 'March 5, 2024',
+                    
+                    timeline: [
+                        {
+                            date: 'November 10, 2023',
+                            status: 'SUBMITTED',
+                            description: 'Initial application submitted with plans'
+                        },
+                        {
+                            date: 'November 12, 2023',
+                            status: 'FEES DUE',
+                            description: 'Application accepted, review fees assessed'
+                        },
+                        {
+                            date: 'November 13, 2023',
+                            status: 'PAYMENT RECEIVED',
+                            description: 'Payment of $2,750.00 received for review fees'
+                        },
+                        {
+                            date: 'November 15, 2023',
+                            status: 'UNDER REVIEW - MULTIPLE',
+                            description: 'Application assigned to zoning, building, fire, health, and utilities reviewers'
+                        },
+                        {
+                            date: 'December 5, 2023',
+                            status: 'REVISIONS REQUIRED',
+                            description: 'Multiple review comments received',
+                            notes: 'Issues with fire exits, grease trap sizing, and ADA compliance'
+                        },
+                        {
+                            date: 'December 22, 2023',
+                            status: 'REVISIONS SUBMITTED',
+                            description: 'Revised plans submitted addressing all comments'
+                        },
+                        {
+                            date: 'January 10, 2024',
+                            status: 'APPROVED',
+                            description: 'All reviews completed and approved'
+                        },
+                        {
+                            date: 'January 11, 2024',
+                            status: 'FEES DUE',
+                            description: 'Permit fees assessed'
+                        },
+                        {
+                            date: 'January 12, 2024',
+                            status: 'PAYMENT RECEIVED',
+                            description: 'Payment of $5,200.00 received for permit fees'
+                        },
+                        {
+                            date: 'January 15, 2024',
+                            status: 'ISSUED',
+                            description: 'Permit issued, construction may begin'
+                        }
+                    ],
+                    
+                    reviewComments: [
+                        {
+                            reviewer: 'Robert Chen, Fire Safety',
+                            date: 'December 1, 2023',
+                            comment: 'Exit paths do not meet code requirements. Secondary exit from kitchen area is blocked by equipment. Fire suppression system for hood does not meet current standards.',
+                            response: 'Revised kitchen layout to provide clear exit path. Updated fire suppression specifications per code.'
+                        },
+                        {
+                            reviewer: 'Lisa Martinez, Health',
+                            date: 'December 3, 2023',
+                            comment: 'Grease trap is undersized for proposed use. Handwashing sink locations insufficient.',
+                            response: 'Increased grease trap to 1,000 gallon capacity. Added two additional handwashing stations.'
+                        },
+                        {
+                            reviewer: 'David Williams, Building',
+                            date: 'December 5, 2023',
+                            comment: 'Restroom facilities do not meet ADA requirements. Door clearances insufficient.',
+                            response: 'Redesigned restrooms to meet all ADA requirements including turning radius and fixture heights.'
+                        }
+                    ],
+                    
+                    requiredAction: null,
+                    
+                    nextSteps: 'Schedule required inspections as your project progresses. Current stage requires rough-in inspections for framing, electrical, plumbing, and mechanical before walls are closed in.',
+                    
+                    inspections: [
+                        {
+                            type: 'Demolition',
+                            status: 'PASSED',
+                            date: 'January 20, 2024',
+                            notes: null
+                        },
+                        {
+                            type: 'Underground Plumbing',
+                            status: 'PASSED',
+                            date: 'February 5, 2024',
+                            notes: null
+                        },
+                        {
+                            type: 'Framing',
+                            status: 'FAILED',
+                            date: 'February 15, 2024',
+                            notes: 'Fire blocking missing at ceiling penetrations. Fire-rated wall assembly incomplete.'
+                        },
+                        {
+                            type: 'Framing Re-inspection',
+                            status: 'PASSED',
+                            date: 'February 22, 2024',
+                            notes: null
+                        },
+                        {
+                            type: 'Electrical Rough-in',
+                            status: 'SCHEDULED',
+                            date: 'March 15, 2024',
+                            notes: null
+                        },
+                        {
+                            type: 'Plumbing Rough-in',
+                            status: 'SCHEDULED',
+                            date: 'March 15, 2024',
+                            notes: null
+                        },
+                        {
+                            type: 'Mechanical Rough-in',
+                            status: 'SCHEDULED',
+                            date: 'March 15, 2024',
+                            notes: null
+                        },
+                        {
+                            type: 'Fire Sprinkler Rough-in',
+                            status: 'PENDING',
+                            date: null,
+                            notes: null
+                        },
+                        {
+                            type: 'Insulation',
+                            status: 'PENDING',
+                            date: null,
+                            notes: null
+                        },
+                        {
+                            type: 'Final Building',
+                            status: 'PENDING',
+                            date: null,
+                            notes: null
+                        },
+                        {
+                            type: 'Final Electrical',
+                            status: 'PENDING',
+                            date: null,
+                            notes: null
+                        },
+                        {
+                            type: 'Final Plumbing',
+                            status: 'PENDING',
+                            date: null,
+                            notes: null
+                        },
+                        {
+                            type: 'Final Mechanical',
+                            status: 'PENDING',
+                            date: null,
+                            notes: null
+                        },
+                        {
+                            type: 'Final Fire',
+                            status: 'PENDING',
+                            date: null,
+                            notes: null
+                        },
+                        {
+                            type: 'Health Department',
+                            status: 'PENDING',
+                            date: null,
+                            notes: null
+                        }
+                    ]
+                }
+            }
+        }
+    </script>
+</body>
+</html>
