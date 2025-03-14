@@ -574,7 +574,7 @@ export default async function handler(req: Request, context: Context) {
                 messages: conversation,
                 response_format: {
                     type: "json_schema",
-                    schema: residentialPermitSchemaWrapper.schema // FIXED: Use just the schema part
+                    json_schema: residentialPermitSchemaWrapper,
                 },
             });
             
