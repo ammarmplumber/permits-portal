@@ -29,7 +29,7 @@
     IMPORTANT: Do NOT ask for basic contact information, address, or property owner details as those are handled separately in the form.
 
     PERMIT TYPE DETERMINATION FLOW:
-    - For mentions of "new home", "new house", or similar => New Residential Construction
+    - For mentions of "new home", "new house", or similar => New Construction
     - For mentions of "addition", "adding room", "extending" => Residential Addition
     - For mentions of "renovate", "remodel", "update interior" => Residential Remodel
     - For mentions of "electrical", "wiring", "panel", "outlets" => Residential Electrical
