@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <title>Residential Permit Application</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-
 <body class="bg-gray-100 min-h-screen pb-12">
   <div class="container mx-auto p-6">
     <header class="bg-white shadow rounded p-6 mb-6">
@@ -18,14 +16,12 @@
       <div class="flex">
         <div class="flex-shrink-0">
           <svg class="h-5 w-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd"
-              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-              clip-rule="evenodd"></path>
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
           </svg>
         </div>
         <div class="ml-3">
           <p class="text-sm text-blue-800">
-            You can get AI assistance to help complete this form.
+            You can get AI assistance to help complete this form. 
             <button id="aiAssistBtn" class="font-medium underline hover:text-blue-600">
               Use AI Assistant
             </button>
@@ -36,29 +32,29 @@
 
     <!-- Main Form -->
     <form id="permitForm" class="bg-white shadow rounded p-6">
-
+      
       <!-- Contact & Address Information Section - Always preserved -->
       <div class="mb-8" id="contactInfoSection">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">Applicant & Property Information</h2>
-
+        
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
           <div>
             <label for="applicantName" class="block font-semibold mb-1">Applicant Name *</label>
             <input type="text" id="applicantName" name="applicantName" class="border p-2 w-full rounded" required>
           </div>
-
+          
           <div>
             <label for="applicantEmail" class="block font-semibold mb-1">Email *</label>
             <input type="email" id="applicantEmail" name="applicantEmail" class="border p-2 w-full rounded" required>
           </div>
         </div>
-
+        
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
           <div>
             <label for="applicantPhone" class="block font-semibold mb-1">Phone *</label>
             <input type="tel" id="applicantPhone" name="applicantPhone" class="border p-2 w-full rounded" required>
           </div>
-
+          
           <div>
             <label class="block font-semibold mb-1">Are you the property owner?</label>
             <div class="flex items-center space-x-4">
@@ -73,55 +69,55 @@
             </div>
           </div>
         </div>
-
+        
         <div id="propertyOwnerSection" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
           <div>
             <label for="ownerName" class="block font-semibold mb-1">Property Owner Name *</label>
             <input type="text" id="ownerName" name="ownerName" class="border p-2 w-full rounded" required>
           </div>
-
+          
           <div>
             <label for="ownerContact" class="block font-semibold mb-1">Property Owner Phone/Email *</label>
             <input type="text" id="ownerContact" name="ownerContact" class="border p-2 w-full rounded" required>
           </div>
         </div>
-
+        
         <h3 class="font-semibold mt-4 mb-2">Property Address</h3>
-
+        
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
           <div>
             <label for="propertyAddress" class="block font-semibold mb-1">Street Address *</label>
             <input type="text" id="propertyAddress" name="propertyAddress" class="border p-2 w-full rounded" required>
           </div>
-
+          
           <div>
             <label for="propertyUnit" class="block font-semibold mb-1">Unit/Apt/Suite</label>
             <input type="text" id="propertyUnit" name="propertyUnit" class="border p-2 w-full rounded">
           </div>
         </div>
-
+        
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <label for="propertyCity" class="block font-semibold mb-1">City *</label>
             <input type="text" id="propertyCity" name="propertyCity" class="border p-2 w-full rounded" required>
           </div>
-
+          
           <div>
             <label for="propertyState" class="block font-semibold mb-1">State *</label>
             <input type="text" id="propertyState" name="propertyState" class="border p-2 w-full rounded" required>
           </div>
-
+          
           <div>
             <label for="propertyZip" class="block font-semibold mb-1">ZIP Code *</label>
             <input type="text" id="propertyZip" name="propertyZip" class="border p-2 w-full rounded" required>
           </div>
         </div>
       </div>
-
+      
       <!-- Basic Permit Information - Will be cleared and populated by AI -->
       <div class="mb-8" id="basicPermitSection">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">1. Basic Permit Information</h2>
-
+        
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Permit Type - This drives conditional sections -->
           <div>
@@ -149,47 +145,44 @@
 
           <div>
             <label for="projectDescription" class="block font-semibold mb-1">Project Description *</label>
-            <textarea id="projectDescription" name="projectDescription" rows="3" class="border p-2 w-full rounded"
-              required></textarea>
+            <textarea id="projectDescription" name="projectDescription" rows="3" class="border p-2 w-full rounded" required></textarea>
           </div>
         </div>
-
+        
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
           <div>
             <label for="squareFootage" class="block font-semibold mb-1">Square Footage</label>
             <input type="number" id="squareFootage" name="squareFootage" class="border p-2 w-full rounded">
           </div>
-
+          
           <div>
             <label for="estimatedValue" class="block font-semibold mb-1">Estimated Value ($)</label>
             <input type="number" id="estimatedValue" name="estimatedValue" class="border p-2 w-full rounded">
           </div>
-
+          
           <div>
             <label for="stories" class="block font-semibold mb-1">Number of Stories</label>
             <input type="number" id="stories" name="stories" class="border p-2 w-full rounded" min="1" max="10">
           </div>
         </div>
       </div>
-
+      
       <!-- Conditional Sections - Visible based on permit type -->
-
+      
       <!-- New Construction Section -->
       <div id="newConstructionSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. New Construction Details</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label for="newConst_bedrooms" class="block font-semibold mb-1">Number of Bedrooms</label>
-            <input type="number" id="newConst_bedrooms" name="newConst_bedrooms" class="border p-2 w-full rounded"
-              min="0">
+            <input type="number" id="newConst_bedrooms" name="newConst_bedrooms" class="border p-2 w-full rounded" min="0">
           </div>
           <div>
             <label for="newConst_bathrooms" class="block font-semibold mb-1">Number of Bathrooms</label>
-            <input type="number" id="newConst_bathrooms" name="newConst_bathrooms" class="border p-2 w-full rounded"
-              min="0" step="0.5">
+            <input type="number" id="newConst_bathrooms" name="newConst_bathrooms" class="border p-2 w-full rounded" min="0" step="0.5">
           </div>
         </div>
-
+        
         <div class="mt-4">
           <h3 class="font-semibold">Required Documents:</h3>
           <ul class="list-disc pl-6 mt-2 text-sm">
@@ -198,15 +191,14 @@
             <li>MEP (Mechanical, Electrical, Plumbing) plans</li>
             <li>Site plan showing setbacks and easements</li>
           </ul>
-
+          
           <div class="mt-4">
             <label for="newConst_plans" class="block font-semibold mb-1">Upload Plans (PDF) *</label>
-            <input type="file" id="newConst_plans" name="newConst_plans" class="border p-2 w-full rounded"
-              accept=".pdf">
+            <input type="file" id="newConst_plans" name="newConst_plans" class="border p-2 w-full rounded" accept=".pdf">
           </div>
         </div>
       </div>
-
+      
       <!-- Addition Section -->
       <div id="additionSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Addition Details</h2>
@@ -223,7 +215,7 @@
               <option value="other">Other</option>
             </select>
           </div>
-
+          
           <div>
             <label class="block font-semibold mb-1">Affects Load-Bearing Walls?</label>
             <div class="flex items-center space-x-4">
@@ -242,14 +234,13 @@
             </div>
           </div>
         </div>
-
+        
         <div class="mt-4">
           <div id="engineeringLetterWarning" class="bg-yellow-50 border border-yellow-200 text-yellow-800 p-3 rounded">
-            <p><strong>Note:</strong> If your addition affects load-bearing walls, an engineering letter will be
-              required.</p>
+            <p><strong>Note:</strong> If your addition affects load-bearing walls, an engineering letter will be required.</p>
           </div>
         </div>
-
+        
         <div class="mt-4">
           <h3 class="font-semibold">Required Documents:</h3>
           <ul class="list-disc pl-6 mt-2 text-sm">
@@ -258,19 +249,18 @@
             <li>Engineering letter (if load-bearing walls affected)</li>
             <li>Structural details</li>
           </ul>
-
+          
           <div class="mt-4">
             <label for="addition_plans" class="block font-semibold mb-1">Upload Plans (PDF) *</label>
-            <input type="file" id="addition_plans" name="addition_plans" class="border p-2 w-full rounded"
-              accept=".pdf">
+            <input type="file" id="addition_plans" name="addition_plans" class="border p-2 w-full rounded" accept=".pdf">
           </div>
         </div>
       </div>
-
+      
       <!-- Remodel Section -->
       <div id="remodelSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Remodel Details</h2>
-
+        
         <div class="mb-4">
           <label class="block font-semibold mb-1">Will walls be removed?</label>
           <div class="flex items-center space-x-4">
@@ -284,7 +274,7 @@
             </label>
           </div>
         </div>
-
+        
         <div class="mb-4">
           <label class="block font-semibold mb-1">Is room use changing?</label>
           <div class="flex items-center space-x-4">
@@ -298,7 +288,7 @@
             </label>
           </div>
         </div>
-
+        
         <div class="mt-4" id="remodelWarning">
           <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 p-3 rounded">
             <p><strong>Note:</strong> A permit is only required for remodels if:</p>
@@ -309,25 +299,25 @@
             </ul>
           </div>
         </div>
-
+        
         <div class="mt-4">
           <h3 class="font-semibold">Required Documents:</h3>
           <ul class="list-disc pl-6 mt-2 text-sm">
             <li>Floor plans showing before/after (if walls changing)</li>
             <li>Description of changes</li>
           </ul>
-
+          
           <div class="mt-4">
             <label for="remodel_plans" class="block font-semibold mb-1">Upload Plans (PDF)</label>
             <input type="file" id="remodel_plans" name="remodel_plans" class="border p-2 w-full rounded" accept=".pdf">
           </div>
         </div>
       </div>
-
+      
       <!-- Electrical Section -->
       <div id="electricalSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Electrical Details</h2>
-
+        
         <div class="mb-4">
           <label for="electrical_work_type" class="block font-semibold mb-1">Type of Electrical Work *</label>
           <select id="electrical_work_type" name="electrical_work_type" class="border p-2 w-full rounded">
@@ -339,7 +329,7 @@
             <option value="other">Other</option>
           </select>
         </div>
-
+        
         <div class="mb-4">
           <label class="block font-semibold mb-1">Work Performed By:</label>
           <div class="flex items-center space-x-4">
@@ -353,7 +343,7 @@
             </label>
           </div>
         </div>
-
+        
         <div id="homeownerTest" class="mb-4 hidden">
           <label class="block font-semibold mb-1">Have you passed the homeowner electrical test?</label>
           <div class="flex items-center space-x-4">
@@ -370,52 +360,48 @@
             Note: Homeowners must pass a test to obtain an electrical permit for DIY work.
           </div>
         </div>
-
+        
         <div id="electricianInfo" class="mb-4">
           <label for="electrician_name" class="block font-semibold mb-1">Electrician Name *</label>
           <input type="text" id="electrician_name" name="electrician_name" class="border p-2 w-full rounded">
-
+          
           <label for="electrician_license" class="block font-semibold mb-1 mt-3">License Number *</label>
           <input type="text" id="electrician_license" name="electrician_license" class="border p-2 w-full rounded">
         </div>
-
+        
         <div class="mt-4">
           <h3 class="font-semibold">Required Documents:</h3>
           <ul class="list-disc pl-6 mt-2 text-sm">
             <li>Electrical diagram (for major work)</li>
             <li>Electrician license information (or proof of homeowner test)</li>
           </ul>
-
+          
           <div class="mt-4">
-            <label for="electrical_diagram" class="block font-semibold mb-1">Upload Electrical Diagram (if
-              applicable)</label>
-            <input type="file" id="electrical_diagram" name="electrical_diagram" class="border p-2 w-full rounded"
-              accept=".pdf,.jpg,.png">
+            <label for="electrical_diagram" class="block font-semibold mb-1">Upload Electrical Diagram (if applicable)</label>
+            <input type="file" id="electrical_diagram" name="electrical_diagram" class="border p-2 w-full rounded" accept=".pdf,.jpg,.png">
           </div>
         </div>
       </div>
-
+      
       <!-- Fee Calculation Section - Always visible -->
       <div class="mb-8 bg-gray-50 p-4 rounded">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">Estimated Fee Calculation</h2>
-
+        
         <div id="feeCalculation">
           <p class="mb-2">Based on the information provided, the estimated permit fee is:</p>
           <div class="text-2xl font-bold" id="estimatedFee">$0.00</div>
-          <p class="text-sm text-gray-600 mt-1">This is an estimate only. Final fees will be determined during permit
-            review.</p>
+          <p class="text-sm text-gray-600 mt-1">This is an estimate only. Final fees will be determined during permit review.</p>
         </div>
-
+        
         <div id="feeDetails" class="mt-4 text-sm">
           <p class="font-semibold">Fee structure:</p>
           <div id="feeStructureText">Select a permit type to see fee details.</div>
         </div>
       </div>
-
+      
       <!-- Form Submission -->
       <div class="flex justify-between items-center">
-        <button type="button" id="saveForLater"
-          class="bg-gray-300 text-gray-800 px-4 py-2 rounded shadow hover:bg-gray-400">
+        <button type="button" id="saveForLater" class="bg-gray-300 text-gray-800 px-4 py-2 rounded shadow hover:bg-gray-400">
           Save for Later
         </button>
         <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700">
@@ -423,33 +409,29 @@
         </button>
       </div>
     </form>
-
+    
     <!-- AI Assistant Modal -->
     <div id="aiAssistModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
       <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-screen overflow-y-auto">
         <div class="border-b px-4 py-3 flex justify-between items-center">
           <h3 class="text-lg font-semibold">AI Permit Assistant</h3>
           <button id="closeModal" class="text-gray-500 hover:text-gray-700">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
           </button>
         </div>
-
+        
         <div class="p-4">
           <div id="aiChat" class="mb-4">
             <div class="bg-blue-50 p-3 rounded-lg mb-3">
               <p class="font-semibold text-blue-800">AI Assistant</p>
-              <p>I can help you determine which permit you need and pre-fill the form. What type of project are you
-                working on?</p>
+              <p>I can help you determine which permit you need and pre-fill the form. What type of project are you working on?</p>
             </div>
-
+            
             <!-- Chat messages will be appended here -->
           </div>
-
+          
           <div class="border-t pt-3 flex">
-            <input type="text" id="userInput" placeholder="Describe your project..."
-              class="border p-2 rounded flex-grow">
+            <input type="text" id="userInput" placeholder="Describe your project..." class="border p-2 rounded flex-grow">
             <button id="sendToAI" class="bg-blue-600 text-white px-4 py-2 rounded ml-2">Send</button>
           </div>
         </div>
@@ -458,27 +440,27 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
       // Check for GET parameter to set permit type
       const urlParams = new URLSearchParams(window.location.search);
       const presetPermitType = urlParams.get('permitType');
-
+      
       if (presetPermitType) {
         const permitTypeSelect = document.getElementById('permitType');
         // Find matching option
         Array.from(permitTypeSelect.options).forEach(option => {
-          if (option.value === presetPermitType ||
-            option.textContent.toLowerCase() === presetPermitType.toLowerCase().replace(/_/g, ' ')) {
+          if (option.value === presetPermitType || 
+              option.textContent.toLowerCase() === presetPermitType.toLowerCase().replace(/_/g, ' ')) {
             option.selected = true;
             permitTypeSelect.dispatchEvent(new Event('change'));
           }
         });
       }
-
+      
       // Property owner toggle
       const isPropertyOwner = document.getElementsByName('isPropertyOwner');
       isPropertyOwner.forEach(radio => {
-        radio.addEventListener('change', function () {
+        radio.addEventListener('change', function() {
           const propertyOwnerSection = document.getElementById('propertyOwnerSection');
           if (this.value === 'yes') {
             propertyOwnerSection.classList.add('hidden');
@@ -487,25 +469,25 @@
           }
         });
       });
-
+      
       // Form sections display logic
       const permitType = document.getElementById('permitType');
       const sections = document.querySelectorAll('.permit-section');
-
+      
       // Update visible sections based on permit type
-      permitType.addEventListener('change', function () {
+      permitType.addEventListener('change', function() {
         // Hide all sections first
         sections.forEach(section => {
           section.classList.add('hidden');
         });
-
+        
         // Show relevant section based on selection
         const selectedValue = this.value;
-
+        
         if (selectedValue === 'new_construction') {
           document.getElementById('newConstructionSection').classList.remove('hidden');
           updateFeeStructure('Value Based', '3% of construction value');
-        }
+        } 
         else if (selectedValue === 'addition') {
           document.getElementById('additionSection').classList.remove('hidden');
           updateFeeStructure('Value Based', '2.5% of construction value');
@@ -519,15 +501,15 @@
           updateFeeStructure('Fixed', '$80 base fee plus $10 per circuit');
         }
         // Additional conditions for other permit types would go here
-
+        
         // Recalculate fee
         calculateFee();
       });
-
+      
       // Toggle homeowner test section based on who's performing the work
       const electricalPerformedBy = document.getElementsByName('electrical_performed_by');
       electricalPerformedBy.forEach(radio => {
-        radio.addEventListener('change', function () {
+        radio.addEventListener('change', function() {
           if (this.value === 'homeowner') {
             document.getElementById('homeownerTest').classList.remove('hidden');
             document.getElementById('electricianInfo').classList.add('hidden');
@@ -537,14 +519,14 @@
           }
         });
       });
-
+      
       // Estimated value and square footage for fee calculation
       const estimatedValue = document.getElementById('estimatedValue');
       const squareFootage = document.getElementById('squareFootage');
-
+      
       estimatedValue.addEventListener('input', calculateFee);
       squareFootage.addEventListener('input', calculateFee);
-
+      
       // AI Assistant Modal
       const aiAssistBtn = document.getElementById('aiAssistBtn');
       const aiAssistModal = document.getElementById('aiAssistModal');
@@ -552,89 +534,89 @@
       const userInput = document.getElementById('userInput');
       const sendToAI = document.getElementById('sendToAI');
       const aiChat = document.getElementById('aiChat');
-
+      
       // Store conversation history
       let messageHistory = [];
-
-      aiAssistBtn.addEventListener('click', function () {
+      
+      aiAssistBtn.addEventListener('click', function() {
         aiAssistModal.classList.remove('hidden');
-
+        
         // If this is the first time opening the modal, add initial message
         if (messageHistory.length === 0) {
           messageHistory.push({
-            role: "assistant",
+            role: "assistant", 
             content: "I can help you determine which permit you need and pre-fill the form. What type of project are you working on?"
           });
         }
       });
-
-      closeModal.addEventListener('click', function () {
+      
+      closeModal.addEventListener('click', function() {
         aiAssistModal.classList.add('hidden');
       });
-
-      sendToAI.addEventListener('click', function () {
+      
+      sendToAI.addEventListener('click', function() {
         sendUserMessage();
       });
-
-      userInput.addEventListener('keypress', function (e) {
+      
+      userInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
           sendUserMessage();
         }
       });
-
+      
       function sendUserMessage() {
         const message = userInput.value.trim();
         if (message) {
           // Add user message to chat
           appendUserMessage(message);
-
+          
           // Add to history
           messageHistory.push({
             role: "user",
             content: message
           });
-
+          
           // Clear input field
           userInput.value = '';
-
+          
           // Call API with entire message history
           callPermitAssistantAPI(messageHistory);
         }
       }
-
+      
       function appendUserMessage(message) {
         const messageDiv = document.createElement('div');
         messageDiv.className = 'bg-gray-100 p-3 rounded-lg mb-3 ml-12 mr-3';
-
+        
         const textP = document.createElement('p');
         textP.textContent = message;
-
+        
         messageDiv.appendChild(textP);
         aiChat.appendChild(messageDiv);
-
+        
         // Scroll to bottom
         aiChat.scrollTop = aiChat.scrollHeight;
       }
-
+      
       function appendAIMessage(message) {
         const messageDiv = document.createElement('div');
         messageDiv.className = 'bg-blue-50 p-3 rounded-lg mb-3';
-
+        
         const titleP = document.createElement('p');
         titleP.className = 'font-semibold text-blue-800';
         titleP.textContent = 'AI Assistant';
-
+        
         const textP = document.createElement('p');
         textP.textContent = message;
-
+        
         messageDiv.appendChild(titleP);
         messageDiv.appendChild(textP);
         aiChat.appendChild(messageDiv);
-
+        
         // Scroll to bottom
         aiChat.scrollTop = aiChat.scrollHeight;
       }
-
+      
       // Show loading indicator in chat
       function showLoading() {
         const loadingDiv = document.createElement('div');
@@ -654,22 +636,19 @@
         aiChat.appendChild(loadingDiv);
         aiChat.scrollTop = aiChat.scrollHeight;
       }
-
+      
       function removeLoading() {
         const loadingIndicator = document.getElementById('loadingIndicator');
         if (loadingIndicator) {
           aiChat.removeChild(loadingIndicator);
         }
       }
-
+      
       // Call Netlify cloud function
-      // Replace the callPermitAssistantAPI function in your HTML file
       async function callPermitAssistantAPI(messages) {
         showLoading();
-
+        
         try {
-          console.log("Calling API with", messages.length, "messages");
-
           const response = await fetch('/.netlify/functions/permit-assistant', {
             method: 'POST',
             headers: {
@@ -680,79 +659,30 @@
               permitType: 'residential'
             })
           });
-
-          console.log("API response status:", response.status);
-
-          // Get the response text first to debug
-          const responseText = await response.text();
-          console.log("Raw API response:", responseText);
-
-          // Now try to parse as JSON
-          let data;
-          try {
-            data = JSON.parse(responseText);
-          } catch (parseError) {
-            console.error("Failed to parse response as JSON:", parseError);
-            throw new Error("Invalid response format from server");
+          
+          if (!response.ok) {
+            throw new Error('API call failed');
           }
-
+          
+          const data = await response.json();
           removeLoading();
-
-          // Check if there's an error message
-          if (data.error) {
-            console.error("API returned error:", data.error);
-            appendAIMessage("I'm sorry, I encountered an error: " + data.error);
-            return;
-          }
-
-          // Content might be in different places depending on the response structure
-          const message = data.content || data.message;
-
-          if (!message) {
-            console.error("No message content in response:", data);
-            appendAIMessage("I'm sorry, I received an invalid response. Please try again.");
-            return;
-          }
-
+          
           // Add response to chat
-          appendAIMessage(message);
-
+          appendAIMessage(data.message);
+          
           // Add to history
           messageHistory.push({
             role: "assistant",
-            content: message
+            content: data.message
           });
-
-          // Check if we have permit details
-          if (data.content) {
-            // Try to parse the content as JSON if it's a string
-            let permitDetails;
-            try {
-              permitDetails = typeof data.content === 'string' ? JSON.parse(data.content) : data.content;
-              console.log("Parsed permit details:", permitDetails);
-
-              // Check if assessment is complete
-              if (permitDetails.assessment_complete) {
-                populateForm(permitDetails.permit_details);
-
-                // Add final message about form population
-                appendAIMessage("I've populated the form with the details we discussed. Please review and complete any missing information.");
-
-                // Give user time to read final message, then close modal and clear history
-                setTimeout(() => {
-                  aiAssistModal.classList.add('hidden');
-                  messageHistory = [];
-                }, 3000);
-              }
-            } catch (parseError) {
-              console.error("Failed to parse permit details:", parseError);
-            }
-          } else if (data.assessment_complete) {
+          
+          // If assessment is complete, populate form
+          if (data.assessment_complete) {
             populateForm(data.permit_details);
-
+            
             // Add final message about form population
             appendAIMessage("I've populated the form with the details we discussed. Please review and complete any missing information.");
-
+            
             // Give user time to read final message, then close modal and clear history
             setTimeout(() => {
               aiAssistModal.classList.add('hidden');
@@ -762,64 +692,64 @@
         } catch (error) {
           console.error('Error calling API:', error);
           removeLoading();
-          appendAIMessage("I'm sorry, I encountered an error: " + error.message);
+          appendAIMessage("I'm sorry, I encountered an error. Please try again.");
         }
       }
-
+      
       // Populate form with AI-provided details
       function populateForm(permitDetails) {
         // Clear form sections that aren't contact info
         clearFormExceptContactInfo();
-
+        
         // Set permit type and trigger change event to show correct section
         if (permitDetails.permit_type) {
           const permitTypeValue = mapPermitTypeToValue(permitDetails.permit_type);
           document.getElementById('permitType').value = permitTypeValue;
           document.getElementById('permitType').dispatchEvent(new Event('change'));
         }
-
+        
         // Set basic fields
         if (permitDetails.project_description) {
           document.getElementById('projectDescription').value = permitDetails.project_description;
         }
-
+        
         if (permitDetails.square_footage) {
           document.getElementById('squareFootage').value = permitDetails.square_footage;
         }
-
+        
         if (permitDetails.estimated_value) {
           document.getElementById('estimatedValue').value = permitDetails.estimated_value;
         }
-
+        
         if (permitDetails.stories) {
           document.getElementById('stories').value = permitDetails.stories;
         }
-
+        
         // Set permit-specific fields based on type
         const permitTypeValue = document.getElementById('permitType').value;
-
+        
         if (permitTypeValue === 'addition' && permitDetails.addition_type) {
           document.getElementById('addition_type').value = permitDetails.addition_type;
-
+          
           if (permitDetails.affects_load_bearing !== undefined) {
             const loadBearingValue = permitDetails.affects_load_bearing ? 'yes' : 'no';
             document.querySelector(`input[name="affects_load_bearing"][value="${loadBearingValue}"]`).checked = true;
           }
         }
-
+        
         if (permitTypeValue === 'electrical' && permitDetails.electrical_work_type) {
           document.getElementById('electrical_work_type').value = permitDetails.electrical_work_type;
-
+          
           if (permitDetails.electrical_performed_by) {
             document.querySelector(`input[name="electrical_performed_by"][value="${permitDetails.electrical_performed_by}"]`).checked = true;
             document.querySelector(`input[name="electrical_performed_by"][value="${permitDetails.electrical_performed_by}"]`).dispatchEvent(new Event('change'));
           }
         }
-
+        
         // Recalculate fee
         calculateFee();
       }
-
+      
       // Map permit type string to form value
       function mapPermitTypeToValue(permitType) {
         // Simplistic mapping - in a real app, you'd need more comprehensive mapping
@@ -841,30 +771,30 @@
           "Window/Door Replacement": "windows_doors",
           "Residential Concrete": "concrete"
         };
-
+        
         // Try exact match first
         if (mapping[permitType]) {
           return mapping[permitType];
         }
-
+        
         // Try lowercase and remove "residential" for flexibility
         const simplified = permitType.toLowerCase().replace('residential ', '');
-
+        
         for (const [key, value] of Object.entries(mapping)) {
           if (key.toLowerCase().includes(simplified)) {
             return value;
           }
         }
-
+        
         // Default to empty if no match
         return "";
       }
-
+      
       // Clear all form fields except contact information
       function clearFormExceptContactInfo() {
         // Get all form elements in the main form except those in the contact section
         const formElements = document.querySelectorAll('#permitForm input, #permitForm select, #permitForm textarea');
-
+        
         formElements.forEach(element => {
           // Skip elements in the contact info section
           if (!element.closest('#contactInfoSection')) {
@@ -877,32 +807,32 @@
             }
           }
         });
-
+        
         // Reset fee display
         document.getElementById('estimatedFee').textContent = '$0.00';
         document.getElementById('feeStructureText').textContent = 'Select a permit type to see fee details.';
-
+        
         // Hide all permit sections
         sections.forEach(section => {
           section.classList.add('hidden');
         });
       }
-
+      
       // Helper functions
       function updateFeeStructure(type, description) {
         const feeStructureText = document.getElementById('feeStructureText');
         feeStructureText.textContent = `${type}: ${description}`;
       }
-
+      
       function calculateFee() {
         const feeDisplay = document.getElementById('estimatedFee');
         const selectedPermitType = permitType.value;
         const value = parseFloat(estimatedValue.value) || 0;
         const sqft = parseFloat(squareFootage.value) || 0;
-
+        
         let fee = 0;
-
-        switch (selectedPermitType) {
+        
+        switch(selectedPermitType) {
           case 'new_construction':
             fee = value * 0.03;
             break;
@@ -934,27 +864,27 @@
           default:
             fee = 0;
         }
-
+        
         feeDisplay.textContent = `$${fee.toFixed(2)}`;
       }
-
+      
       // Form submission handler
-      document.getElementById('permitForm').addEventListener('submit', function (e) {
+      document.getElementById('permitForm').addEventListener('submit', function(e) {
         e.preventDefault(); // In a real app, you'd process the form data here
-
+        
         // Collect form data
         const formData = new FormData(this);
         const jsonData = {};
-
+        
         for (const [key, value] of formData.entries()) {
           jsonData[key] = value;
         }
-
+        
         console.log('Form data:', jsonData);
-
+        
         // For demonstration, just show an alert
         alert('Form would be submitted here. In a production app, this would be sent to the server or generate an email.');
-
+        
         // In a real app, you'd submit the form data to your backend or Netlify function
         // Example:
         /*
@@ -982,5 +912,4 @@
     });
   </script>
 </body>
-
 </html>

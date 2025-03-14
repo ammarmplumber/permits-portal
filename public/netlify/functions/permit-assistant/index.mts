@@ -514,42 +514,13 @@ const residentialPermitSchemaWrapper = {
  * responds to incoming requests.
  */
 export default async function handler(req: Request, context: Context) {
-    console.log("Function invoked");
-    console.log("API Key exists:", !!process.env.OPENAI_API_KEY);
-    
     try {
-        // Parse incoming POST data with error handling
-        let requestBody;
-        try {
-            requestBody = await req.json();
-            console.log("Request parsed successfully");
-        } catch (parseError) {
-            console.error("Failed to parse request body:", parseError);
-            return new Response(
-                JSON.stringify({ error: "Invalid request format" }),
-                { status: 400, headers: { "Content-Type": "application/json" } }
-            );
-        }
-
-        // Log request body (be careful with sensitive data)
-        console.log("Request body type:", typeof requestBody);
-        console.log("Request body has messages:", !!requestBody?.messages);
-        console.log("Request body has permitType:", requestBody?.permitType);
-        
-        const { messages, permitType } = requestBody;
-
-        // Simple validation
-        if (!messages || !Array.isArray(messages)) {
-            console.error("Invalid messages format");
-            return new Response(
-                JSON.stringify({ error: "Messages must be an array" }),
-                { status: 400, headers: { "Content-Type": "application/json" } }
-            );
-        }
+        // Parse incoming POST data. Netlify automatically parses JSON if
+        // the request has the right headers, but sometimes you'll do it manually:
+        const { messages, permitType } = await req.json();
 
         // If permitType is not "residential", reject
         if (permitType !== "residential") {
-            console.error("Invalid permitType:", permitType);
             return new Response(
                 JSON.stringify({
                     error: "Unsupported permitType. Only 'residential' is allowed.",
@@ -564,69 +535,30 @@ export default async function handler(req: Request, context: Context) {
             ...messages,
         ];
 
-        console.log("Calling OpenAI API...");
-        console.log("Message count:", conversation.length);
-        
-        try {
-            // Call the Chat Completions API
-            const response = await openai.chat.completions.create({
-                model: "gpt-4o-mini",
-                messages: conversation,
-                response_format: {
-                    type: "json_schema",
-                    schema: residentialPermitSchemaWrapper,
-                },
-            });
-            
-            console.log("OpenAI API response received");
-            console.log("Response has choices:", !!response.choices);
-            
-            if (!response.choices || !response.choices[0]) {
-                console.error("Empty response from OpenAI");
-                return new Response(
-                    JSON.stringify({ error: "Empty response from AI service" }),
-                    { status: 500, headers: { "Content-Type": "application/json" } }
-                );
-            }
-            
-            // Log response structure (without sensitive data)
-            console.log("Response structure:", JSON.stringify({
-                id: response.id,
-                model: response.model,
-                choices_length: response.choices.length,
-                first_choice_has_message: !!response.choices[0].message,
-                first_choice_finish_reason: response.choices[0].finish_reason
-            }));
-            
-            // Return the message directly
-            return new Response(
-                JSON.stringify(response.choices[0].message),
-                { status: 200, headers: { "Content-Type": "application/json" } }
-            );
-            
-        } catch (openaiError: any) {
-            console.error("OpenAI API error:", openaiError);
-            if (openaiError.response) {
-                console.error("OpenAI API error response:", JSON.stringify(openaiError.response.data));
-            }
-            return new Response(
-                JSON.stringify({ 
-                    error: "Error from AI service", 
-                    message: openaiError.message,
-                    type: openaiError.type,
-                    status: openaiError.status
-                }),
-                { status: 500, headers: { "Content-Type": "application/json" } }
-            );
-        }
+        // Call the Chat Completions API using a model that supports structured outputs
+        // (Examples: "o1-2024-12-17", "gpt-4o-2024-08-06", "gpt-4.5-preview-2025-02-27", etc.)
+        const response = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: conversation,
+            response_format: {
+                type: "json_schema",
+                json_schema: residentialPermitSchemaWrapper,
+            },
+        });
+
+        // Grab the structured output from the model
+        const result = response.choices[0].message.content;
+
+        // Return the response JSON to the client
+        return new Response(JSON.stringify(result), {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+        });
     } catch (error: any) {
-        console.error("Uncaught error in function:", error);
-        return new Response(
-            JSON.stringify({ 
-                error: "Internal server error", 
-                message: error.message 
-            }),
-            { status: 500, headers: { "Content-Type": "application/json" } }
-        );
+        console.error("Error in permit-assistant:", error);
+        return new Response(JSON.stringify({ error: error.message }), {
+            status: 500,
+            headers: { "Content-Type": "application/json" },
+        });
     }
 }
