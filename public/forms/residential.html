@@ -396,6 +396,466 @@
         </div>
       </div>
 
+      <!-- Plumbing Section -->
+      <div id="plumbingSection" class="permit-section mb-8 hidden">
+        <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Plumbing Details</h2>
+
+        <div class="mb-4">
+          <label for="plumbing_work_type" class="block font-semibold mb-1">Type of Plumbing Work *</label>
+          <select id="plumbing_work_type" name="plumbing_work_type" class="border p-2 w-full rounded">
+            <option value="">-- Select Work Type --</option>
+            <option value="water_heater">Water Heater</option>
+            <option value="fixtures">New Fixtures</option>
+            <option value="pipe_replacement">Pipe Replacement</option>
+            <option value="slab_penetration">Slab Penetration</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label class="block font-semibold mb-1">Licensed Plumber?</label>
+          <p class="text-sm text-gray-600">Note: A licensed plumber is typically required for most plumbing work.</p>
+        </div>
+
+        <div class="mt-4">
+          <h3 class="font-semibold">Required Documents:</h3>
+          <ul class="list-disc pl-6 mt-2 text-sm">
+            <li>Plumbing diagram (for major work)</li>
+            <li>Contractor license if required</li>
+          </ul>
+
+          <div class="mt-4">
+            <label for="plumbing_diagram" class="block font-semibold mb-1">Upload Plumbing Diagram (if
+              applicable)</label>
+            <input type="file" id="plumbing_diagram" name="plumbing_diagram" class="border p-2 w-full rounded"
+              accept=".pdf,.jpg,.png">
+          </div>
+        </div>
+      </div>
+
+      <!-- HVAC Section -->
+      <div id="hvacSection" class="permit-section mb-8 hidden">
+        <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. HVAC Details</h2>
+
+        <div class="mb-4">
+          <label for="hvac_work_type" class="block font-semibold mb-1">Type of HVAC Work *</label>
+          <select id="hvac_work_type" name="hvac_work_type" class="border p-2 w-full rounded">
+            <option value="">-- Select Work Type --</option>
+            <option value="new_installation">New Installation</option>
+            <option value="replacement">Replacement</option>
+            <option value="ductwork">Ductwork</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="mt-4">
+          <h3 class="font-semibold">Required Documents:</h3>
+          <ul class="list-disc pl-6 mt-2 text-sm">
+            <li>HVAC equipment specifications</li>
+            <li>Layout of ducts (if new or modified)</li>
+          </ul>
+
+          <div class="mt-4">
+            <label for="hvac_docs" class="block font-semibold mb-1">Upload HVAC Documents (if applicable)</label>
+            <input type="file" id="hvac_docs" name="hvac_docs" class="border p-2 w-full rounded"
+              accept=".pdf,.jpg,.png">
+          </div>
+        </div>
+      </div>
+
+      <!-- Accessory Building Section -->
+      <div id="accessoryBuildingSection" class="permit-section mb-8 hidden">
+        <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Accessory Building Details</h2>
+
+        <div class="mb-4">
+          <label for="accessory_building_type" class="block font-semibold mb-1">Accessory Building Type *</label>
+          <select id="accessory_building_type" name="accessory_building_type" class="border p-2 w-full rounded">
+            <option value="">-- Select Type --</option>
+            <option value="garage">Garage</option>
+            <option value="shed">Shed</option>
+            <option value="workshop">Workshop</option>
+            <option value="pool_house">Pool House</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label class="block font-semibold mb-1">Will it have utilities (electric/plumbing)?</label>
+          <div class="flex items-center space-x-4">
+            <label class="inline-flex items-center">
+              <input type="radio" name="accessory_utilities" value="yes" class="mr-2">
+              Yes
+            </label>
+            <label class="inline-flex items-center">
+              <input type="radio" name="accessory_utilities" value="no" class="mr-2" checked>
+              No
+            </label>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <h3 class="font-semibold">Required Documents:</h3>
+          <ul class="list-disc pl-6 mt-2 text-sm">
+            <li>Site plan (showing distance from property lines)</li>
+            <li>Building plans if over 200 sq ft</li>
+          </ul>
+
+          <div class="mt-4">
+            <label for="accessory_plans" class="block font-semibold mb-1">Upload Plans (if applicable)</label>
+            <input type="file" id="accessory_plans" name="accessory_plans" class="border p-2 w-full rounded"
+              accept=".pdf">
+          </div>
+        </div>
+      </div>
+
+      <!-- Swimming Pool Section -->
+      <div id="swimmingPoolSection" class="permit-section mb-8 hidden">
+        <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Swimming Pool Details</h2>
+
+        <div class="mb-4">
+          <label for="pool_type" class="block font-semibold mb-1">Pool Type *</label>
+          <select id="pool_type" name="pool_type" class="border p-2 w-full rounded">
+            <option value="">-- Select Pool Type --</option>
+            <option value="in_ground">In-ground</option>
+            <option value="above_ground">Above-ground</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label for="pool_dimensions" class="block font-semibold mb-1">Pool Dimensions (e.g. 15'x30')</label>
+          <input type="text" id="pool_dimensions" name="pool_dimensions" class="border p-2 w-full rounded">
+        </div>
+
+        <div class="mt-4">
+          <h3 class="font-semibold">Required Documents:</h3>
+          <ul class="list-disc pl-6 mt-2 text-sm">
+            <li>Site plan showing pool location, fencing/barrier</li>
+            <li>Manufacturer specs (if above-ground)</li>
+            <li>Electrical details (for pumps, etc.)</li>
+          </ul>
+
+          <div class="mt-4">
+            <label for="pool_plans" class="block font-semibold mb-1">Upload Pool Plans/Specs (PDF)</label>
+            <input type="file" id="pool_plans" name="pool_plans" class="border p-2 w-full rounded" accept=".pdf">
+          </div>
+        </div>
+      </div>
+
+      <!-- Storm Shelter Section -->
+      <div id="stormShelterSection" class="permit-section mb-8 hidden">
+        <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Storm Shelter Details</h2>
+
+        <div class="mb-4">
+          <label for="shelter_type" class="block font-semibold mb-1">Shelter Type *</label>
+          <select id="shelter_type" name="shelter_type" class="border p-2 w-full rounded">
+            <option value="">-- Select Shelter Type --</option>
+            <option value="above_ground">Above-ground</option>
+            <option value="below_ground">Below-ground</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label for="shelter_capacity" class="block font-semibold mb-1">Occupant Capacity</label>
+          <input type="number" id="shelter_capacity" name="shelter_capacity" class="border p-2 w-full rounded" min="1">
+        </div>
+
+        <div class="mt-4">
+          <h3 class="font-semibold">Required Documents:</h3>
+          <ul class="list-disc pl-6 mt-2 text-sm">
+            <li>Manufacturer specs or engineering plans</li>
+            <li>Site plan (if separate from main dwelling)</li>
+          </ul>
+
+          <div class="mt-4">
+            <label for="shelter_plans" class="block font-semibold mb-1">Upload Shelter Plans/Specs (PDF)</label>
+            <input type="file" id="shelter_plans" name="shelter_plans" class="border p-2 w-full rounded" accept=".pdf">
+          </div>
+        </div>
+      </div>
+
+      <!-- Solar Section -->
+      <div id="solarSection" class="permit-section mb-8 hidden">
+        <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Solar PV Details</h2>
+
+        <div class="mb-4">
+          <label for="solar_mounting" class="block font-semibold mb-1">Mounting Location *</label>
+          <select id="solar_mounting" name="solar_mounting" class="border p-2 w-full rounded">
+            <option value="">-- Select Mounting Location --</option>
+            <option value="roof_mounted">Roof Mounted</option>
+            <option value="ground_mounted">Ground Mounted</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label for="system_size_kw" class="block font-semibold mb-1">System Size (kW)</label>
+          <input type="number" id="system_size_kw" name="system_size_kw" class="border p-2 w-full rounded" step="0.1">
+        </div>
+
+        <div class="mt-4">
+          <h3 class="font-semibold">Required Documents:</h3>
+          <ul class="list-disc pl-6 mt-2 text-sm">
+            <li>Panel specifications</li>
+            <li>Structural assessment (roof) or site plan (ground)</li>
+            <li>Electrical line diagram</li>
+          </ul>
+
+          <div class="mt-4">
+            <label for="solar_plans" class="block font-semibold mb-1">Upload Solar Plans (PDF)</label>
+            <input type="file" id="solar_plans" name="solar_plans" class="border p-2 w-full rounded" accept=".pdf">
+          </div>
+        </div>
+      </div>
+
+      <!-- Generator Section -->
+      <div id="generatorSection" class="permit-section mb-8 hidden">
+        <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Generator Details</h2>
+
+        <div class="mb-4">
+          <label for="generator_type" class="block font-semibold mb-1">Type *</label>
+          <select id="generator_type" name="generator_type" class="border p-2 w-full rounded">
+            <option value="">-- Select Generator Type --</option>
+            <option value="permanent">Permanent</option>
+            <option value="portable">Portable</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label for="generator_fuel" class="block font-semibold mb-1">Fuel Type *</label>
+          <select id="generator_fuel" name="generator_fuel" class="border p-2 w-full rounded">
+            <option value="">-- Select Fuel Type --</option>
+            <option value="natural_gas">Natural Gas</option>
+            <option value="propane">Propane</option>
+            <option value="diesel">Diesel</option>
+            <option value="gasoline">Gasoline</option>
+          </select>
+        </div>
+
+        <div class="mt-4">
+          <h3 class="font-semibold">Required Documents:</h3>
+          <ul class="list-disc pl-6 mt-2 text-sm">
+            <li>Manufacturer specifications</li>
+            <li>Site plan showing generator location</li>
+          </ul>
+
+          <div class="mt-4">
+            <label for="generator_plans" class="block font-semibold mb-1">Upload Generator Plans/Specs (PDF)</label>
+            <input type="file" id="generator_plans" name="generator_plans" class="border p-2 w-full rounded"
+              accept=".pdf">
+          </div>
+        </div>
+      </div>
+
+      <!-- Irrigation Section -->
+      <div id="irrigationSection" class="permit-section mb-8 hidden">
+        <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Irrigation Details</h2>
+
+        <div class="mb-4">
+          <label class="block font-semibold mb-1">Water Connection *</label>
+          <div class="flex items-center space-x-4">
+            <label class="inline-flex items-center">
+              <input type="radio" name="water_connection" value="municipal" class="mr-2">
+              Municipal
+            </label>
+            <label class="inline-flex items-center">
+              <input type="radio" name="water_connection" value="well" class="mr-2">
+              Well
+            </label>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <h3 class="font-semibold">Required Documents:</h3>
+          <ul class="list-disc pl-6 mt-2 text-sm">
+            <li>System layout</li>
+            <li>Backflow prevention details</li>
+          </ul>
+
+          <div class="mt-4">
+            <label for="irrigation_plans" class="block font-semibold mb-1">Upload Irrigation Plans (PDF)</label>
+            <input type="file" id="irrigation_plans" name="irrigation_plans" class="border p-2 w-full rounded"
+              accept=".pdf">
+          </div>
+        </div>
+      </div>
+
+      <!-- Fence Section -->
+      <div id="fenceSection" class="permit-section mb-8 hidden">
+        <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Fence Details</h2>
+
+        <div class="mb-4">
+          <label for="fence_height" class="block font-semibold mb-1">Fence Height (feet)</label>
+          <input type="number" id="fence_height" name="fence_height" class="border p-2 w-full rounded" min="1">
+        </div>
+
+        <div class="mb-4">
+          <label for="fence_material" class="block font-semibold mb-1">Fence Material *</label>
+          <select id="fence_material" name="fence_material" class="border p-2 w-full rounded">
+            <option value="">-- Select Material --</option>
+            <option value="wood">Wood</option>
+            <option value="chain_link">Chain Link</option>
+            <option value="vinyl">Vinyl</option>
+            <option value="wrought_iron">Wrought Iron</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label class="block font-semibold mb-1">Fence Location(s)</label>
+          <div class="flex items-center space-x-4">
+            <label class="inline-flex items-center">
+              <input type="checkbox" name="fence_location" value="front_yard" class="mr-2">
+              Front Yard
+            </label>
+            <label class="inline-flex items-center">
+              <input type="checkbox" name="fence_location" value="side_yard" class="mr-2">
+              Side Yard
+            </label>
+            <label class="inline-flex items-center">
+              <input type="checkbox" name="fence_location" value="back_yard" class="mr-2">
+              Back Yard
+            </label>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <h3 class="font-semibold">Required Documents:</h3>
+          <ul class="list-disc pl-6 mt-2 text-sm">
+            <li>Site plan or property survey showing fence location</li>
+          </ul>
+
+          <div class="mt-4">
+            <label for="fence_plans" class="block font-semibold mb-1">Upload Fence Docs (if applicable)</label>
+            <input type="file" id="fence_plans" name="fence_plans" class="border p-2 w-full rounded" accept=".pdf">
+          </div>
+        </div>
+      </div>
+
+      <!-- Roof Section -->
+      <div id="roofSection" class="permit-section mb-8 hidden">
+        <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Roof Details</h2>
+
+        <div class="mb-4">
+          <label for="roof_replacement_type" class="block font-semibold mb-1">Type of Roof Work *</label>
+          <select id="roof_replacement_type" name="roof_replacement_type" class="border p-2 w-full rounded">
+            <option value="">-- Select Type --</option>
+            <option value="full_replacement">Full Replacement</option>
+            <option value="partial">Partial (>100 sq ft)</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label for="roofing_material" class="block font-semibold mb-1">Roofing Material *</label>
+          <select id="roofing_material" name="roofing_material" class="border p-2 w-full rounded">
+            <option value="">-- Select Material --</option>
+            <option value="asphalt">Asphalt</option>
+            <option value="metal">Metal</option>
+            <option value="tile">Tile</option>
+            <option value="wood">Wood</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="mt-4">
+          <h3 class="font-semibold">Required Documents:</h3>
+          <ul class="list-disc pl-6 mt-2 text-sm">
+            <li>Manufacturer specifications</li>
+          </ul>
+
+          <div class="mt-4">
+            <label for="roof_docs" class="block font-semibold mb-1">Upload Roofing Docs (if applicable)</label>
+            <input type="file" id="roof_docs" name="roof_docs" class="border p-2 w-full rounded" accept=".pdf">
+          </div>
+        </div>
+      </div>
+
+      <!-- Windows/Doors Section -->
+      <div id="windowsDoorsSection" class="permit-section mb-8 hidden">
+        <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Window/Door Replacement Details</h2>
+
+        <div class="mb-4">
+          <label for="windows_doors_count" class="block font-semibold mb-1">Number of Windows/Doors Being
+            Replaced</label>
+          <input type="number" id="windows_doors_count" name="windows_doors_count" class="border p-2 w-full rounded"
+            min="1">
+        </div>
+
+        <div class="mb-4">
+          <label class="block font-semibold mb-1">Are Opening Sizes Changing?</label>
+          <div class="flex items-center space-x-4">
+            <label class="inline-flex items-center">
+              <input type="radio" name="changing_opening_size" value="yes" class="mr-2">
+              Yes
+            </label>
+            <label class="inline-flex items-center">
+              <input type="radio" name="changing_opening_size" value="no" class="mr-2" checked>
+              No
+            </label>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <h3 class="font-semibold">Required Documents:</h3>
+          <ul class="list-disc pl-6 mt-2 text-sm">
+            <li>Window/door specifications</li>
+            <li>Engineering if altering structural openings</li>
+          </ul>
+
+          <div class="mt-4">
+            <label for="windows_doors_docs" class="block font-semibold mb-1">Upload Specs (if applicable)</label>
+            <input type="file" id="windows_doors_docs" name="windows_doors_docs" class="border p-2 w-full rounded"
+              accept=".pdf">
+          </div>
+        </div>
+      </div>
+
+      <!-- Concrete Section -->
+      <div id="concreteSection" class="permit-section mb-8 hidden">
+        <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Concrete Details</h2>
+
+        <div class="mb-4">
+          <label for="concrete_type" class="block font-semibold mb-1">Type of Concrete Work *</label>
+          <select id="concrete_type" name="concrete_type" class="border p-2 w-full rounded">
+            <option value="">-- Select Work Type --</option>
+            <option value="driveway">Driveway</option>
+            <option value="sidewalk">Sidewalk</option>
+            <option value="patio">Patio</option>
+            <option value="foundation">Foundation</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label class="block font-semibold mb-1">Affects Drainage Patterns?</label>
+          <div class="flex items-center space-x-4">
+            <label class="inline-flex items-center">
+              <input type="radio" name="affects_drainage" value="yes" class="mr-2">
+              Yes
+            </label>
+            <label class="inline-flex items-center">
+              <input type="radio" name="affects_drainage" value="no" class="mr-2" checked>
+              No
+            </label>
+            <label class="inline-flex items-center">
+              <input type="radio" name="affects_drainage" value="unknown" class="mr-2">
+              Unknown
+            </label>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <h3 class="font-semibold">Required Documents:</h3>
+          <ul class="list-disc pl-6 mt-2 text-sm">
+            <li>Site plan showing area of concrete</li>
+          </ul>
+
+          <div class="mt-4">
+            <label for="concrete_plans" class="block font-semibold mb-1">Upload Concrete Plans (PDF)</label>
+            <input type="file" id="concrete_plans" name="concrete_plans" class="border p-2 w-full rounded"
+              accept=".pdf">
+          </div>
+        </div>
+      </div>
+
       <!-- Additional Documents Section (Catch-All File Attachment) -->
       <div class="mb-8">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">Additional Documents</h2>
@@ -488,43 +948,89 @@
         });
       });
 
-      // Form sections display logic
-      const permitType = document.getElementById('permitType');
+      // All permit sections
       const sections = document.querySelectorAll('.permit-section');
+      const permitType = document.getElementById('permitType');
 
-      // Update visible sections based on permit type
+      // Show/hide relevant section based on permit type
       permitType.addEventListener('change', function () {
-        // Hide all sections first
-        sections.forEach(section => {
-          section.classList.add('hidden');
-        });
+        sections.forEach(section => section.classList.add('hidden'));
 
-        // Show relevant section based on selection
         const selectedValue = this.value;
 
-        if (selectedValue === 'new_construction') {
-          document.getElementById('newConstructionSection').classList.remove('hidden');
-          updateFeeStructure('Value Based', '3% of construction value');
+        switch (selectedValue) {
+          case 'new_construction':
+            document.getElementById('newConstructionSection').classList.remove('hidden');
+            updateFeeStructure('Value Based', '3% of construction value');
+            break;
+          case 'addition':
+            document.getElementById('additionSection').classList.remove('hidden');
+            updateFeeStructure('Value Based', '2.5% of construction value');
+            break;
+          case 'remodel':
+            document.getElementById('remodelSection').classList.remove('hidden');
+            updateFeeStructure('Value Based', '2% of construction value, minimum $100');
+            break;
+          case 'electrical':
+            document.getElementById('electricalSection').classList.remove('hidden');
+            updateFeeStructure('Fixed', '$80 base fee plus $10 per circuit');
+            break;
+          case 'plumbing':
+            document.getElementById('plumbingSection').classList.remove('hidden');
+            updateFeeStructure('Fixed', '$80 base fee plus $15 per fixture (approx.)');
+            break;
+          case 'hvac':
+            document.getElementById('hvacSection').classList.remove('hidden');
+            updateFeeStructure('Fixed', '$80 base fee');
+            break;
+          case 'accessory_building':
+            document.getElementById('accessoryBuildingSection').classList.remove('hidden');
+            updateFeeStructure('Value Based', '2% of construction value');
+            break;
+          case 'swimming_pool':
+            document.getElementById('swimmingPoolSection').classList.remove('hidden');
+            updateFeeStructure('Fixed', '$200 (typical)');
+            break;
+          case 'storm_shelter':
+            document.getElementById('stormShelterSection').classList.remove('hidden');
+            updateFeeStructure('Fixed', '$125 (typical)');
+            break;
+          case 'solar':
+            document.getElementById('solarSection').classList.remove('hidden');
+            updateFeeStructure('Fixed', '$150 (plus possible value component)');
+            break;
+          case 'generator':
+            document.getElementById('generatorSection').classList.remove('hidden');
+            updateFeeStructure('Fixed', '$125 (typical)');
+            break;
+          case 'irrigation':
+            document.getElementById('irrigationSection').classList.remove('hidden');
+            updateFeeStructure('Fixed', '$80 base fee');
+            break;
+          case 'fence':
+            document.getElementById('fenceSection').classList.remove('hidden');
+            updateFeeStructure('Fixed', '$50 flat fee');
+            break;
+          case 'roof':
+            document.getElementById('roofSection').classList.remove('hidden');
+            updateFeeStructure('Sq Ft Based', '$0.05/sq ft, minimum $75');
+            break;
+          case 'windows_doors':
+            document.getElementById('windowsDoorsSection').classList.remove('hidden');
+            updateFeeStructure('Fixed', '$50 flat fee (unless structural changes)');
+            break;
+          case 'concrete':
+            document.getElementById('concreteSection').classList.remove('hidden');
+            updateFeeStructure('Fixed', '$100 flat fee (typical)');
+            break;
+          default:
+            updateFeeStructure('N/A', 'Select a permit type to see fee details.');
+            break;
         }
-        else if (selectedValue === 'addition') {
-          document.getElementById('additionSection').classList.remove('hidden');
-          updateFeeStructure('Value Based', '2.5% of construction value');
-        }
-        else if (selectedValue === 'remodel') {
-          document.getElementById('remodelSection').classList.remove('hidden');
-          updateFeeStructure('Value Based', '2% of construction value, minimum $100');
-        }
-        else if (selectedValue === 'electrical') {
-          document.getElementById('electricalSection').classList.remove('hidden');
-          updateFeeStructure('Fixed', '$80 base fee plus $10 per circuit');
-        }
-        // Additional conditions for other permit types would go here
-
-        // Recalculate fee
         calculateFee();
       });
 
-      // Toggle homeowner test section based on who's performing the work
+      // Toggle homeowner test for electrical
       const electricalPerformedBy = document.getElementsByName('electrical_performed_by');
       electricalPerformedBy.forEach(radio => {
         radio.addEventListener('change', function () {
@@ -538,419 +1044,12 @@
         });
       });
 
-      // Estimated value and square footage for fee calculation
+      // Fee Calculation
       const estimatedValue = document.getElementById('estimatedValue');
       const squareFootage = document.getElementById('squareFootage');
 
       estimatedValue.addEventListener('input', calculateFee);
       squareFootage.addEventListener('input', calculateFee);
-
-      // AI Assistant Modal elements and message history
-      const aiAssistBtn = document.getElementById('aiAssistBtn');
-      const aiAssistModal = document.getElementById('aiAssistModal');
-      const closeModal = document.getElementById('closeModal');
-      const userInput = document.getElementById('userInput');
-      const sendToAI = document.getElementById('sendToAI');
-      const aiChat = document.getElementById('aiChat');
-
-      // Store conversation history
-      let messageHistory = [];
-
-      // When clicking "Use AI Assistant", start a new chat
-      aiAssistBtn.addEventListener('click', function () {
-        // Clear any previous chat history and DOM messages
-        messageHistory = [];
-        aiChat.innerHTML = '';
-        aiAssistModal.classList.remove('hidden');
-
-        // Add initial assistant message
-        const initialMessage = "I can help you determine which permit you need and pre-fill the form. What type of project are you working on?";
-        messageHistory.push({
-          role: "assistant",
-          content: initialMessage
-        });
-        appendAIMessage(initialMessage);
-      });
-
-      // Close modal handler now clears chat history and DOM messages
-      closeModal.addEventListener('click', function () {
-        aiAssistModal.classList.add('hidden');
-        aiChat.innerHTML = ''; // Clear DOM messages when closing manually
-        messageHistory = [];
-      });
-
-      sendToAI.addEventListener('click', function () {
-        sendUserMessage();
-      });
-
-      userInput.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') {
-          sendUserMessage();
-        }
-      });
-
-      function sendUserMessage() {
-        const message = userInput.value.trim();
-        if (message) {
-          // Add user message to chat
-          appendUserMessage(message);
-
-          // Add to history
-          messageHistory.push({
-            role: "user",
-            content: message
-          });
-
-          // Clear input field
-          userInput.value = '';
-
-          // Call API with entire message history
-          callPermitAssistantAPI(messageHistory);
-        }
-      }
-
-      function appendUserMessage(message) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = 'bg-gray-100 p-3 rounded-lg mb-3 ml-12 mr-3';
-
-        const textP = document.createElement('p');
-        textP.textContent = message;
-
-        messageDiv.appendChild(textP);
-        aiChat.appendChild(messageDiv);
-
-        // Scroll to bottom
-        aiChat.scrollTop = aiChat.scrollHeight;
-      }
-
-      function appendAIMessage(message) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = 'bg-blue-50 p-3 rounded-lg mb-3';
-
-        const titleP = document.createElement('p');
-        titleP.className = 'font-semibold text-blue-800';
-        titleP.textContent = 'AI Assistant';
-
-        const contentDiv = document.createElement('div');
-        contentDiv.className = 'ai-message-content';
-
-        // Initialize markdown-it
-        const md = window.markdownit({
-          linkify: true,      // Convert URL-like text to links
-          typographer: true,  // Enable some language-neutral replacements
-          breaks: true        // Convert '\n' to <br>
-        });
-
-        // Render the markdown
-        contentDiv.innerHTML = md.render(message);
-
-        // Add some basic styling for markdown elements
-        const style = document.createElement('style');
-        if (!document.getElementById('markdown-styles')) {
-          style.id = 'markdown-styles';
-          style.textContent = `
-      .ai-message-content ul, .ai-message-content ol {
-        padding-left: 2em;
-      }
-      .ai-message-content ul {
-        list-style-type: disc;
-      }
-      .ai-message-content ol {
-        list-style-type: decimal;
-      }
-      .ai-message-content h1, .ai-message-content h2, .ai-message-content h3,
-      .ai-message-content h4, .ai-message-content h5, .ai-message-content h6 {
-        font-weight: bold;
-        margin-top: 0.5em;
-        margin-bottom: 0.5em;
-      }
-      .ai-message-content h1 { font-size: 1.4em; }
-      .ai-message-content h2 { font-size: 1.3em; }
-      .ai-message-content h3 { font-size: 1.2em; }
-      .ai-message-content pre {
-        background-color: #f8f8f8;
-        padding: 0.5em;
-        border-radius: 0.3em;
-        overflow-x: auto;
-      }
-      .ai-message-content code {
-        background-color: #f8f8f8;
-        padding: 0.2em 0.4em;
-        border-radius: 0.3em;
-      }
-      .ai-message-content blockquote {
-        border-left: 4px solid #ddd;
-        padding-left: 1em;
-        color: #666;
-      }
-      .ai-message-content table {
-        border-collapse: collapse;
-        width: 100%;
-      }
-      .ai-message-content table, .ai-message-content th, .ai-message-content td {
-        border: 1px solid #ddd;
-      }
-      .ai-message-content th, .ai-message-content td {
-        padding: 8px;
-        text-align: left;
-      }
-      .ai-message-content a {
-        color: #3182ce;
-        text-decoration: underline;
-      }
-    `;
-          document.head.appendChild(style);
-        }
-
-        messageDiv.appendChild(titleP);
-        messageDiv.appendChild(contentDiv);
-        aiChat.appendChild(messageDiv);
-
-        // Scroll to bottom
-        aiChat.scrollTop = aiChat.scrollHeight;
-      }
-
-      // Show loading indicator in chat
-      function showLoading() {
-        const loadingDiv = document.createElement('div');
-        loadingDiv.id = 'loadingIndicator';
-        loadingDiv.className = 'bg-blue-50 p-3 rounded-lg mb-3';
-        loadingDiv.innerHTML = `
-          <p class="font-semibold text-blue-800">AI Assistant</p>
-          <div class="flex space-x-2 items-center">
-            <p>Thinking</p>
-            <div class="flex space-x-1">
-              <div class="w-2 h-2 rounded-full bg-blue-500 animate-bounce"></div>
-              <div class="w-2 h-2 rounded-full bg-blue-500 animate-bounce" style="animation-delay: 0.2s"></div>
-              <div class="w-2 h-2 rounded-full bg-blue-500 animate-bounce" style="animation-delay: 0.4s"></div>
-            </div>
-          </div>
-        `;
-        aiChat.appendChild(loadingDiv);
-        aiChat.scrollTop = aiChat.scrollHeight;
-      }
-
-      function removeLoading() {
-        const loadingIndicator = document.getElementById('loadingIndicator');
-        if (loadingIndicator) {
-          aiChat.removeChild(loadingIndicator);
-        }
-      }
-
-      function parseOpenAIResponse(responseText) {
-        try {
-          // First parse the response from the API
-          const responseObject = JSON.parse(responseText);
-
-          // If the response has a content field that's a string, try to parse it as JSON
-          if (responseObject.content && typeof responseObject.content === 'string') {
-            try {
-              // Parse the content string as JSON
-              const contentObject = JSON.parse(responseObject.content);
-              return contentObject;
-            } catch (contentParseError) {
-              console.error("Failed to parse content as JSON:", contentParseError);
-              // If content parsing fails, return the original response
-              return responseObject;
-            }
-          } else {
-            // If there's no content field or it's not a string, return the original
-            return responseObject;
-          }
-        } catch (parseError) {
-          console.error("Failed to parse response as JSON:", parseError);
-          throw new Error("Invalid response format from server");
-        }
-      }
-
-      async function callPermitAssistantAPI(messages) {
-        showLoading();
-
-        try {
-          console.log("Calling API with", messages.length, "messages");
-
-          const response = await fetch('/.netlify/functions/permit-assistant', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-              messages: messages,
-              permitType: 'residential'
-            })
-          });
-
-          console.log("API response status:", response.status);
-
-          // Get the response text
-          const responseText = await response.text();
-          console.log("Raw API response:", responseText);
-
-          // Use the helper function to parse the nested JSON
-          let data;
-          try {
-            data = parseOpenAIResponse(responseText);
-          } catch (parseError) {
-            console.error("Failed to parse response:", parseError);
-            throw new Error("Invalid response format from server");
-          }
-
-          removeLoading();
-
-          // Check if there's an error message
-          if (data.error) {
-            console.error("API returned error:", data.error);
-            appendAIMessage("I'm sorry, I encountered an error: " + data.error);
-            return;
-          }
-
-          // Get the message content directly from the parsed data
-          const message = data.message;
-
-          if (!message) {
-            console.error("No message content in response:", data);
-            appendAIMessage("I'm sorry, I received an invalid response. Please try again.");
-            return;
-          }
-
-          // Add response to chat
-          appendAIMessage(message);
-
-          // Add to history
-          messageHistory.push({
-            role: "assistant",
-            content: message
-          });
-
-          // Check if assessment is complete
-          if (data.assessment_complete) {
-            populateForm(data.permit_details);
-
-            // Add final message about form population
-            appendAIMessage("I've populated the form with the details we discussed. Please review and complete any missing information.");
-
-            // Give user time to read final message, then close modal and clear history and DOM messages
-            setTimeout(() => {
-              aiAssistModal.classList.add('hidden');
-              messageHistory = [];
-              aiChat.innerHTML = ''; // Clear DOM messages
-            }, 3000);
-          }
-        } catch (error) {
-          console.error('Error calling API:', error);
-          removeLoading();
-          appendAIMessage("I'm sorry, I encountered an error: " + error.message);
-        }
-      }
-
-      // Populate form with AI-provided details
-      function populateForm(permitDetails) {
-        // Clear form sections that aren't contact info
-        clearFormExceptContactInfo();
-
-        // Set permit type and trigger change event to show correct section
-        if (permitDetails.permit_type) {
-          const permitTypeValue = mapPermitTypeToValue(permitDetails.permit_type);
-          document.getElementById('permitType').value = permitTypeValue;
-          document.getElementById('permitType').dispatchEvent(new Event('change'));
-        }
-
-        // Set basic fields
-        if (permitDetails.project_description) {
-          document.getElementById('projectDescription').value = permitDetails.project_description;
-        }
-
-        if (permitDetails.square_footage) {
-          document.getElementById('squareFootage').value = permitDetails.square_footage;
-        }
-
-        if (permitDetails.estimated_value) {
-          document.getElementById('estimatedValue').value = permitDetails.estimated_value;
-        }
-
-        if (permitDetails.stories) {
-          document.getElementById('stories').value = permitDetails.stories;
-        }
-
-        // Set permit-specific fields based on type
-        const permitTypeValue = document.getElementById('permitType').value;
-
-        if (permitTypeValue === 'addition' && permitDetails.addition_type) {
-          document.getElementById('addition_type').value = permitDetails.addition_type;
-
-          if (permitDetails.affects_load_bearing !== undefined) {
-            const loadBearingValue = permitDetails.affects_load_bearing ? 'yes' : 'no';
-            document.querySelector(`input[name="affects_load_bearing"][value="${loadBearingValue}"]`).checked = true;
-          }
-        }
-
-        if (permitTypeValue === 'electrical' && permitDetails.electrical_work_type) {
-          document.getElementById('electrical_work_type').value = permitDetails.electrical_work_type;
-
-          if (permitDetails.electrical_performed_by) {
-            document.querySelector(`input[name="electrical_performed_by"][value="${permitDetails.electrical_performed_by}"]`).checked = true;
-            document.querySelector(`input[name="electrical_performed_by"][value="${permitDetails.electrical_performed_by}"]`).dispatchEvent(new Event('change'));
-          }
-        }
-
-        // Recalculate fee
-        calculateFee();
-      }
-
-      // Map permit type string to form value
-      function mapPermitTypeToValue(permitType) {
-        const mapping = {
-          "New Residential Construction": "new_construction",
-          "Residential Addition": "addition",
-          "Residential Remodel": "remodel",
-          "Residential Electrical": "electrical",
-          "Residential Plumbing": "plumbing",
-          "Residential HVAC": "hvac",
-          "Residential Accessory Building": "accessory_building",
-          "Residential Swimming Pool": "swimming_pool",
-          "Residential Storm Shelter": "storm_shelter",
-          "Residential Solar PV": "solar",
-          "Residential Generator": "generator",
-          "Residential Irrigation": "irrigation",
-          "Residential Fence": "fence",
-          "Residential Roof": "roof",
-          "Window/Door Replacement": "windows_doors",
-          "Residential Concrete": "concrete"
-        };
-
-        if (mapping[permitType]) {
-          return mapping[permitType];
-        }
-
-        const simplified = permitType.toLowerCase().replace('residential ', '');
-        for (const [key, value] of Object.entries(mapping)) {
-          if (key.toLowerCase().includes(simplified)) {
-            return value;
-          }
-        }
-        return "";
-      }
-
-      // Clear all form fields except contact information
-      function clearFormExceptContactInfo() {
-        const formElements = document.querySelectorAll('#permitForm input, #permitForm select, #permitForm textarea');
-        formElements.forEach(element => {
-          if (!element.closest('#contactInfoSection')) {
-            if (element.type === 'text' || element.type === 'number' || element.type === 'textarea' || element.type === 'email' || element.type === 'tel') {
-              element.value = '';
-            } else if (element.type === 'radio' || element.type === 'checkbox') {
-              element.checked = false;
-            } else if (element.tagName === 'SELECT') {
-              element.selectedIndex = 0;
-            }
-          }
-        });
-        document.getElementById('estimatedFee').textContent = '$0.00';
-        document.getElementById('feeStructureText').textContent = 'Select a permit type to see fee details.';
-        sections.forEach(section => {
-          section.classList.add('hidden');
-        });
-      }
 
       function updateFeeStructure(type, description) {
         const feeStructureText = document.getElementById('feeStructureText');
@@ -975,13 +1074,28 @@
             fee = Math.max(value * 0.02, 100);
             break;
           case 'electrical':
-            fee = 80;
+            fee = 80; // plus $10 per circuit in reality
             break;
           case 'plumbing':
-            fee = 80;
+            fee = 80; // plus per fixture in reality
             break;
           case 'hvac':
             fee = 80;
+            break;
+          case 'accessory_building':
+            fee = value * 0.02;
+            break;
+          case 'swimming_pool':
+            fee = 200;
+            break;
+          case 'storm_shelter':
+            fee = 125;
+            break;
+          case 'solar':
+            fee = 150;
+            break;
+          case 'generator':
+            fee = 125;
             break;
           case 'irrigation':
             fee = 80;
@@ -992,12 +1106,377 @@
           case 'roof':
             fee = Math.max(sqft * 0.05, 75);
             break;
+          case 'windows_doors':
+            fee = 50;
+            break;
+          case 'concrete':
+            fee = 100;
+            break;
           default:
             fee = 0;
         }
         feeDisplay.textContent = `$${fee.toFixed(2)}`;
       }
 
+      // AI Assistant Modal & Chat
+      const aiAssistBtn = document.getElementById('aiAssistBtn');
+      const aiAssistModal = document.getElementById('aiAssistModal');
+      const closeModal = document.getElementById('closeModal');
+      const userInput = document.getElementById('userInput');
+      const sendToAI = document.getElementById('sendToAI');
+      const aiChat = document.getElementById('aiChat');
+
+      // Conversation history
+      let messageHistory = [];
+
+      aiAssistBtn.addEventListener('click', function () {
+        // Reset chat
+        messageHistory = [];
+        aiChat.innerHTML = '';
+        aiAssistModal.classList.remove('hidden');
+
+        // Add initial assistant message
+        const initialMessage = "I can help you determine which permit you need and pre-fill the form. What type of project are you working on?";
+        messageHistory.push({ role: "assistant", content: initialMessage });
+        appendAIMessage(initialMessage);
+      });
+
+      closeModal.addEventListener('click', function () {
+        aiAssistModal.classList.add('hidden');
+        aiChat.innerHTML = '';
+        messageHistory = [];
+      });
+
+      sendToAI.addEventListener('click', sendUserMessage);
+      userInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+          sendUserMessage();
+        }
+      });
+
+      function sendUserMessage() {
+        const message = userInput.value.trim();
+        if (message) {
+          appendUserMessage(message);
+          messageHistory.push({ role: "user", content: message });
+          userInput.value = '';
+          callPermitAssistantAPIWithRetry(messageHistory)
+            .then((data) => {
+              handleAIResponse(data);
+            })
+            .catch((error) => {
+              console.error("AI request failed after 3 attempts:", error);
+              appendAIMessage("I'm sorry, an error occurred after multiple attempts. Please try again later.");
+            });
+        }
+      }
+
+      function appendUserMessage(message) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'bg-gray-100 p-3 rounded-lg mb-3 ml-12 mr-3';
+
+        const textP = document.createElement('p');
+        textP.textContent = message;
+
+        messageDiv.appendChild(textP);
+        aiChat.appendChild(messageDiv);
+        aiChat.scrollTop = aiChat.scrollHeight;
+      }
+
+      function appendAIMessage(message) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'bg-blue-50 p-3 rounded-lg mb-3';
+
+        const titleP = document.createElement('p');
+        titleP.className = 'font-semibold text-blue-800';
+        titleP.textContent = 'AI Assistant';
+
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'ai-message-content';
+
+        const md = window.markdownit({
+          linkify: true,
+          typographer: true,
+          breaks: true
+        });
+        contentDiv.innerHTML = md.render(message);
+
+        // Basic markdown styling
+        const style = document.createElement('style');
+        if (!document.getElementById('markdown-styles')) {
+          style.id = 'markdown-styles';
+          style.textContent = `
+            .ai-message-content ul, .ai-message-content ol {
+              padding-left: 2em;
+            }
+            .ai-message-content ul {
+              list-style-type: disc;
+            }
+            .ai-message-content ol {
+              list-style-type: decimal;
+            }
+            .ai-message-content h1, .ai-message-content h2, .ai-message-content h3,
+            .ai-message-content h4, .ai-message-content h5, .ai-message-content h6 {
+              font-weight: bold;
+              margin-top: 0.5em;
+              margin-bottom: 0.5em;
+            }
+            .ai-message-content pre {
+              background-color: #f8f8f8;
+              padding: 0.5em;
+              border-radius: 0.3em;
+              overflow-x: auto;
+            }
+            .ai-message-content code {
+              background-color: #f8f8f8;
+              padding: 0.2em 0.4em;
+              border-radius: 0.3em;
+            }
+            .ai-message-content blockquote {
+              border-left: 4px solid #ddd;
+              padding-left: 1em;
+              color: #666;
+            }
+            .ai-message-content table {
+              border-collapse: collapse;
+              width: 100%;
+            }
+            .ai-message-content table, .ai-message-content th, .ai-message-content td {
+              border: 1px solid #ddd;
+            }
+            .ai-message-content th, .ai-message-content td {
+              padding: 8px;
+              text-align: left;
+            }
+            .ai-message-content a {
+              color: #3182ce;
+              text-decoration: underline;
+            }
+          `;
+          document.head.appendChild(style);
+        }
+
+        messageDiv.appendChild(titleP);
+        messageDiv.appendChild(contentDiv);
+        aiChat.appendChild(messageDiv);
+        aiChat.scrollTop = aiChat.scrollHeight;
+      }
+
+      function showLoading() {
+        const loadingDiv = document.createElement('div');
+        loadingDiv.id = 'loadingIndicator';
+        loadingDiv.className = 'bg-blue-50 p-3 rounded-lg mb-3';
+        loadingDiv.innerHTML = `
+          <p class="font-semibold text-blue-800">AI Assistant</p>
+          <div class="flex space-x-2 items-center">
+            <p>Thinking</p>
+            <div class="flex space-x-1">
+              <div class="w-2 h-2 rounded-full bg-blue-500 animate-bounce"></div>
+              <div class="w-2 h-2 rounded-full bg-blue-500 animate-bounce" style="animation-delay: 0.2s"></div>
+              <div class="w-2 h-2 rounded-full bg-blue-500 animate-bounce" style="animation-delay: 0.4s"></div>
+            </div>
+          </div>
+        `;
+        aiChat.appendChild(loadingDiv);
+        aiChat.scrollTop = aiChat.scrollHeight;
+      }
+
+      function removeLoading() {
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        if (loadingIndicator) aiChat.removeChild(loadingIndicator);
+      }
+
+      function parseOpenAIResponse(responseText) {
+        try {
+          const responseObject = JSON.parse(responseText);
+          if (responseObject.content && typeof responseObject.content === 'string') {
+            try {
+              const contentObject = JSON.parse(responseObject.content);
+              return contentObject;
+            } catch (contentParseError) {
+              return responseObject; // Could not parse nested JSON; return raw
+            }
+          } else {
+            return responseObject;
+          }
+        } catch (parseError) {
+          throw new Error("Invalid response format from server");
+        }
+      }
+
+      // Exponential backoff up to 3 retries
+      async function callPermitAssistantAPIWithRetry(messages, attempt = 1, maxAttempts = 3, backoff = 1000) {
+        showLoading();
+        try {
+          const response = await fetch('/.netlify/functions/permit-assistant', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              messages: messages,
+              permitType: 'residential'
+            })
+          });
+
+          const responseText = await response.text();
+          removeLoading();
+
+          if (!response.ok) {
+            throw new Error(`Request failed with status ${response.status}: ${responseText}`);
+          }
+
+          // Parse the AI response
+          const data = parseOpenAIResponse(responseText);
+
+          if (data.error) {
+            throw new Error(data.error);
+          }
+
+          // Treat "invalid" (missing .message, etc.) as an error so we retry
+          if (!data.message) {
+            throw new Error("Invalid response: No 'message' field received from AI");
+          }
+
+          return data;
+        } catch (error) {
+          console.error(`Error calling API (attempt ${attempt}):`, error);
+          removeLoading();
+          if (attempt < maxAttempts) {
+            // Exponential backoff
+            await new Promise(resolve => setTimeout(resolve, backoff));
+            return callPermitAssistantAPIWithRetry(messages, attempt + 1, maxAttempts, backoff * 2);
+          } else {
+            // After 3 failed attempts, throw the error so we can show user a message
+            throw error;
+          }
+        }
+      }
+
+
+      function handleAIResponse(data) {
+        // We already know data.message is valid here, because otherwise we would have retried.
+        appendAIMessage(data.message);
+        messageHistory.push({ role: "assistant", content: data.message });
+
+        // *** Populate the form on EVERY response, not just final. ***
+        if (data.permit_details) {
+          populateForm(data.permit_details);
+        }
+
+        // If assessment is complete, show final note & close.
+        if (data.assessment_complete) {
+          appendAIMessage(
+            "I've populated the form with the details we discussed. Please review and complete any missing information."
+          );
+
+          setTimeout(() => {
+            aiAssistModal.classList.add('hidden');
+            messageHistory = [];
+            aiChat.innerHTML = '';
+          }, 3000);
+        }
+      }
+
+
+      // Populate form with AI-provided details
+      function populateForm(permitDetails) {
+        clearFormExceptContactInfo();
+
+        if (permitDetails.permit_type) {
+          const permitTypeValue = mapPermitTypeToValue(permitDetails.permit_type);
+          document.getElementById('permitType').value = permitTypeValue;
+          document.getElementById('permitType').dispatchEvent(new Event('change'));
+        }
+
+        if (permitDetails.project_description) {
+          document.getElementById('projectDescription').value = permitDetails.project_description;
+        }
+        if (permitDetails.square_footage) {
+          document.getElementById('squareFootage').value = permitDetails.square_footage;
+        }
+        if (permitDetails.estimated_value) {
+          document.getElementById('estimatedValue').value = permitDetails.estimated_value;
+        }
+        if (permitDetails.stories) {
+          document.getElementById('stories').value = permitDetails.stories;
+        }
+
+        // Example for addition fields
+        if (document.getElementById('addition_type') && permitDetails.addition_type) {
+          document.getElementById('addition_type').value = permitDetails.addition_type;
+        }
+        if (permitDetails.affects_load_bearing) {
+          const rad = document.querySelector(`input[name="affects_load_bearing"][value="${permitDetails.affects_load_bearing}"]`);
+          if (rad) rad.checked = true;
+        }
+
+        // Example for electrical fields
+        if (document.getElementById('electrical_work_type') && permitDetails.electrical_work_type) {
+          document.getElementById('electrical_work_type').value = permitDetails.electrical_work_type;
+        }
+        if (permitDetails.electrical_performed_by) {
+          const rad = document.querySelector(`input[name="electrical_performed_by"][value="${permitDetails.electrical_performed_by}"]`);
+          if (rad) {
+            rad.checked = true;
+            rad.dispatchEvent(new Event('change'));
+          }
+        }
+
+        // etc. for each type if you want more detail
+
+        calculateFee();
+      }
+
+      function mapPermitTypeToValue(permitType) {
+        const mapping = {
+          "New Residential Construction": "new_construction",
+          "Residential Addition": "addition",
+          "Residential Remodel": "remodel",
+          "Residential Electrical": "electrical",
+          "Residential Plumbing": "plumbing",
+          "Residential HVAC": "hvac",
+          "Residential Accessory Building": "accessory_building",
+          "Residential Swimming Pool": "swimming_pool",
+          "Residential Storm Shelter": "storm_shelter",
+          "Residential Solar PV": "solar",
+          "Residential Generator": "generator",
+          "Residential Irrigation": "irrigation",
+          "Residential Fence": "fence",
+          "Residential Roof": "roof",
+          "Window/Door Replacement": "windows_doors",
+          "Residential Concrete": "concrete"
+        };
+
+        if (mapping[permitType]) {
+          return mapping[permitType];
+        }
+        const simplified = permitType.toLowerCase().replace('residential ', '');
+        for (const [key, value] of Object.entries(mapping)) {
+          if (key.toLowerCase().includes(simplified)) return value;
+        }
+        return "";
+      }
+
+      function clearFormExceptContactInfo() {
+        const formElements = document.querySelectorAll('#permitForm input, #permitForm select, #permitForm textarea');
+        formElements.forEach(element => {
+          if (!element.closest('#contactInfoSection')) {
+            if (element.type === 'text' || element.type === 'number' || element.type === 'textarea' || element.type === 'email' || element.type === 'tel') {
+              element.value = '';
+            } else if (element.type === 'radio' || element.type === 'checkbox') {
+              element.checked = false;
+            } else if (element.tagName === 'SELECT') {
+              element.selectedIndex = 0;
+            }
+          }
+        });
+        document.getElementById('estimatedFee').textContent = '$0.00';
+        document.getElementById('feeStructureText').textContent = 'Select a permit type to see fee details.';
+        sections.forEach(section => section.classList.add('hidden'));
+      }
+
+      // Form submission
       document.getElementById('permitForm').addEventListener('submit', function (e) {
         e.preventDefault();
         const formData = new FormData(this);
@@ -1009,7 +1488,7 @@
         alert('Form would be submitted here. In a production app, this would be sent to the server or generate an email.');
       });
 
-      // Move GET parameter handling to run after all event listeners are set up
+      // Handle any preset permitType from URL
       const urlParams = new URLSearchParams(window.location.search);
       const presetPermitType = urlParams.get('permitType');
       if (presetPermitType) {
