@@ -179,290 +179,291 @@ Format all responses following the schema requirements exactly as specified, wit
  * per OpenAI’s “structured outputs” spec.
  */
 const residentialPermitSchemaWrapper = {
-    name: "residentialPermitSchema",
+    name: "residentialPermitSchema", // Required name field added
     strict: true,
     schema: {
-        type: "object",
-        properties: {
-            message: {
+      type: "object",
+      properties: {
+        message: {
+          type: "string",
+          description: "The next message to display to the user in the chat"
+        },
+        assessment_complete: {
+          type: "boolean",
+          description: "Whether the assessment is complete and form should be populated"
+        },
+        permit_details: {
+          type: "object",
+          properties: {
+            permit_type: {
+              type: "string",
+              enum: [
+                "new_construction",
+                "addition",
+                "remodel",
+                "electrical",
+                "plumbing",
+                "hvac",
+                "accessory_building",
+                "swimming_pool",
+                "storm_shelter",
+                "solar",
+                "generator",
+                "irrigation",
+                "fence",
+                "roof",
+                "windows_doors",
+                "concrete"
+              ],
+              description: "The specific type of residential permit required"
+            },
+            project_description: {
+              type: "string",
+              description: "Brief description of the project"
+            },
+            square_footage: {
+              type: "number",
+              description: "Total square footage of the project area"
+            },
+            estimated_value: {
+              type: "number",
+              description: "Estimated value/cost of the project in USD"
+            },
+            stories: {
+              type: "integer",
+              description: "Number of stories in the structure"
+            },
+            bedrooms: {
+              type: "integer",
+              description: "Number of bedrooms (for new construction)"
+            },
+            bathrooms: {
+              type: "number",
+              description: "Number of bathrooms (for new construction)"
+            },
+            addition_type: {
+              type: "string",
+              enum: ["bedroom", "bathroom", "kitchen", "living_space", "porch", "other"],
+              description: "Type of addition being constructed"
+            },
+            affects_load_bearing: {
+              type: "string",
+              enum: ["yes", "no", "unknown"],
+              description: "Whether the project affects load-bearing walls"
+            },
+            walls_removed: {
+              type: "string",
+              enum: ["yes", "no"],
+              description: "Whether walls will be removed as part of the remodel"
+            },
+            room_use_change: {
+              type: "string",
+              enum: ["yes", "no"],
+              description: "Whether room use is changing"
+            },
+            electrical_work_type: {
+              type: "string",
+              enum: ["panel_upgrade", "new_circuits", "rewiring", "new_service", "other"],
+              description: "Type of electrical work being performed"
+            },
+            electrical_performed_by: {
+              type: "string",
+              enum: ["homeowner", "electrician"],
+              description: "Who will perform the electrical work"
+            },
+            homeowner_test: {
+              type: "string",
+              enum: ["yes", "no"],
+              description: "Whether homeowner has passed required test (if applicable)"
+            },
+            electrician_name: {
+              type: "string",
+              description: "Name of electrician (if applicable)"
+            },
+            electrician_license: {
+              type: "string",
+              description: "License number of electrician (if applicable)"
+            },
+            plumbing_work_type: {
+              type: "string",
+              enum: ["water_heater", "fixtures", "pipe_replacement", "slab_penetration", "other"],
+              description: "Type of plumbing work being performed"
+            },
+            hvac_work_type: {
+              type: "string",
+              enum: ["new_installation", "replacement", "ductwork", "other"],
+              description: "Type of HVAC work being performed"
+            },
+            accessory_building_type: {
+              type: "string",
+              enum: ["garage", "shed", "workshop", "pool_house", "other"],
+              description: "Type of accessory building"
+            },
+            pool_type: {
+              type: "string",
+              enum: ["in_ground", "above_ground"],
+              description: "Type of swimming pool"
+            },
+            pool_dimensions: {
+              type: "string",
+              description: "Dimensions of the pool"
+            },
+            shelter_type: {
+              type: "string",
+              enum: ["above_ground", "below_ground"],
+              description: "Type of storm shelter"
+            },
+            solar_mounting: {
+              type: "string",
+              enum: ["roof_mounted", "ground_mounted"],
+              description: "Mounting location for solar panels"
+            },
+            system_size_kw: {
+              type: "number",
+              description: "Size of solar system in kilowatts"
+            },
+            generator_type: {
+              type: "string",
+              enum: ["permanent", "portable"],
+              description: "Type of generator installation"
+            },
+            generator_fuel: {
+              type: "string",
+              enum: ["natural_gas", "propane", "diesel", "gasoline"],
+              description: "Fuel type for generator"
+            },
+            water_connection: {
+              type: "string",
+              enum: ["municipal", "well"],
+              description: "Water source for irrigation system"
+            },
+            fence_height: {
+              type: "number",
+              description: "Height of fence in feet"
+            },
+            fence_material: {
+              type: "string",
+              enum: ["wood", "chain_link", "vinyl", "wrought_iron", "other"],
+              description: "Material of fence"
+            },
+            fence_location: {
+              type: "array",
+              items: {
                 type: "string",
-                description: "The next message to display to the user in the chat"
+                enum: ["front_yard", "side_yard", "back_yard"]
+              },
+              description: "Location(s) of fence on property"
             },
-            assessment_complete: {
-                type: "boolean",
-                description: "Whether the assessment is complete and form should be populated"
+            roof_replacement_type: {
+              type: "string",
+              enum: ["full_replacement", "partial"],
+              description: "Type of roof replacement"
             },
-            permit_details: {
+            roofing_material: {
+              type: "string",
+              enum: ["asphalt", "metal", "tile", "wood", "other"],
+              description: "Type of roofing material"
+            },
+            windows_doors_count: {
+              type: "integer",
+              description: "Number of windows/doors being replaced"
+            },
+            changing_opening_size: {
+              type: "string",
+              enum: ["yes", "no"],
+              description: "Whether opening sizes are being changed"
+            },
+            concrete_type: {
+              type: "string",
+              enum: ["driveway", "sidewalk", "patio", "foundation", "other"],
+              description: "Type of concrete work"
+            },
+            affects_drainage: {
+              type: "string",
+              enum: ["yes", "no", "unknown"],
+              description: "Whether the project affects drainage patterns"
+            },
+            requires_licensed_contractor: {
+              type: "boolean",
+              description: "Whether a licensed contractor is required"
+            },
+            contractor_types: {
+              type: "array",
+              items: {
+                type: "string",
+                enum: [
+                  "general_contractor",
+                  "electrician",
+                  "plumber",
+                  "hvac",
+                  "roofing",
+                  "concrete",
+                  "pool",
+                  "solar"
+                ]
+              },
+              description: "Types of contractors required"
+            },
+            fee_type: {
+              type: "string",
+              enum: ["fixed", "square_footage_based", "value_based", "combined"],
+              description: "Method of calculating permit fee"
+            },
+            fee_amount: {
+              type: "number",
+              description: "Estimated fee amount"
+            },
+            fee_notes: {
+              type: "string",
+              description: "Additional notes about the fee calculation"
+            },
+            required_documents: {
+              type: "array",
+              items: {
                 type: "object",
                 properties: {
-                    permit_type: {
-                        type: "string",
-                        enum: [
-                            "new_construction",
-                            "addition",
-                            "remodel",
-                            "electrical",
-                            "plumbing",
-                            "hvac",
-                            "accessory_building",
-                            "swimming_pool",
-                            "storm_shelter",
-                            "solar",
-                            "generator",
-                            "irrigation",
-                            "fence",
-                            "roof",
-                            "windows_doors",
-                            "concrete"
-                        ],
-                        description: "The specific type of residential permit required"
-                    },
-                    project_description: {
-                        type: "string",
-                        description: "Brief description of the project"
-                    },
-                    square_footage: {
-                        type: "number",
-                        description: "Total square footage of the project area"
-                    },
-                    estimated_value: {
-                        type: "number",
-                        description: "Estimated value/cost of the project in USD"
-                    },
-                    stories: {
-                        type: "integer",
-                        description: "Number of stories in the structure"
-                    },
-                    bedrooms: {
-                        type: "integer",
-                        description: "Number of bedrooms (for new construction)"
-                    },
-                    bathrooms: {
-                        type: "number",
-                        description: "Number of bathrooms (for new construction)"
-                    },
-                    addition_type: {
-                        type: "string",
-                        enum: ["bedroom", "bathroom", "kitchen", "living_space", "porch", "other"],
-                        description: "Type of addition being constructed"
-                    },
-                    affects_load_bearing: {
-                        type: "string",
-                        enum: ["yes", "no", "unknown"],
-                        description: "Whether the project affects load-bearing walls"
-                    },
-                    walls_removed: {
-                        type: "string",
-                        enum: ["yes", "no"],
-                        description: "Whether walls will be removed as part of the remodel"
-                    },
-                    room_use_change: {
-                        type: "string",
-                        enum: ["yes", "no"],
-                        description: "Whether room use is changing"
-                    },
-                    electrical_work_type: {
-                        type: "string",
-                        enum: ["panel_upgrade", "new_circuits", "rewiring", "new_service", "other"],
-                        description: "Type of electrical work being performed"
-                    },
-                    electrical_performed_by: {
-                        type: "string",
-                        enum: ["homeowner", "electrician"],
-                        description: "Who will perform the electrical work"
-                    },
-                    homeowner_test: {
-                        type: "string",
-                        enum: ["yes", "no"],
-                        description: "Whether homeowner has passed required test (if applicable)"
-                    },
-                    electrician_name: {
-                        type: "string",
-                        description: "Name of electrician (if applicable)"
-                    },
-                    electrician_license: {
-                        type: "string",
-                        description: "License number of electrician (if applicable)"
-                    },
-                    plumbing_work_type: {
-                        type: "string",
-                        enum: ["water_heater", "fixtures", "pipe_replacement", "slab_penetration", "other"],
-                        description: "Type of plumbing work being performed"
-                    },
-                    hvac_work_type: {
-                        type: "string",
-                        enum: ["new_installation", "replacement", "ductwork", "other"],
-                        description: "Type of HVAC work being performed"
-                    },
-                    accessory_building_type: {
-                        type: "string",
-                        enum: ["garage", "shed", "workshop", "pool_house", "other"],
-                        description: "Type of accessory building"
-                    },
-                    pool_type: {
-                        type: "string",
-                        enum: ["in_ground", "above_ground"],
-                        description: "Type of swimming pool"
-                    },
-                    pool_dimensions: {
-                        type: "string",
-                        description: "Dimensions of the pool"
-                    },
-                    shelter_type: {
-                        type: "string",
-                        enum: ["above_ground", "below_ground"],
-                        description: "Type of storm shelter"
-                    },
-                    solar_mounting: {
-                        type: "string",
-                        enum: ["roof_mounted", "ground_mounted"],
-                        description: "Mounting location for solar panels"
-                    },
-                    system_size_kw: {
-                        type: "number",
-                        description: "Size of solar system in kilowatts"
-                    },
-                    generator_type: {
-                        type: "string",
-                        enum: ["permanent", "portable"],
-                        description: "Type of generator installation"
-                    },
-                    generator_fuel: {
-                        type: "string",
-                        enum: ["natural_gas", "propane", "diesel", "gasoline"],
-                        description: "Fuel type for generator"
-                    },
-                    water_connection: {
-                        type: "string",
-                        enum: ["municipal", "well"],
-                        description: "Water source for irrigation system"
-                    },
-                    fence_height: {
-                        type: "number",
-                        description: "Height of fence in feet"
-                    },
-                    fence_material: {
-                        type: "string",
-                        enum: ["wood", "chain_link", "vinyl", "wrought_iron", "other"],
-                        description: "Material of fence"
-                    },
-                    fence_location: {
-                        type: "array",
-                        items: {
-                            type: "string",
-                            enum: ["front_yard", "side_yard", "back_yard"]
-                        },
-                        description: "Location(s) of fence on property"
-                    },
-                    roof_replacement_type: {
-                        type: "string",
-                        enum: ["full_replacement", "partial"],
-                        description: "Type of roof replacement"
-                    },
-                    roofing_material: {
-                        type: "string",
-                        enum: ["asphalt", "metal", "tile", "wood", "other"],
-                        description: "Type of roofing material"
-                    },
-                    windows_doors_count: {
-                        type: "integer",
-                        description: "Number of windows/doors being replaced"
-                    },
-                    changing_opening_size: {
-                        type: "string",
-                        enum: ["yes", "no"],
-                        description: "Whether opening sizes are being changed"
-                    },
-                    concrete_type: {
-                        type: "string",
-                        enum: ["driveway", "sidewalk", "patio", "foundation", "other"],
-                        description: "Type of concrete work"
-                    },
-                    affects_drainage: {
-                        type: "string",
-                        enum: ["yes", "no", "unknown"],
-                        description: "Whether the project affects drainage patterns"
-                    },
-                    requires_licensed_contractor: {
-                        type: "boolean",
-                        description: "Whether a licensed contractor is required"
-                    },
-                    contractor_types: {
-                        type: "array",
-                        items: {
-                            type: "string",
-                            enum: [
-                                "general_contractor",
-                                "electrician",
-                                "plumber",
-                                "hvac",
-                                "roofing",
-                                "concrete",
-                                "pool",
-                                "solar"
-                            ]
-                        },
-                        description: "Types of contractors required"
-                    },
-                    fee_type: {
-                        type: "string",
-                        enum: ["fixed", "square_footage_based", "value_based", "combined"],
-                        description: "Method of calculating permit fee"
-                    },
-                    fee_amount: {
-                        type: "number",
-                        description: "Estimated fee amount"
-                    },
-                    fee_notes: {
-                        type: "string",
-                        description: "Additional notes about the fee calculation"
-                    },
-                    required_documents: {
-                        type: "array",
-                        items: {
-                            type: "object",
-                            properties: {
-                                document_type: {
-                                    type: "string",
-                                    enum: [
-                                        "site_plan",
-                                        "floor_plan",
-                                        "elevation_drawings",
-                                        "foundation_plan",
-                                        "structural_plans",
-                                        "electrical_plans",
-                                        "plumbing_plans",
-                                        "mechanical_plans",
-                                        "energy_compliance_forms",
-                                        "engineering_letter",
-                                        "manufacturer_specifications",
-                                        "property_survey"
-                                    ],
-                                    description: "Type of document required"
-                                },
-                                description: {
-                                    type: "string",
-                                    description: "Description of what the document should contain"
-                                },
-                                required: {
-                                    type: "boolean",
-                                    description: "Whether the document is required"
-                                }
-                            },
-                            required: ["document_type", "required"],
-                            additionalProperties: false
-                        },
-                        description: "Documents required for permit application"
-                    }
+                  document_type: {
+                    type: "string",
+                    enum: [
+                      "site_plan",
+                      "floor_plan",
+                      "elevation_drawings",
+                      "foundation_plan",
+                      "structural_plans",
+                      "electrical_plans",
+                      "plumbing_plans",
+                      "mechanical_plans",
+                      "energy_compliance_forms",
+                      "engineering_letter",
+                      "manufacturer_specifications",
+                      "property_survey"
+                    ],
+                    description: "Type of document required"
+                  },
+                  description: {
+                    type: "string",
+                    description: "Description of what the document should contain"
+                  },
+                  required: {
+                    type: "boolean",
+                    description: "Whether the document is required"
+                  }
                 },
-                required: ["permit_type", "project_description"],
+                required: ["document_type", "description", "required"], // Updated required array
                 additionalProperties: false
+              },
+              description: "Documents required for permit application"
             }
-        },
-        required: ["message", "assessment_complete", "permit_details"],
-        additionalProperties: false
-    },
-};
+          },
+          required: ["permit_type", "project_description"],
+          additionalProperties: false
+        }
+      },
+      required: ["message", "assessment_complete", "permit_details"],
+      additionalProperties: false
+    }
+  };
+  
 
 /**
  * Export the Netlify Function as an async function that
