@@ -179,6 +179,7 @@ Format all responses following the schema requirements exactly as specified, wit
  * per OpenAI’s “structured outputs” spec.
  */
 const residentialPermitSchemaWrapper = {
+    name: "residentialPermitSchema",
     strict: true,
     schema: {
         type: "object",
