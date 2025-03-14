@@ -1,17 +1,15 @@
 {
-    "name": "permit-application-system",
-    "version": "1.0.0",
-    "description": "Intelligent Permit Application System",
-    "main": "index.js",
-    "scripts": {
-      "dev": "netlify dev"
-    },
-    "dependencies": {
-      "openai": "^4.19.0",
-      "nodemailer": "^6.9.7",
-      "formidable": "^3.5.1"
-    },
-    "devDependencies": {
-      "netlify-cli": "^17.0.0"
-    }
+  "name": "my-netlify-permit-app",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@netlify/functions": "^1.5.0",
+    "openai": "^4.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.5"
   }
+}
