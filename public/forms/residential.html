@@ -649,7 +649,7 @@
         showLoading();
         
         try {
-          const response = await fetch('/netlify/functions/permit-assistant', {
+          const response = await fetch('/.netlify/functions/permit-assistant', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
