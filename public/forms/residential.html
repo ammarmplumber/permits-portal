@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
+  <!-- Crucial for proper mobile scaling/responsiveness -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Residential Permit Application</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/13.0.1/markdown-it.min.js"></script>
 </head>
 
 <body class="bg-gray-100 min-h-screen pb-12">
-  <div class="container mx-auto p-6">
+  <!-- Constrain the width for larger screens, ensure padding works on small screens -->
+  <div class="container mx-auto max-w-screen-lg p-6">
     <header class="bg-white shadow rounded p-6 mb-6">
       <h1 class="text-3xl font-bold">Residential Permit Application</h1>
       <p class="text-gray-600 mt-2">Complete this application for residential construction permits.</p>
@@ -37,8 +40,7 @@
 
     <!-- Main Form -->
     <form id="permitForm" class="bg-white shadow rounded p-6">
-
-      <!-- Contact & Address Information Section - Always preserved -->
+      <!-- Contact & Address Information Section -->
       <div class="mb-8" id="contactInfoSection">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">Applicant & Property Information</h2>
 
@@ -47,7 +49,6 @@
             <label for="applicantName" class="block font-semibold mb-1">Applicant Name *</label>
             <input type="text" id="applicantName" name="applicantName" class="border p-2 w-full rounded" required>
           </div>
-
           <div>
             <label for="applicantEmail" class="block font-semibold mb-1">Email *</label>
             <input type="email" id="applicantEmail" name="applicantEmail" class="border p-2 w-full rounded" required>
@@ -59,7 +60,6 @@
             <label for="applicantPhone" class="block font-semibold mb-1">Phone *</label>
             <input type="tel" id="applicantPhone" name="applicantPhone" class="border p-2 w-full rounded" required>
           </div>
-
           <div>
             <label class="block font-semibold mb-1">Are you the property owner?</label>
             <div class="flex items-center space-x-4">
@@ -80,7 +80,6 @@
             <label for="ownerName" class="block font-semibold mb-1">Property Owner Name *</label>
             <input type="text" id="ownerName" name="ownerName" class="border p-2 w-full rounded" required>
           </div>
-
           <div>
             <label for="ownerContact" class="block font-semibold mb-1">Property Owner Phone/Email *</label>
             <input type="text" id="ownerContact" name="ownerContact" class="border p-2 w-full rounded" required>
@@ -88,13 +87,11 @@
         </div>
 
         <h3 class="font-semibold mt-4 mb-2">Property Address</h3>
-
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
           <div>
             <label for="propertyAddress" class="block font-semibold mb-1">Street Address *</label>
             <input type="text" id="propertyAddress" name="propertyAddress" class="border p-2 w-full rounded" required>
           </div>
-
           <div>
             <label for="propertyUnit" class="block font-semibold mb-1">Unit/Apt/Suite</label>
             <input type="text" id="propertyUnit" name="propertyUnit" class="border p-2 w-full rounded">
@@ -106,12 +103,10 @@
             <label for="propertyCity" class="block font-semibold mb-1">City *</label>
             <input type="text" id="propertyCity" name="propertyCity" class="border p-2 w-full rounded" required>
           </div>
-
           <div>
             <label for="propertyState" class="block font-semibold mb-1">State *</label>
             <input type="text" id="propertyState" name="propertyState" class="border p-2 w-full rounded" required>
           </div>
-
           <div>
             <label for="propertyZip" class="block font-semibold mb-1">ZIP Code *</label>
             <input type="text" id="propertyZip" name="propertyZip" class="border p-2 w-full rounded" required>
@@ -119,12 +114,11 @@
         </div>
       </div>
 
-      <!-- Basic Permit Information - Will be cleared and populated by AI -->
+      <!-- Basic Permit Information -->
       <div class="mb-8" id="basicPermitSection">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">1. Basic Permit Information</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- Permit Type - This drives conditional sections -->
           <div>
             <label for="permitType" class="block font-semibold mb-1">Permit Type *</label>
             <select id="permitType" name="permitType" class="border p-2 w-full rounded" required>
@@ -147,11 +141,10 @@
               <option value="concrete">Residential Concrete</option>
             </select>
           </div>
-
           <div>
             <label for="projectDescription" class="block font-semibold mb-1">Project Description *</label>
-            <textarea id="projectDescription" name="projectDescription" rows="3" class="border p-2 w-full rounded"
-              required></textarea>
+            <textarea id="projectDescription" name="projectDescription" rows="3"
+              class="border p-2 w-full rounded" required></textarea>
           </div>
         </div>
 
@@ -160,12 +153,10 @@
             <label for="squareFootage" class="block font-semibold mb-1">Square Footage</label>
             <input type="number" id="squareFootage" name="squareFootage" class="border p-2 w-full rounded">
           </div>
-
           <div>
             <label for="estimatedValue" class="block font-semibold mb-1">Estimated Value ($)</label>
             <input type="number" id="estimatedValue" name="estimatedValue" class="border p-2 w-full rounded">
           </div>
-
           <div>
             <label for="stories" class="block font-semibold mb-1">Number of Stories</label>
             <input type="number" id="stories" name="stories" class="border p-2 w-full rounded" min="1" max="10">
@@ -173,8 +164,7 @@
         </div>
       </div>
 
-      <!-- Conditional Sections - Visible based on permit type -->
-
+      <!-- Conditional permit sections (hidden by default) -->
       <!-- New Construction Section -->
       <div id="newConstructionSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. New Construction Details</h2>
@@ -199,7 +189,6 @@
             <li>MEP (Mechanical, Electrical, Plumbing) plans</li>
             <li>Site plan showing setbacks and easements</li>
           </ul>
-
           <div class="mt-4">
             <label for="newConst_plans" class="block font-semibold mb-1">Upload Plans (PDF) *</label>
             <input type="file" id="newConst_plans" name="newConst_plans" class="border p-2 w-full rounded"
@@ -224,7 +213,6 @@
               <option value="other">Other</option>
             </select>
           </div>
-
           <div>
             <label class="block font-semibold mb-1">Affects Load-Bearing Walls?</label>
             <div class="flex items-center space-x-4">
@@ -259,7 +247,6 @@
             <li>Engineering letter (if load-bearing walls affected)</li>
             <li>Structural details</li>
           </ul>
-
           <div class="mt-4">
             <label for="addition_plans" class="block font-semibold mb-1">Upload Plans (PDF) *</label>
             <input type="file" id="addition_plans" name="addition_plans" class="border p-2 w-full rounded"
@@ -271,7 +258,6 @@
       <!-- Remodel Section -->
       <div id="remodelSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Remodel Details</h2>
-
         <div class="mb-4">
           <label class="block font-semibold mb-1">Will walls be removed?</label>
           <div class="flex items-center space-x-4">
@@ -285,7 +271,6 @@
             </label>
           </div>
         </div>
-
         <div class="mb-4">
           <label class="block font-semibold mb-1">Is room use changing?</label>
           <div class="flex items-center space-x-4">
@@ -299,7 +284,6 @@
             </label>
           </div>
         </div>
-
         <div class="mt-4" id="remodelWarning">
           <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 p-3 rounded">
             <p><strong>Note:</strong> A permit is only required for remodels if:</p>
@@ -310,14 +294,12 @@
             </ul>
           </div>
         </div>
-
         <div class="mt-4">
           <h3 class="font-semibold">Required Documents:</h3>
           <ul class="list-disc pl-6 mt-2 text-sm">
             <li>Floor plans showing before/after (if walls changing)</li>
             <li>Description of changes</li>
           </ul>
-
           <div class="mt-4">
             <label for="remodel_plans" class="block font-semibold mb-1">Upload Plans (PDF)</label>
             <input type="file" id="remodel_plans" name="remodel_plans" class="border p-2 w-full rounded" accept=".pdf">
@@ -328,7 +310,6 @@
       <!-- Electrical Section -->
       <div id="electricalSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Electrical Details</h2>
-
         <div class="mb-4">
           <label for="electrical_work_type" class="block font-semibold mb-1">Type of Electrical Work *</label>
           <select id="electrical_work_type" name="electrical_work_type" class="border p-2 w-full rounded">
@@ -340,7 +321,6 @@
             <option value="other">Other</option>
           </select>
         </div>
-
         <div class="mb-4">
           <label class="block font-semibold mb-1">Work Performed By:</label>
           <div class="flex items-center space-x-4">
@@ -354,7 +334,6 @@
             </label>
           </div>
         </div>
-
         <div id="homeownerTest" class="mb-4 hidden">
           <label class="block font-semibold mb-1">Have you passed the homeowner electrical test?</label>
           <div class="flex items-center space-x-4">
@@ -371,22 +350,18 @@
             Note: Homeowners must pass a test to obtain an electrical permit for DIY work.
           </div>
         </div>
-
         <div id="electricianInfo" class="mb-4">
           <label for="electrician_name" class="block font-semibold mb-1">Electrician Name *</label>
           <input type="text" id="electrician_name" name="electrician_name" class="border p-2 w-full rounded">
-
           <label for="electrician_license" class="block font-semibold mb-1 mt-3">License Number *</label>
           <input type="text" id="electrician_license" name="electrician_license" class="border p-2 w-full rounded">
         </div>
-
         <div class="mt-4">
           <h3 class="font-semibold">Required Documents:</h3>
           <ul class="list-disc pl-6 mt-2 text-sm">
             <li>Electrical diagram (for major work)</li>
             <li>Electrician license information (or proof of homeowner test)</li>
           </ul>
-
           <div class="mt-4">
             <label for="electrical_diagram" class="block font-semibold mb-1">Upload Electrical Diagram (if
               applicable)</label>
@@ -399,7 +374,6 @@
       <!-- Plumbing Section -->
       <div id="plumbingSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Plumbing Details</h2>
-
         <div class="mb-4">
           <label for="plumbing_work_type" class="block font-semibold mb-1">Type of Plumbing Work *</label>
           <select id="plumbing_work_type" name="plumbing_work_type" class="border p-2 w-full rounded">
@@ -411,19 +385,16 @@
             <option value="other">Other</option>
           </select>
         </div>
-
         <div class="mb-4">
           <label class="block font-semibold mb-1">Licensed Plumber?</label>
           <p class="text-sm text-gray-600">Note: A licensed plumber is typically required for most plumbing work.</p>
         </div>
-
         <div class="mt-4">
           <h3 class="font-semibold">Required Documents:</h3>
           <ul class="list-disc pl-6 mt-2 text-sm">
             <li>Plumbing diagram (for major work)</li>
             <li>Contractor license if required</li>
           </ul>
-
           <div class="mt-4">
             <label for="plumbing_diagram" class="block font-semibold mb-1">Upload Plumbing Diagram (if
               applicable)</label>
@@ -436,7 +407,6 @@
       <!-- HVAC Section -->
       <div id="hvacSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. HVAC Details</h2>
-
         <div class="mb-4">
           <label for="hvac_work_type" class="block font-semibold mb-1">Type of HVAC Work *</label>
           <select id="hvac_work_type" name="hvac_work_type" class="border p-2 w-full rounded">
@@ -447,14 +417,12 @@
             <option value="other">Other</option>
           </select>
         </div>
-
         <div class="mt-4">
           <h3 class="font-semibold">Required Documents:</h3>
           <ul class="list-disc pl-6 mt-2 text-sm">
             <li>HVAC equipment specifications</li>
             <li>Layout of ducts (if new or modified)</li>
           </ul>
-
           <div class="mt-4">
             <label for="hvac_docs" class="block font-semibold mb-1">Upload HVAC Documents (if applicable)</label>
             <input type="file" id="hvac_docs" name="hvac_docs" class="border p-2 w-full rounded"
@@ -466,7 +434,6 @@
       <!-- Accessory Building Section -->
       <div id="accessoryBuildingSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Accessory Building Details</h2>
-
         <div class="mb-4">
           <label for="accessory_building_type" class="block font-semibold mb-1">Accessory Building Type *</label>
           <select id="accessory_building_type" name="accessory_building_type" class="border p-2 w-full rounded">
@@ -478,7 +445,6 @@
             <option value="other">Other</option>
           </select>
         </div>
-
         <div class="mb-4">
           <label class="block font-semibold mb-1">Will it have utilities (electric/plumbing)?</label>
           <div class="flex items-center space-x-4">
@@ -492,14 +458,12 @@
             </label>
           </div>
         </div>
-
         <div class="mt-4">
           <h3 class="font-semibold">Required Documents:</h3>
           <ul class="list-disc pl-6 mt-2 text-sm">
             <li>Site plan (showing distance from property lines)</li>
             <li>Building plans if over 200 sq ft</li>
           </ul>
-
           <div class="mt-4">
             <label for="accessory_plans" class="block font-semibold mb-1">Upload Plans (if applicable)</label>
             <input type="file" id="accessory_plans" name="accessory_plans" class="border p-2 w-full rounded"
@@ -511,7 +475,6 @@
       <!-- Swimming Pool Section -->
       <div id="swimmingPoolSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Swimming Pool Details</h2>
-
         <div class="mb-4">
           <label for="pool_type" class="block font-semibold mb-1">Pool Type *</label>
           <select id="pool_type" name="pool_type" class="border p-2 w-full rounded">
@@ -520,12 +483,10 @@
             <option value="above_ground">Above-ground</option>
           </select>
         </div>
-
         <div class="mb-4">
           <label for="pool_dimensions" class="block font-semibold mb-1">Pool Dimensions (e.g. 15'x30')</label>
           <input type="text" id="pool_dimensions" name="pool_dimensions" class="border p-2 w-full rounded">
         </div>
-
         <div class="mt-4">
           <h3 class="font-semibold">Required Documents:</h3>
           <ul class="list-disc pl-6 mt-2 text-sm">
@@ -533,7 +494,6 @@
             <li>Manufacturer specs (if above-ground)</li>
             <li>Electrical details (for pumps, etc.)</li>
           </ul>
-
           <div class="mt-4">
             <label for="pool_plans" class="block font-semibold mb-1">Upload Pool Plans/Specs (PDF)</label>
             <input type="file" id="pool_plans" name="pool_plans" class="border p-2 w-full rounded" accept=".pdf">
@@ -544,7 +504,6 @@
       <!-- Storm Shelter Section -->
       <div id="stormShelterSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Storm Shelter Details</h2>
-
         <div class="mb-4">
           <label for="shelter_type" class="block font-semibold mb-1">Shelter Type *</label>
           <select id="shelter_type" name="shelter_type" class="border p-2 w-full rounded">
@@ -553,19 +512,17 @@
             <option value="below_ground">Below-ground</option>
           </select>
         </div>
-
         <div class="mb-4">
           <label for="shelter_capacity" class="block font-semibold mb-1">Occupant Capacity</label>
-          <input type="number" id="shelter_capacity" name="shelter_capacity" class="border p-2 w-full rounded" min="1">
+          <input type="number" id="shelter_capacity" name="shelter_capacity" class="border p-2 w-full rounded"
+            min="1">
         </div>
-
         <div class="mt-4">
           <h3 class="font-semibold">Required Documents:</h3>
           <ul class="list-disc pl-6 mt-2 text-sm">
             <li>Manufacturer specs or engineering plans</li>
             <li>Site plan (if separate from main dwelling)</li>
           </ul>
-
           <div class="mt-4">
             <label for="shelter_plans" class="block font-semibold mb-1">Upload Shelter Plans/Specs (PDF)</label>
             <input type="file" id="shelter_plans" name="shelter_plans" class="border p-2 w-full rounded" accept=".pdf">
@@ -576,7 +533,6 @@
       <!-- Solar Section -->
       <div id="solarSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Solar PV Details</h2>
-
         <div class="mb-4">
           <label for="solar_mounting" class="block font-semibold mb-1">Mounting Location *</label>
           <select id="solar_mounting" name="solar_mounting" class="border p-2 w-full rounded">
@@ -585,12 +541,11 @@
             <option value="ground_mounted">Ground Mounted</option>
           </select>
         </div>
-
         <div class="mb-4">
           <label for="system_size_kw" class="block font-semibold mb-1">System Size (kW)</label>
-          <input type="number" id="system_size_kw" name="system_size_kw" class="border p-2 w-full rounded" step="0.1">
+          <input type="number" id="system_size_kw" name="system_size_kw" class="border p-2 w-full rounded"
+            step="0.1">
         </div>
-
         <div class="mt-4">
           <h3 class="font-semibold">Required Documents:</h3>
           <ul class="list-disc pl-6 mt-2 text-sm">
@@ -598,7 +553,6 @@
             <li>Structural assessment (roof) or site plan (ground)</li>
             <li>Electrical line diagram</li>
           </ul>
-
           <div class="mt-4">
             <label for="solar_plans" class="block font-semibold mb-1">Upload Solar Plans (PDF)</label>
             <input type="file" id="solar_plans" name="solar_plans" class="border p-2 w-full rounded" accept=".pdf">
@@ -609,7 +563,6 @@
       <!-- Generator Section -->
       <div id="generatorSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Generator Details</h2>
-
         <div class="mb-4">
           <label for="generator_type" class="block font-semibold mb-1">Type *</label>
           <select id="generator_type" name="generator_type" class="border p-2 w-full rounded">
@@ -618,7 +571,6 @@
             <option value="portable">Portable</option>
           </select>
         </div>
-
         <div class="mb-4">
           <label for="generator_fuel" class="block font-semibold mb-1">Fuel Type *</label>
           <select id="generator_fuel" name="generator_fuel" class="border p-2 w-full rounded">
@@ -629,14 +581,12 @@
             <option value="gasoline">Gasoline</option>
           </select>
         </div>
-
         <div class="mt-4">
           <h3 class="font-semibold">Required Documents:</h3>
           <ul class="list-disc pl-6 mt-2 text-sm">
             <li>Manufacturer specifications</li>
             <li>Site plan showing generator location</li>
           </ul>
-
           <div class="mt-4">
             <label for="generator_plans" class="block font-semibold mb-1">Upload Generator Plans/Specs (PDF)</label>
             <input type="file" id="generator_plans" name="generator_plans" class="border p-2 w-full rounded"
@@ -648,7 +598,6 @@
       <!-- Irrigation Section -->
       <div id="irrigationSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Irrigation Details</h2>
-
         <div class="mb-4">
           <label class="block font-semibold mb-1">Water Connection *</label>
           <div class="flex items-center space-x-4">
@@ -662,14 +611,12 @@
             </label>
           </div>
         </div>
-
         <div class="mt-4">
           <h3 class="font-semibold">Required Documents:</h3>
           <ul class="list-disc pl-6 mt-2 text-sm">
             <li>System layout</li>
             <li>Backflow prevention details</li>
           </ul>
-
           <div class="mt-4">
             <label for="irrigation_plans" class="block font-semibold mb-1">Upload Irrigation Plans (PDF)</label>
             <input type="file" id="irrigation_plans" name="irrigation_plans" class="border p-2 w-full rounded"
@@ -681,12 +628,10 @@
       <!-- Fence Section -->
       <div id="fenceSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Fence Details</h2>
-
         <div class="mb-4">
           <label for="fence_height" class="block font-semibold mb-1">Fence Height (feet)</label>
           <input type="number" id="fence_height" name="fence_height" class="border p-2 w-full rounded" min="1">
         </div>
-
         <div class="mb-4">
           <label for="fence_material" class="block font-semibold mb-1">Fence Material *</label>
           <select id="fence_material" name="fence_material" class="border p-2 w-full rounded">
@@ -698,7 +643,6 @@
             <option value="other">Other</option>
           </select>
         </div>
-
         <div class="mb-4">
           <label class="block font-semibold mb-1">Fence Location(s)</label>
           <div class="flex items-center space-x-4">
@@ -716,13 +660,11 @@
             </label>
           </div>
         </div>
-
         <div class="mt-4">
           <h3 class="font-semibold">Required Documents:</h3>
           <ul class="list-disc pl-6 mt-2 text-sm">
             <li>Site plan or property survey showing fence location</li>
           </ul>
-
           <div class="mt-4">
             <label for="fence_plans" class="block font-semibold mb-1">Upload Fence Docs (if applicable)</label>
             <input type="file" id="fence_plans" name="fence_plans" class="border p-2 w-full rounded" accept=".pdf">
@@ -733,16 +675,14 @@
       <!-- Roof Section -->
       <div id="roofSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Roof Details</h2>
-
         <div class="mb-4">
           <label for="roof_replacement_type" class="block font-semibold mb-1">Type of Roof Work *</label>
           <select id="roof_replacement_type" name="roof_replacement_type" class="border p-2 w-full rounded">
             <option value="">-- Select Type --</option>
             <option value="full_replacement">Full Replacement</option>
-            <option value="partial">Partial (>100 sq ft)</option>
+            <option value="partial">Partial (&gt;100 sq ft)</option>
           </select>
         </div>
-
         <div class="mb-4">
           <label for="roofing_material" class="block font-semibold mb-1">Roofing Material *</label>
           <select id="roofing_material" name="roofing_material" class="border p-2 w-full rounded">
@@ -754,13 +694,11 @@
             <option value="other">Other</option>
           </select>
         </div>
-
         <div class="mt-4">
           <h3 class="font-semibold">Required Documents:</h3>
           <ul class="list-disc pl-6 mt-2 text-sm">
             <li>Manufacturer specifications</li>
           </ul>
-
           <div class="mt-4">
             <label for="roof_docs" class="block font-semibold mb-1">Upload Roofing Docs (if applicable)</label>
             <input type="file" id="roof_docs" name="roof_docs" class="border p-2 w-full rounded" accept=".pdf">
@@ -771,14 +709,11 @@
       <!-- Windows/Doors Section -->
       <div id="windowsDoorsSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Window/Door Replacement Details</h2>
-
         <div class="mb-4">
-          <label for="windows_doors_count" class="block font-semibold mb-1">Number of Windows/Doors Being
-            Replaced</label>
+          <label for="windows_doors_count" class="block font-semibold mb-1">Number of Windows/Doors Being Replaced</label>
           <input type="number" id="windows_doors_count" name="windows_doors_count" class="border p-2 w-full rounded"
             min="1">
         </div>
-
         <div class="mb-4">
           <label class="block font-semibold mb-1">Are Opening Sizes Changing?</label>
           <div class="flex items-center space-x-4">
@@ -792,14 +727,12 @@
             </label>
           </div>
         </div>
-
         <div class="mt-4">
           <h3 class="font-semibold">Required Documents:</h3>
           <ul class="list-disc pl-6 mt-2 text-sm">
             <li>Window/door specifications</li>
             <li>Engineering if altering structural openings</li>
           </ul>
-
           <div class="mt-4">
             <label for="windows_doors_docs" class="block font-semibold mb-1">Upload Specs (if applicable)</label>
             <input type="file" id="windows_doors_docs" name="windows_doors_docs" class="border p-2 w-full rounded"
@@ -811,7 +744,6 @@
       <!-- Concrete Section -->
       <div id="concreteSection" class="permit-section mb-8 hidden">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">2. Concrete Details</h2>
-
         <div class="mb-4">
           <label for="concrete_type" class="block font-semibold mb-1">Type of Concrete Work *</label>
           <select id="concrete_type" name="concrete_type" class="border p-2 w-full rounded">
@@ -823,7 +755,6 @@
             <option value="other">Other</option>
           </select>
         </div>
-
         <div class="mb-4">
           <label class="block font-semibold mb-1">Affects Drainage Patterns?</label>
           <div class="flex items-center space-x-4">
@@ -841,13 +772,11 @@
             </label>
           </div>
         </div>
-
         <div class="mt-4">
           <h3 class="font-semibold">Required Documents:</h3>
           <ul class="list-disc pl-6 mt-2 text-sm">
             <li>Site plan showing area of concrete</li>
           </ul>
-
           <div class="mt-4">
             <label for="concrete_plans" class="block font-semibold mb-1">Upload Concrete Plans (PDF)</label>
             <input type="file" id="concrete_plans" name="concrete_plans" class="border p-2 w-full rounded"
@@ -856,32 +785,32 @@
         </div>
       </div>
 
-      <!-- Additional Documents Section (Catch-All File Attachment) -->
+      <!-- Additional Documents Section -->
       <div class="mb-8">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">Additional Documents</h2>
         <div class="bg-gray-50 p-4 rounded">
           <label for="additionalDocuments" class="block font-semibold mb-2">
             Attach any additional supporting documents
           </label>
-          <input type="file" id="additionalDocuments" name="additionalDocuments" class="border p-2 w-full rounded"
-            multiple accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx">
+          <input type="file" id="additionalDocuments" name="additionalDocuments"
+            class="border p-2 w-full rounded" multiple
+            accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx">
           <p class="text-sm text-gray-600 mt-2">
             Accepted formats: PDF, Word, Excel, JPG, PNG (Max 25MB each)
           </p>
         </div>
       </div>
 
-      <!-- Fee Calculation Section - Always visible -->
+      <!-- Fee Calculation Section -->
       <div class="mb-8 bg-gray-50 p-4 rounded">
         <h2 class="text-xl font-bold mb-4 pb-2 border-b">Estimated Fee Calculation</h2>
-
         <div id="feeCalculation">
           <p class="mb-2">Based on the information provided, the estimated permit fee is:</p>
           <div class="text-2xl font-bold" id="estimatedFee">$0.00</div>
-          <p class="text-sm text-gray-600 mt-1">This is an estimate only. Final fees will be determined during permit
-            review.</p>
+          <p class="text-sm text-gray-600 mt-1">
+            This is an estimate only. Final fees will be determined during permit review.
+          </p>
         </div>
-
         <div id="feeDetails" class="mt-4 text-sm">
           <p class="font-semibold">Fee structure:</p>
           <div id="feeStructureText">Select a permit type to see fee details.</div>
@@ -890,8 +819,7 @@
 
       <!-- Form Submission -->
       <div class="flex justify-between items-center">
-        <button type="button" id="saveForLater"
-          class="bg-gray-300 text-gray-800 px-4 py-2 rounded shadow hover:bg-gray-400">
+        <button type="button" id="saveForLater" class="bg-gray-300 text-gray-800 px-4 py-2 rounded shadow hover:bg-gray-400">
           Save for Later
         </button>
         <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded shadow hover:bg-blue-700">
@@ -902,29 +830,29 @@
 
     <!-- AI Assistant Modal -->
     <div id="aiAssistModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-      <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-screen overflow-y-auto">
+      <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-screen overflow-y-auto mx-4">
         <div class="border-b px-4 py-3 flex justify-between items-center">
           <h3 class="text-lg font-semibold">AI Permit Assistant</h3>
           <button id="closeModal" class="text-gray-500 hover:text-gray-700">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"></path>
             </svg>
           </button>
         </div>
-
         <div class="p-4">
           <div id="aiChat" class="mb-4">
             <div class="bg-blue-50 p-3 rounded-lg mb-3">
               <p class="font-semibold text-blue-800">AI Assistant</p>
-              <p>I can help you determine which permit you need and pre-fill the form. What type of project are you
-                working on?</p>
+              <p>
+                I can help you determine which permit you need and pre-fill the form. What type of project are
+                you working on?
+              </p>
             </div>
-            <!-- Chat messages will be appended here -->
+            <!-- Chat messages appended here -->
           </div>
-
           <div class="border-t pt-3 flex">
-            <input type="text" id="userInput" placeholder="Describe your project..."
-              class="border p-2 rounded flex-grow">
+            <input type="text" id="userInput" placeholder="Describe your project..." class="border p-2 rounded flex-grow">
             <button id="sendToAI" class="bg-blue-600 text-white px-4 py-2 rounded ml-2">Send</button>
           </div>
         </div>
