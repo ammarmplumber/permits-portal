@@ -538,7 +538,7 @@ export default async function handler(req: Request, context: Context) {
         // Call the Chat Completions API using a model that supports structured outputs
         // (Examples: "o1-2024-12-17", "gpt-4o-2024-08-06", "gpt-4.5-preview-2025-02-27", etc.)
         const response = await openai.chat.completions.create({
-            model: "o1",
+            model: "4o",
             messages: conversation,
             response_format: {
                 type: "json_schema",
