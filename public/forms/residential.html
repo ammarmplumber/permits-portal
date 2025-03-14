@@ -662,8 +662,33 @@
         }
       }
 
-      // Call Netlify cloud function
-      // Replace the callPermitAssistantAPI function in your HTML file
+      function parseOpenAIResponse(responseText) {
+        try {
+          // First parse the response from the API
+          const responseObject = JSON.parse(responseText);
+
+          // If the response has a content field that's a string, try to parse it as JSON
+          if (responseObject.content && typeof responseObject.content === 'string') {
+            try {
+              // Parse the content string as JSON
+              const contentObject = JSON.parse(responseObject.content);
+              return contentObject;
+            } catch (contentParseError) {
+              console.error("Failed to parse content as JSON:", contentParseError);
+              // If content parsing fails, return the original response
+              return responseObject;
+            }
+          } else {
+            // If there's no content field or it's not a string, return the original
+            return responseObject;
+          }
+        } catch (parseError) {
+          console.error("Failed to parse response as JSON:", parseError);
+          throw new Error("Invalid response format from server");
+        }
+      }
+
+      // Then modify your callPermitAssistantAPI function:
       async function callPermitAssistantAPI(messages) {
         showLoading();
 
@@ -683,16 +708,16 @@
 
           console.log("API response status:", response.status);
 
-          // Get the response text first to debug
+          // Get the response text
           const responseText = await response.text();
           console.log("Raw API response:", responseText);
 
-          // Now try to parse as JSON
+          // Use the helper function to parse the nested JSON
           let data;
           try {
-            data = JSON.parse(responseText);
+            data = parseOpenAIResponse(responseText);
           } catch (parseError) {
-            console.error("Failed to parse response as JSON:", parseError);
+            console.error("Failed to parse response:", parseError);
             throw new Error("Invalid response format from server");
           }
 
@@ -705,8 +730,8 @@
             return;
           }
 
-          // Content might be in different places depending on the response structure
-          const message = data.content || data.message;
+          // Get the message content directly from the parsed data
+          const message = data.message;
 
           if (!message) {
             console.error("No message content in response:", data);
@@ -723,31 +748,8 @@
             content: message
           });
 
-          // Check if we have permit details
-          if (data.content) {
-            // Try to parse the content as JSON if it's a string
-            let permitDetails;
-            try {
-              permitDetails = typeof data.content === 'string' ? JSON.parse(data.content) : data.content;
-              console.log("Parsed permit details:", permitDetails);
-
-              // Check if assessment is complete
-              if (permitDetails.assessment_complete) {
-                populateForm(permitDetails.permit_details);
-
-                // Add final message about form population
-                appendAIMessage("I've populated the form with the details we discussed. Please review and complete any missing information.");
-
-                // Give user time to read final message, then close modal and clear history
-                setTimeout(() => {
-                  aiAssistModal.classList.add('hidden');
-                  messageHistory = [];
-                }, 3000);
-              }
-            } catch (parseError) {
-              console.error("Failed to parse permit details:", parseError);
-            }
-          } else if (data.assessment_complete) {
+          // Check if assessment is complete
+          if (data.assessment_complete) {
             populateForm(data.permit_details);
 
             // Add final message about form population

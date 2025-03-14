@@ -570,7 +570,7 @@ export default async function handler(req: Request, context: Context) {
         try {
             // Call the Chat Completions API - WITH THE FIX
             const response = await openai.chat.completions.create({
-                model: "gpt-4o",
+                model: "gpt-4o-mini",
                 messages: conversation,
                 response_format: {
                     type: "json_schema",
