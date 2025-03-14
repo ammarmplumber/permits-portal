@@ -1,0 +1,33 @@
+[build]
+  # Specify the publish directory (where your HTML files are)
+  publish = "public"
+  # Command to build your site (leave empty if no build step)
+  command = ""
+
+# Specify the Netlify Functions directory
+[functions]
+  directory = "functions"
+
+# Set up redirects to handle form selection
+[[redirects]]
+  from = "/"
+  to = "/residential.html"
+  status = 302
+  conditions = {Query = {permitType = "residential"}}
+
+[[redirects]]
+  from = "/"
+  to = "/commercial.html"
+  status = 302
+  conditions = {Query = {permitType = "commercial"}}
+
+[[redirects]]
+  from = "/"
+  to = "/residential.html"
+  status = 200
+
+# Handle function paths
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
