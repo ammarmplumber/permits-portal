@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <title>Residential Permit Application</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/13.0.1/markdown-it.min.js"></script>
 </head>
 
 <body class="bg-gray-100 min-h-screen pb-12">
@@ -402,9 +403,8 @@
           <label for="additionalDocuments" class="block font-semibold mb-2">
             Attach any additional supporting documents
           </label>
-          <input type="file" id="additionalDocuments" name="additionalDocuments" 
-                 class="border p-2 w-full rounded" multiple
-                 accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx">
+          <input type="file" id="additionalDocuments" name="additionalDocuments" class="border p-2 w-full rounded"
+            multiple accept=".pdf,.doc,.docx,.jpg,.png,.xls,.xlsx">
           <p class="text-sm text-gray-600 mt-2">
             Accepted formats: PDF, Word, Excel, JPG, PNG (Max 25MB each)
           </p>
@@ -631,11 +631,79 @@
         titleP.className = 'font-semibold text-blue-800';
         titleP.textContent = 'AI Assistant';
 
-        const textP = document.createElement('p');
-        textP.textContent = message;
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'ai-message-content';
+
+        // Initialize markdown-it
+        const md = window.markdownit({
+          linkify: true,      // Convert URL-like text to links
+          typographer: true,  // Enable some language-neutral replacements
+          breaks: true        // Convert '\n' to <br>
+        });
+
+        // Render the markdown
+        contentDiv.innerHTML = md.render(message);
+
+        // Add some basic styling for markdown elements
+        const style = document.createElement('style');
+        if (!document.getElementById('markdown-styles')) {
+          style.id = 'markdown-styles';
+          style.textContent = `
+      .ai-message-content ul, .ai-message-content ol {
+        padding-left: 2em;
+      }
+      .ai-message-content ul {
+        list-style-type: disc;
+      }
+      .ai-message-content ol {
+        list-style-type: decimal;
+      }
+      .ai-message-content h1, .ai-message-content h2, .ai-message-content h3,
+      .ai-message-content h4, .ai-message-content h5, .ai-message-content h6 {
+        font-weight: bold;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+      }
+      .ai-message-content h1 { font-size: 1.4em; }
+      .ai-message-content h2 { font-size: 1.3em; }
+      .ai-message-content h3 { font-size: 1.2em; }
+      .ai-message-content pre {
+        background-color: #f8f8f8;
+        padding: 0.5em;
+        border-radius: 0.3em;
+        overflow-x: auto;
+      }
+      .ai-message-content code {
+        background-color: #f8f8f8;
+        padding: 0.2em 0.4em;
+        border-radius: 0.3em;
+      }
+      .ai-message-content blockquote {
+        border-left: 4px solid #ddd;
+        padding-left: 1em;
+        color: #666;
+      }
+      .ai-message-content table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      .ai-message-content table, .ai-message-content th, .ai-message-content td {
+        border: 1px solid #ddd;
+      }
+      .ai-message-content th, .ai-message-content td {
+        padding: 8px;
+        text-align: left;
+      }
+      .ai-message-content a {
+        color: #3182ce;
+        text-decoration: underline;
+      }
+    `;
+          document.head.appendChild(style);
+        }
 
         messageDiv.appendChild(titleP);
-        messageDiv.appendChild(textP);
+        messageDiv.appendChild(contentDiv);
         aiChat.appendChild(messageDiv);
 
         // Scroll to bottom
